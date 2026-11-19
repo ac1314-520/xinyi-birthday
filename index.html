@@ -187,24 +187,22 @@ main > section[id] {
   background-position: 50% 31%;
   background-size: cover;
   background-repeat: no-repeat;
-  filter: saturate(0.84) contrast(0.97) brightness(0.98) blur(0.2px);
+  filter: saturate(0.9) contrast(1.015) brightness(0.985) blur(0.18px);
   transform: translate3d(0, 0, 0) scale(1.015);
   transition: transform 0.6s var(--ease-out);
   will-change: transform;
 }
 
-.photo-particles {
+.page-backdrop::after {
   position: absolute;
-  z-index: 1;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.82;
+  content: "";
+  background:
+    radial-gradient(ellipse at 84% 10%, rgba(255, 226, 188, 0.19), transparent 34%),
+    radial-gradient(ellipse at 12% 82%, rgba(226, 166, 177, 0.1), transparent 30%),
+    radial-gradient(ellipse at 68% 48%, rgba(255, 243, 231, 0.07), transparent 42%);
   mix-blend-mode: screen;
   pointer-events: none;
-  filter: blur(0.16px);
-  -webkit-mask-image: radial-gradient(ellipse at 71% 42%, rgba(0, 0, 0, 0.78) 0 22%, rgba(0, 0, 0, 0.9) 46%, transparent 82%);
-  mask-image: radial-gradient(ellipse at 71% 42%, rgba(0, 0, 0, 0.78) 0 22%, rgba(0, 0, 0, 0.9) 46%, transparent 82%);
 }
 
 .page-backdrop__vignette {
@@ -223,7 +221,7 @@ main > section[id] {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  opacity: 0.88;
+  opacity: 0.56;
 }
 
 .film-grain {
@@ -523,9 +521,10 @@ body[data-nav-theme="dark"] .nav-links a.is-active {
   inset: 0;
   content: "";
   background:
-    radial-gradient(ellipse at 66% 38%, rgba(255, 243, 234, 0) 0%, rgba(255, 243, 234, 0) 30%, rgba(250, 237, 227, 0.2) 55%, rgba(250, 237, 227, 0.82) 100%),
-    linear-gradient(90deg, rgba(251, 243, 235, 0.98) 0%, rgba(251, 243, 235, 0.94) 22%, rgba(251, 243, 235, 0.72) 43%, rgba(251, 243, 235, 0.24) 68%, rgba(251, 243, 235, 0.02) 88%),
-    linear-gradient(180deg, rgba(251, 243, 235, 0.38) 0%, rgba(251, 243, 235, 0.02) 23%, rgba(251, 243, 235, 0.08) 64%, rgba(251, 243, 235, 0.82) 100%);
+    radial-gradient(circle at 6% 9%, rgba(255, 250, 238, 0.42), transparent 28%),
+    radial-gradient(ellipse at 68% 38%, rgba(255, 243, 234, 0) 0%, rgba(255, 243, 234, 0) 34%, rgba(250, 237, 227, 0.16) 60%, rgba(250, 237, 227, 0.74) 100%),
+    linear-gradient(90deg, rgba(251, 243, 235, 0.985) 0%, rgba(251, 243, 235, 0.94) 20%, rgba(251, 243, 235, 0.7) 40%, rgba(251, 243, 235, 0.2) 66%, rgba(251, 243, 235, 0.01) 87%),
+    linear-gradient(180deg, rgba(251, 243, 235, 0.3) 0%, rgba(251, 243, 235, 0.015) 24%, rgba(251, 243, 235, 0.06) 64%, rgba(251, 243, 235, 0.76) 100%);
 }
 
 .hero::after {
@@ -2679,6 +2678,91 @@ body[data-nav-theme="dark"] .nav-links a.is-active {
   opacity: 0.78;
 }
 
+.qq-egg-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.qq-egg {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 37px;
+  height: 37px;
+  padding: 3px;
+  border: 1px solid rgba(111, 78, 68, 0.16);
+  border-radius: 50%;
+  background: rgba(255, 250, 241, 0.46);
+  opacity: 0.5;
+  cursor: pointer;
+  transition:
+    opacity 0.35s var(--ease-soft),
+    transform 0.45s var(--ease-out),
+    background 0.35s var(--ease-soft),
+    border-color 0.35s var(--ease-soft);
+}
+
+.qq-egg svg {
+  width: 30px;
+  height: 34px;
+  overflow: visible;
+}
+
+.qq-egg:hover,
+.qq-egg:focus-visible {
+  opacity: 1;
+  border-color: rgba(153, 99, 97, 0.36);
+  background: rgba(255, 250, 241, 0.9);
+  transform: translateY(-2px) rotate(-3deg);
+}
+
+.qq-egg:focus-visible {
+  outline: 2px solid rgba(172, 107, 110, 0.5);
+  outline-offset: 3px;
+}
+
+.qq-egg__badge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  display: grid;
+  place-items: center;
+  width: 13px;
+  height: 13px;
+  border: 1px solid rgba(255, 248, 238, 0.9);
+  border-radius: 50%;
+  background: #b64f5e;
+  color: #fff7ed;
+  font-family: var(--font-sans);
+  font-size: 7px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.qq-egg__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--ink-faint);
+  font-family: var(--font-sans);
+  font-size: 7.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  opacity: 0.72;
+}
+
+.qq-egg__copy small {
+  color: var(--rose-deep);
+  font-family: var(--font-cn);
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+}
+
 .envelope-scene {
   position: relative;
   display: flex;
@@ -3114,6 +3198,257 @@ body[data-nav-theme="dark"] .nav-links a.is-active {
    Letter dialog
    ========================================================= */
 
+.qq-dialog {
+  width: min(560px, calc(100vw - 28px));
+  max-width: none;
+  max-height: 92svh;
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--ink);
+  overflow: visible;
+}
+
+.qq-dialog::backdrop {
+  background: rgba(19, 13, 20, 0.6);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.qq-dialog[open] {
+  animation: qq-arrive 0.5s var(--ease-out) both;
+}
+
+.qq-window {
+  overflow: hidden;
+  border: 1px solid rgba(91, 51, 61, 0.3);
+  border-radius: 7px;
+  background: #f9f0e4;
+  box-shadow:
+    0 44px 90px rgba(25, 14, 20, 0.48),
+    0 8px 22px rgba(25, 14, 20, 0.2);
+}
+
+.qq-window__bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 43px;
+  padding: 8px 11px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06), transparent 35%),
+    linear-gradient(90deg, #4f2a39, #7c4553);
+  color: #faeadc;
+}
+
+.qq-window__brand {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 5px;
+  background: linear-gradient(145deg, #f5dfb9, #e6bd85);
+  color: #4e2937;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  box-shadow: inset 0 0 0 1px rgba(255, 248, 232, 0.45);
+}
+
+.qq-window__title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-family: var(--font-cn);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 0.9;
+}
+
+.qq-window__close {
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  padding: 0;
+  border: 1px solid rgba(255, 237, 220, 0.2);
+  border-radius: 4px;
+  background: rgba(255, 244, 231, 0.08);
+  color: rgba(255, 241, 227, 0.8);
+  cursor: pointer;
+  transition:
+    background 0.25s var(--ease-soft),
+    color 0.25s var(--ease-soft);
+}
+
+.qq-window__close svg {
+  width: 13px;
+  height: 13px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.qq-window__close:hover,
+.qq-window__close:focus-visible {
+  background: rgba(255, 244, 231, 0.2);
+  color: #fff8ef;
+}
+
+.qq-window__body {
+  display: flex;
+  gap: 14px;
+  max-height: calc(92svh - 112px);
+  padding: 22px 19px 17px;
+  overflow-y: auto;
+}
+
+.qq-window__avatar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: 0 0 56px;
+  align-self: flex-start;
+  width: 56px;
+  height: 56px;
+  border: 1px solid rgba(132, 97, 81, 0.2);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255, 248, 235, 0.96), transparent 40%),
+    #efddc5;
+  box-shadow: inset 0 0 0 3px rgba(255, 251, 244, 0.6);
+}
+
+.qq-window__avatar svg {
+  width: 40px;
+  height: 46px;
+}
+
+.qq-window__online {
+  position: absolute;
+  right: 0;
+  bottom: 1px;
+  width: 10px;
+  height: 10px;
+  border: 2px solid #f9f0e4;
+  border-radius: 50%;
+  background: #7eac74;
+}
+
+.qq-window__message {
+  flex: 1;
+  min-width: 0;
+}
+
+.qq-window__meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 9px;
+  margin: 1px 0 8px;
+}
+
+.qq-window__meta strong {
+  color: var(--ink);
+  font-family: var(--font-cn);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.qq-window__meta span {
+  flex-shrink: 0;
+  color: var(--ink-faint);
+  font-family: var(--font-sans);
+  font-size: 7.5px;
+  letter-spacing: 0.02em;
+}
+
+.qq-window__bubble {
+  position: relative;
+  padding: 15px 16px;
+  border: 1px solid rgba(139, 104, 85, 0.2);
+  border-radius: 2px 14px 14px 14px;
+  background: rgba(255, 252, 246, 0.9);
+  box-shadow: 0 8px 18px rgba(91, 58, 54, 0.05);
+}
+
+.qq-window__bubble::before {
+  position: absolute;
+  top: -1px;
+  left: -7px;
+  width: 9px;
+  height: 9px;
+  border-top: 1px solid rgba(139, 104, 85, 0.2);
+  border-left: 1px solid rgba(139, 104, 85, 0.2);
+  background: rgba(255, 252, 246, 0.9);
+  content: "";
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+}
+
+.qq-window__bubble p {
+  margin: 0 0 11px;
+  color: rgba(55, 39, 43, 0.84);
+  font-family: var(--font-cn);
+  font-size: 13px;
+  letter-spacing: 0.015em;
+  line-height: 1.95;
+}
+
+.qq-window__bubble p:last-child {
+  margin-bottom: 0;
+}
+
+.qq-window__heart {
+  color: var(--rose-deep);
+  white-space: nowrap;
+}
+
+.qq-window__wish {
+  color: var(--rose-deep) !important;
+  font-size: 15px !important;
+  letter-spacing: 0.06em !important;
+}
+
+.qq-window__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 18px;
+  border-top: 1px dashed rgba(138, 100, 83, 0.2);
+  background: rgba(255, 251, 243, 0.5);
+  color: rgba(98, 70, 65, 0.44);
+  font-family: var(--font-cn);
+  font-size: 8px;
+  letter-spacing: 0.04em;
+}
+
+.qq-window__foot i {
+  color: rgba(160, 99, 106, 0.58);
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+}
+
+@keyframes qq-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 .letter-dialog {
   width: min(720px, calc(100vw - 34px));
   max-width: none;
@@ -3318,6 +3653,17 @@ body[data-nav-theme="dark"] .nav-links a.is-active {
   font-size: 12px;
   letter-spacing: 0.02em;
   line-height: 2;
+}
+
+.letter-opening {
+  padding: 14px 17px !important;
+  border-left: 2px solid rgba(172, 111, 115, 0.34);
+  background: rgba(255, 251, 244, 0.38);
+  color: rgba(79, 57, 58, 0.78) !important;
+  font-family: var(--font-cn);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  line-height: 2.05;
 }
 
 .letter-highlight {
@@ -3811,27 +4157,14 @@ body[data-nav-theme="dark"] .nav-links a.is-active {
 
   .page-backdrop__photo {
     inset: 0 0 auto 0;
-    height: 88vw;
-    background-size: 156% auto;
-    background-position: 50% 0%;
-    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 61%, rgba(0, 0, 0, 0.72) 80%, transparent 100%);
-    mask-image: linear-gradient(180deg, #000 0%, #000 61%, rgba(0, 0, 0, 0.72) 80%, transparent 100%);
+    height: 90vw;
+    background-size: 158% auto;
+    background-position: 50% 4%;
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 58%, rgba(0, 0, 0, 0.68) 77%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 0%, #000 58%, rgba(0, 0, 0, 0.68) 77%, transparent 100%);
   }
 
-  .photo-particles {
-    inset: 0 0 auto;
-    width: 100%;
-    height: 88vw;
-    opacity: 0.72;
-    -webkit-mask-image:
-      linear-gradient(180deg, #000 0%, #000 58%, rgba(0, 0, 0, 0.45) 78%, transparent 100%),
-      radial-gradient(ellipse at 55% 36%, #000 0 30%, rgba(0, 0, 0, 0.7) 58%, transparent 92%);
-    mask-image:
-      linear-gradient(180deg, #000 0%, #000 58%, rgba(0, 0, 0, 0.45) 78%, transparent 100%),
-      radial-gradient(ellipse at 55% 36%, #000 0 30%, rgba(0, 0, 0, 0.7) 58%, transparent 92%);
-    -webkit-mask-composite: source-in;
-    mask-composite: intersect;
-  }
+
 
   .page-backdrop__vignette {
     background:
@@ -8055,6 +8388,118 @@ body.photo-viewer-open {
   }
 }
 
+/* QQ easter egg · small screens */
+@media (max-width: 720px) {
+  .letter-opening {
+    padding: 12px 14px !important;
+    font-size: 11.8px;
+    line-height: 2;
+  }
+
+  .qq-egg-wrap {
+    margin-top: 13px;
+    gap: 8px;
+  }
+
+  .qq-egg {
+    width: 33px;
+    height: 33px;
+  }
+
+  .qq-egg svg {
+    width: 27px;
+    height: 31px;
+  }
+
+  .qq-egg__copy {
+    font-size: 6.5px;
+  }
+
+  .qq-egg__copy small {
+    font-size: 8px;
+  }
+
+  .qq-dialog {
+    width: calc(100vw - 18px);
+  }
+
+  .qq-window__bar {
+    min-height: 40px;
+    padding: 7px 9px;
+  }
+
+  .qq-window__title {
+    font-size: 11px;
+  }
+
+  .qq-window__body {
+    gap: 10px;
+    max-height: calc(92svh - 104px);
+    padding: 16px 13px 13px;
+  }
+
+  .qq-window__avatar {
+    flex-basis: 44px;
+    width: 44px;
+    height: 44px;
+  }
+
+  .qq-window__avatar svg {
+    width: 33px;
+    height: 39px;
+  }
+
+  .qq-window__online {
+    width: 9px;
+    height: 9px;
+  }
+
+  .qq-window__meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    margin-bottom: 7px;
+  }
+
+  .qq-window__meta strong {
+    font-size: 11px;
+  }
+
+  .qq-window__meta span {
+    font-size: 6.5px;
+  }
+
+  .qq-window__bubble {
+    padding: 12px 12px;
+  }
+
+  .qq-window__bubble p {
+    font-size: 12px;
+    line-height: 1.9;
+  }
+
+  .qq-window__wish {
+    font-size: 14px !important;
+  }
+
+  .qq-window__foot {
+    padding: 8px 13px;
+    font-size: 7px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qq-dialog[open] {
+    animation: none;
+  }
+
+  .qq-egg,
+  .qq-egg__badge,
+  .qq-window__close {
+    transition: none;
+  }
+}
+
 </style>
 </head>
 <body class="is-auth-locked">
@@ -8200,7 +8645,6 @@ body.photo-viewer-open {
     <section class="hero" id="top" data-theme="light">
       <div class="hero__aurora hero__aurora--one" aria-hidden="true"></div>
       <div class="hero__aurora hero__aurora--two" aria-hidden="true"></div>
-      <canvas class="photo-particles" id="photoParticlesCanvas" aria-hidden="true"></canvas>
 
       <div class="hero__inner">
         <div class="hero__copy">
@@ -8542,7 +8986,7 @@ body.photo-viewer-open {
               </span>
               <span class="cake-album__copy">
                 <small>OPEN THE CAKE</small>
-                <strong>蛋糕里还藏着 <b id="albumPhotoCount">46</b> 张照片</strong>
+                <strong>蛋糕里还藏着 <b id="albumPhotoCount">77</b> 张照片</strong>
                 <span>放大蛋糕，一层层拆开看</span>
               </span>
               <span class="cake-album__arrow" aria-hidden="true">↗</span>
@@ -8566,7 +9010,27 @@ body.photo-viewer-open {
               <span>拆开这封信</span>
               <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5"/></svg>
             </button>
-            <p class="letter-copy__hint">信里留了一点空白，等以后再慢慢写满。</p>
+            <p class="letter-copy__hint">本来想留一点空白，结果还是不知不觉写满了。</p>
+            <div class="qq-egg-wrap">
+              <button class="qq-egg" id="qqEgg" type="button" aria-haspopup="dialog" aria-controls="qqLetterDialog" aria-label="打开一只QQ企鹅藏起来的彩蛋消息" title="QQ 2005 · 有一点点东西想给你看">
+                <svg viewBox="0 0 64 72" aria-hidden="true">
+                  <ellipse cx="32" cy="44" rx="22" ry="25" fill="#1b1720"/>
+                  <ellipse cx="32" cy="49" rx="13.5" ry="19" fill="#f7efe4"/>
+                  <ellipse cx="32" cy="25" rx="17" ry="16" fill="#1b1720"/>
+                  <ellipse cx="32" cy="27" rx="12.5" ry="12" fill="#f7efe4"/>
+                  <circle cx="26" cy="24" r="4.2" fill="#1b1720"/>
+                  <circle cx="38" cy="24" r="4.2" fill="#1b1720"/>
+                  <circle cx="27.2" cy="22.8" r="1.4" fill="#fffaf0"/>
+                  <circle cx="39.2" cy="22.8" r="1.4" fill="#fffaf0"/>
+                  <path d="M28 31l4 5 4-5z" fill="#e7a24a"/>
+                  <path d="M15 42c8-4 26-4 34 0l-2 6c-8-4-22-4-30 0z" fill="#b9525c"/>
+                  <ellipse cx="23" cy="67" rx="7" ry="3.5" fill="#e7a24a"/>
+                  <ellipse cx="41" cy="67" rx="7" ry="3.5" fill="#e7a24a"/>
+                </svg>
+                <span class="qq-egg__badge">1</span>
+              </button>
+              <span class="qq-egg__copy">QQ 2005 <small>1 条未读</small></span>
+            </div>
           </div>
 
           <div class="envelope-scene">
@@ -8637,10 +9101,10 @@ body.photo-viewer-open {
         </button>
         <div class="photo-world__title">
           <span>OPEN THE CAKE · A LITTLE ARCHIVE</span>
-          <h2 id="photoWorldTitle"><span>拆开蛋糕，</span><span>里面藏着我们的<em>四十六页</em>。</span></h2>
+          <h2 id="photoWorldTitle"><span>拆开蛋糕，</span><span>里面藏着这一年的<em>斑斑点点</em>。</span></h2>
         </div>
         <div class="photo-world__count">
-          <strong>46</strong>
+          <strong>77</strong>
           <span>MEMORIES<br />BY MONTH</span>
         </div>
       </header>
@@ -8664,7 +9128,7 @@ body.photo-viewer-open {
             <span class="photo-world__spin-icon" aria-hidden="true"><i></i></span>
             自动旋转
           </button>
-          <span class="photo-world__month-note">二月 — 十一月 · 46 张</span>
+          <span class="photo-world__month-note">那年冬 — 十一月 · 77 张</span>
         </div>
       </footer>
 
@@ -8688,7 +9152,7 @@ body.photo-viewer-open {
       <figcaption class="photo-lightbox__caption">
         <span id="photoLightboxDate">二月 · 01</span>
         <h3 id="photoLightboxTitle">第 1 张记忆</h3>
-        <p><span id="photoLightboxIndex">01 / 46</span> · 按月份整理</p>
+        <p><span id="photoLightboxIndex">01 / 77</span> · 按月份整理</p>
       </figcaption>
     </figure>
     <button class="photo-lightbox__nav photo-lightbox__nav--next" id="nextPhoto" type="button" aria-label="下一张照片">
@@ -8709,10 +9173,12 @@ body.photo-viewer-open {
       <div class="letter-paper__body">
         <!-- LETTER CONTENT START · 以后替换这封信时，只需要改这一段 -->
         <p class="letter-greeting">亲爱的欣仪：</p>
-        <p class="letter-placeholder">想对你说的话有很多。这一页，先悄悄留一点空白，等想好的句子慢慢长大，再一句一句写进来。</p>
-        <p>但有一句话，现在就要告诉你——</p>
+        <p class="letter-opening">你看，说了要留白，但想对你说的话，还是不知不觉写满了。</p>
+        <p>回想我们的相识，真的像一场奇妙的意外。2020年1月4号的凌晨，我和同学偷偷在网吧包夜。后半夜玩累了，随手点开QQ扩列，屏幕一闪，偏偏就匹配到了你。那时候你才15岁吧？从那晚的几句闲聊开始，缘分这东西，就这么把咱们俩绑在了一起。</p>
+        <p>今天，你21岁了。十二月的冬天很冷，但射手座的女孩子永远像小太阳一样。二十一岁是一个特别好的年纪，刚好褪去了一点十几岁的青涩，又还没有被大人的世界完全框住。</p>
+        <p>所以，我不祝你完美无缺，因为那太累了。我只愿你从容自在，允许自己偶尔脆弱，偶尔任性。去读想读的书，去爱想爱的人，去吹想吹的风。</p>
+        <p>因网吧相识，所以现在送你一个小网页，读到这里就请早点休息叭(っ•̀ω•́)っ✎⁾⁾睡醒应该就能看到蛋糕出现眼前咯—晚安老妹</p>
         <p class="letter-highlight">二十一岁生日快乐。</p>
-        <p>愿你往后的每一个冬天，都有热热的奶茶、亮亮的屏幕，和永远站在你这边的人。</p>
         <div class="letter-signature">
           <span class="letter-signature__line"></span>
           <p>—— 永远站在你这边的我<br /><small>2026.12.09</small></p>
@@ -8722,6 +9188,54 @@ body.photo-viewer-open {
 
       <div class="letter-paper__seal" aria-hidden="true">欣</div>
       <p class="letter-paper__foot">A LITTLE LETTER, KEPT FOR YOU <span>✦</span></p>
+    </div>
+  </dialog>
+
+  <dialog class="qq-dialog" id="qqLetterDialog" aria-labelledby="qqDialogTitle">
+    <div class="qq-window">
+      <header class="qq-window__bar">
+        <span class="qq-window__brand">QQ</span>
+        <span class="qq-window__title" id="qqDialogTitle">那年冬 · 一条未读消息</span>
+        <button class="qq-window__close" id="closeQqLetter" type="button" aria-label="收起这条彩蛋消息">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15"/></svg>
+        </button>
+      </header>
+      <div class="qq-window__body">
+        <div class="qq-window__avatar" aria-hidden="true">
+          <svg viewBox="0 0 64 72">
+            <ellipse cx="32" cy="44" rx="22" ry="25" fill="#1b1720"/>
+            <ellipse cx="32" cy="49" rx="13.5" ry="19" fill="#f7efe4"/>
+            <ellipse cx="32" cy="25" rx="17" ry="16" fill="#1b1720"/>
+            <ellipse cx="32" cy="27" rx="12.5" ry="12" fill="#f7efe4"/>
+            <circle cx="26" cy="24" r="4.2" fill="#1b1720"/>
+            <circle cx="38" cy="24" r="4.2" fill="#1b1720"/>
+            <circle cx="27.2" cy="22.8" r="1.4" fill="#fffaf0"/>
+            <circle cx="39.2" cy="22.8" r="1.4" fill="#fffaf0"/>
+            <path d="M28 31l4 5 4-5z" fill="#e7a24a"/>
+            <path d="M15 42c8-4 26-4 34 0l-2 6c-8-4-22-4-30 0z" fill="#b9525c"/>
+            <ellipse cx="23" cy="67" rx="7" ry="3.5" fill="#e7a24a"/>
+            <ellipse cx="41" cy="67" rx="7" ry="3.5" fill="#e7a24a"/>
+          </svg>
+          <span class="qq-window__online" aria-hidden="true"></span>
+        </div>
+        <div class="qq-window__message">
+          <div class="qq-window__meta">
+            <strong>永远站在你这边的我</strong>
+            <span>2020.01.04 · 03:17</span>
+          </div>
+          <div class="qq-window__bubble">
+            <p>恭喜你发现了这个小彩蛋哦！<span class="qq-window__heart">比心❤️</span></p>
+            <p>从网吧半夜的一次匹配，到现在，时间过得真快。</p>
+            <p>世界很大，以后你还会遇见很多很多人，经历很多很多事。但不管走到哪里，你永远是我最亲爱的妹妹。</p>
+            <p>新的一岁，不祝你完美无缺，因为那太累了，我只愿你从容自在，觉得辛苦的时候可以坦然地停下来歇一歇，不用事事都硬撑。</p>
+            <p class="qq-window__wish">生日快乐，欣仪。</p>
+          </div>
+        </div>
+      </div>
+      <footer class="qq-window__foot">
+        <span>发送于 2020 年的后半夜</span>
+        <i>已读</i>
+      </footer>
     </div>
   </dialog>
 
@@ -9411,541 +9925,541 @@ window.XINYI_PHOTOS = [
   {
     "id": "photo-01",
     "index": 1,
-    "month": "二月",
-    "monthOrder": 2,
+    "month": "那年冬",
+    "monthOrder": 0,
     "inMonth": 1,
-    "label": "二月 · 01",
-    "shortLabel": "二月",
+    "label": "那年冬 · 01",
+    "shortLabel": "那年冬",
     "card": "assets/photos/cards/photo-01.jpg",
     "large": "assets/photos/large/photo-01.webp",
     "width": 480,
     "height": 600,
-    "alt": "二月的照片，第 1 张",
+    "alt": "那年冬的照片，第 1 张",
     "atlas": [
       0.00244140625,
-      0.84716796875,
-      0.12255859375,
+      0.87646484375,
+      0.09912109375,
       0.99755859375
     ]
   },
   {
     "id": "photo-02",
     "index": 2,
-    "month": "二月",
-    "monthOrder": 2,
+    "month": "那年冬",
+    "monthOrder": 0,
     "inMonth": 2,
-    "label": "二月 · 02",
-    "shortLabel": "二月",
+    "label": "那年冬 · 02",
+    "shortLabel": "那年冬",
     "card": "assets/photos/cards/photo-02.jpg",
     "large": "assets/photos/large/photo-02.webp",
     "width": 480,
     "height": 600,
-    "alt": "二月的照片，第 2 张",
+    "alt": "那年冬的照片，第 2 张",
     "atlas": [
-      0.12548828125,
-      0.84716796875,
-      0.24560546875,
+      0.10205078125,
+      0.87646484375,
+      0.19873046875,
       0.99755859375
     ]
   },
   {
     "id": "photo-03",
     "index": 3,
-    "month": "二月",
-    "monthOrder": 2,
+    "month": "那年冬",
+    "monthOrder": 0,
     "inMonth": 3,
-    "label": "二月 · 03",
-    "shortLabel": "二月",
+    "label": "那年冬 · 03",
+    "shortLabel": "那年冬",
     "card": "assets/photos/cards/photo-03.jpg",
     "large": "assets/photos/large/photo-03.webp",
     "width": 480,
     "height": 600,
-    "alt": "二月的照片，第 3 张",
+    "alt": "那年冬的照片，第 3 张",
     "atlas": [
-      0.24853515625,
-      0.84716796875,
-      0.36865234375,
+      0.20166015625,
+      0.87646484375,
+      0.29833984375,
       0.99755859375
     ]
   },
   {
     "id": "photo-04",
     "index": 4,
-    "month": "二月",
-    "monthOrder": 2,
+    "month": "那年冬",
+    "monthOrder": 0,
     "inMonth": 4,
-    "label": "二月 · 04",
-    "shortLabel": "二月",
+    "label": "那年冬 · 04",
+    "shortLabel": "那年冬",
     "card": "assets/photos/cards/photo-04.jpg",
     "large": "assets/photos/large/photo-04.webp",
     "width": 480,
     "height": 600,
-    "alt": "二月的照片，第 4 张",
+    "alt": "那年冬的照片，第 4 张",
     "atlas": [
-      0.37158203125,
-      0.84716796875,
-      0.49169921875,
+      0.30126953125,
+      0.87646484375,
+      0.39794921875,
       0.99755859375
     ]
   },
   {
     "id": "photo-05",
     "index": 5,
-    "month": "二月",
-    "monthOrder": 2,
+    "month": "那年冬",
+    "monthOrder": 0,
     "inMonth": 5,
-    "label": "二月 · 05",
-    "shortLabel": "二月",
+    "label": "那年冬 · 05",
+    "shortLabel": "那年冬",
     "card": "assets/photos/cards/photo-05.jpg",
     "large": "assets/photos/large/photo-05.webp",
     "width": 480,
     "height": 600,
-    "alt": "二月的照片，第 5 张",
+    "alt": "那年冬的照片，第 5 张",
     "atlas": [
-      0.49462890625,
-      0.84716796875,
-      0.61474609375,
+      0.40087890625,
+      0.87646484375,
+      0.49755859375,
       0.99755859375
     ]
   },
   {
     "id": "photo-06",
     "index": 6,
-    "month": "三月",
-    "monthOrder": 3,
-    "inMonth": 1,
-    "label": "三月 · 01",
-    "shortLabel": "三月",
+    "month": "那年冬",
+    "monthOrder": 0,
+    "inMonth": 6,
+    "label": "那年冬 · 06",
+    "shortLabel": "那年冬",
     "card": "assets/photos/cards/photo-06.jpg",
     "large": "assets/photos/large/photo-06.webp",
     "width": 480,
     "height": 600,
-    "alt": "三月的照片，第 6 张",
+    "alt": "那年冬的照片，第 6 张",
     "atlas": [
-      0.61767578125,
-      0.84716796875,
-      0.73779296875,
+      0.50048828125,
+      0.87646484375,
+      0.59716796875,
       0.99755859375
     ]
   },
   {
     "id": "photo-07",
     "index": 7,
-    "month": "三月",
-    "monthOrder": 3,
-    "inMonth": 2,
-    "label": "三月 · 02",
-    "shortLabel": "三月",
+    "month": "那年冬",
+    "monthOrder": 0,
+    "inMonth": 7,
+    "label": "那年冬 · 07",
+    "shortLabel": "那年冬",
     "card": "assets/photos/cards/photo-07.jpg",
     "large": "assets/photos/large/photo-07.webp",
     "width": 480,
     "height": 600,
-    "alt": "三月的照片，第 7 张",
+    "alt": "那年冬的照片，第 7 张",
     "atlas": [
-      0.74072265625,
-      0.84716796875,
-      0.86083984375,
+      0.60009765625,
+      0.87646484375,
+      0.69677734375,
       0.99755859375
     ]
   },
   {
     "id": "photo-08",
     "index": 8,
-    "month": "三月",
-    "monthOrder": 3,
-    "inMonth": 3,
-    "label": "三月 · 03",
-    "shortLabel": "三月",
+    "month": "那年冬",
+    "monthOrder": 0,
+    "inMonth": 8,
+    "label": "那年冬 · 08",
+    "shortLabel": "那年冬",
     "card": "assets/photos/cards/photo-08.jpg",
     "large": "assets/photos/large/photo-08.webp",
     "width": 480,
     "height": 600,
-    "alt": "三月的照片，第 8 张",
+    "alt": "那年冬的照片，第 8 张",
     "atlas": [
-      0.86376953125,
-      0.84716796875,
-      0.98388671875,
+      0.69970703125,
+      0.87646484375,
+      0.79638671875,
       0.99755859375
     ]
   },
   {
     "id": "photo-09",
     "index": 9,
-    "month": "四月",
-    "monthOrder": 4,
+    "month": "二月",
+    "monthOrder": 2,
     "inMonth": 1,
-    "label": "四月 · 01",
-    "shortLabel": "四月",
+    "label": "二月 · 01",
+    "shortLabel": "二月",
     "card": "assets/photos/cards/photo-09.jpg",
     "large": "assets/photos/large/photo-09.webp",
     "width": 480,
     "height": 600,
-    "alt": "四月的照片，第 9 张",
+    "alt": "二月的照片，第 9 张",
     "atlas": [
-      0.00244140625,
-      0.69384765625,
-      0.12255859375,
-      0.84423828125
+      0.79931640625,
+      0.87646484375,
+      0.89599609375,
+      0.99755859375
     ]
   },
   {
     "id": "photo-10",
     "index": 10,
-    "month": "四月",
-    "monthOrder": 4,
+    "month": "二月",
+    "monthOrder": 2,
     "inMonth": 2,
-    "label": "四月 · 02",
-    "shortLabel": "四月",
+    "label": "二月 · 02",
+    "shortLabel": "二月",
     "card": "assets/photos/cards/photo-10.jpg",
     "large": "assets/photos/large/photo-10.webp",
     "width": 480,
     "height": 600,
-    "alt": "四月的照片，第 10 张",
+    "alt": "二月的照片，第 10 张",
     "atlas": [
-      0.12548828125,
-      0.69384765625,
-      0.24560546875,
-      0.84423828125
+      0.89892578125,
+      0.87646484375,
+      0.99560546875,
+      0.99755859375
     ]
   },
   {
     "id": "photo-11",
     "index": 11,
-    "month": "四月",
-    "monthOrder": 4,
+    "month": "二月",
+    "monthOrder": 2,
     "inMonth": 3,
-    "label": "四月 · 03",
-    "shortLabel": "四月",
+    "label": "二月 · 03",
+    "shortLabel": "二月",
     "card": "assets/photos/cards/photo-11.jpg",
     "large": "assets/photos/large/photo-11.webp",
     "width": 480,
     "height": 600,
-    "alt": "四月的照片，第 11 张",
+    "alt": "二月的照片，第 11 张",
     "atlas": [
-      0.24853515625,
-      0.69384765625,
-      0.36865234375,
-      0.84423828125
+      0.00244140625,
+      0.75244140625,
+      0.09912109375,
+      0.87353515625
     ]
   },
   {
     "id": "photo-12",
     "index": 12,
-    "month": "四月",
-    "monthOrder": 4,
+    "month": "二月",
+    "monthOrder": 2,
     "inMonth": 4,
-    "label": "四月 · 04",
-    "shortLabel": "四月",
+    "label": "二月 · 04",
+    "shortLabel": "二月",
     "card": "assets/photos/cards/photo-12.jpg",
     "large": "assets/photos/large/photo-12.webp",
     "width": 480,
     "height": 600,
-    "alt": "四月的照片，第 12 张",
+    "alt": "二月的照片，第 12 张",
     "atlas": [
-      0.37158203125,
-      0.69384765625,
-      0.49169921875,
-      0.84423828125
+      0.10205078125,
+      0.75244140625,
+      0.19873046875,
+      0.87353515625
     ]
   },
   {
     "id": "photo-13",
     "index": 13,
-    "month": "五月",
-    "monthOrder": 5,
-    "inMonth": 1,
-    "label": "五月 · 01",
-    "shortLabel": "五月",
+    "month": "二月",
+    "monthOrder": 2,
+    "inMonth": 5,
+    "label": "二月 · 05",
+    "shortLabel": "二月",
     "card": "assets/photos/cards/photo-13.jpg",
     "large": "assets/photos/large/photo-13.webp",
     "width": 480,
     "height": 600,
-    "alt": "五月的照片，第 13 张",
+    "alt": "二月的照片，第 13 张",
     "atlas": [
-      0.49462890625,
-      0.69384765625,
-      0.61474609375,
-      0.84423828125
+      0.20166015625,
+      0.75244140625,
+      0.29833984375,
+      0.87353515625
     ]
   },
   {
     "id": "photo-14",
     "index": 14,
-    "month": "五月",
-    "monthOrder": 5,
-    "inMonth": 2,
-    "label": "五月 · 02",
-    "shortLabel": "五月",
+    "month": "三月",
+    "monthOrder": 3,
+    "inMonth": 1,
+    "label": "三月 · 01",
+    "shortLabel": "三月",
     "card": "assets/photos/cards/photo-14.jpg",
     "large": "assets/photos/large/photo-14.webp",
     "width": 480,
     "height": 600,
-    "alt": "五月的照片，第 14 张",
+    "alt": "三月的照片，第 14 张",
     "atlas": [
-      0.61767578125,
-      0.69384765625,
-      0.73779296875,
-      0.84423828125
+      0.30126953125,
+      0.75244140625,
+      0.39794921875,
+      0.87353515625
     ]
   },
   {
     "id": "photo-15",
     "index": 15,
-    "month": "五月",
-    "monthOrder": 5,
-    "inMonth": 3,
-    "label": "五月 · 03",
-    "shortLabel": "五月",
+    "month": "三月",
+    "monthOrder": 3,
+    "inMonth": 2,
+    "label": "三月 · 02",
+    "shortLabel": "三月",
     "card": "assets/photos/cards/photo-15.jpg",
     "large": "assets/photos/large/photo-15.webp",
     "width": 480,
     "height": 600,
-    "alt": "五月的照片，第 15 张",
+    "alt": "三月的照片，第 15 张",
     "atlas": [
-      0.74072265625,
-      0.69384765625,
-      0.86083984375,
-      0.84423828125
+      0.40087890625,
+      0.75244140625,
+      0.49755859375,
+      0.87353515625
     ]
   },
   {
     "id": "photo-16",
     "index": 16,
-    "month": "五月",
-    "monthOrder": 5,
-    "inMonth": 4,
-    "label": "五月 · 04",
-    "shortLabel": "五月",
+    "month": "三月",
+    "monthOrder": 3,
+    "inMonth": 3,
+    "label": "三月 · 03",
+    "shortLabel": "三月",
     "card": "assets/photos/cards/photo-16.jpg",
     "large": "assets/photos/large/photo-16.webp",
     "width": 480,
     "height": 600,
-    "alt": "五月的照片，第 16 张",
+    "alt": "三月的照片，第 16 张",
     "atlas": [
-      0.86376953125,
-      0.69384765625,
-      0.98388671875,
-      0.84423828125
+      0.50048828125,
+      0.75244140625,
+      0.59716796875,
+      0.87353515625
     ]
   },
   {
     "id": "photo-17",
     "index": 17,
-    "month": "五月",
-    "monthOrder": 5,
-    "inMonth": 5,
-    "label": "五月 · 05",
-    "shortLabel": "五月",
+    "month": "四月",
+    "monthOrder": 4,
+    "inMonth": 1,
+    "label": "四月 · 01",
+    "shortLabel": "四月",
     "card": "assets/photos/cards/photo-17.jpg",
     "large": "assets/photos/large/photo-17.webp",
     "width": 480,
     "height": 600,
-    "alt": "五月的照片，第 17 张",
+    "alt": "四月的照片，第 17 张",
     "atlas": [
-      0.00244140625,
-      0.54052734375,
-      0.12255859375,
-      0.69091796875
+      0.60009765625,
+      0.75244140625,
+      0.69677734375,
+      0.87353515625
     ]
   },
   {
     "id": "photo-18",
     "index": 18,
-    "month": "五月",
-    "monthOrder": 5,
-    "inMonth": 6,
-    "label": "五月 · 06",
-    "shortLabel": "五月",
+    "month": "四月",
+    "monthOrder": 4,
+    "inMonth": 2,
+    "label": "四月 · 02",
+    "shortLabel": "四月",
     "card": "assets/photos/cards/photo-18.jpg",
     "large": "assets/photos/large/photo-18.webp",
     "width": 480,
     "height": 600,
-    "alt": "五月的照片，第 18 张",
+    "alt": "四月的照片，第 18 张",
     "atlas": [
-      0.12548828125,
-      0.54052734375,
-      0.24560546875,
-      0.69091796875
+      0.69970703125,
+      0.75244140625,
+      0.79638671875,
+      0.87353515625
     ]
   },
   {
     "id": "photo-19",
     "index": 19,
-    "month": "五月",
-    "monthOrder": 5,
-    "inMonth": 7,
-    "label": "五月 · 07",
-    "shortLabel": "五月",
+    "month": "四月",
+    "monthOrder": 4,
+    "inMonth": 3,
+    "label": "四月 · 03",
+    "shortLabel": "四月",
     "card": "assets/photos/cards/photo-19.jpg",
     "large": "assets/photos/large/photo-19.webp",
     "width": 480,
     "height": 600,
-    "alt": "五月的照片，第 19 张",
+    "alt": "四月的照片，第 19 张",
     "atlas": [
-      0.24853515625,
-      0.54052734375,
-      0.36865234375,
-      0.69091796875
+      0.79931640625,
+      0.75244140625,
+      0.89599609375,
+      0.87353515625
     ]
   },
   {
     "id": "photo-20",
     "index": 20,
-    "month": "六月",
-    "monthOrder": 6,
-    "inMonth": 1,
-    "label": "六月 · 01",
-    "shortLabel": "六月",
+    "month": "四月",
+    "monthOrder": 4,
+    "inMonth": 4,
+    "label": "四月 · 04",
+    "shortLabel": "四月",
     "card": "assets/photos/cards/photo-20.jpg",
     "large": "assets/photos/large/photo-20.webp",
     "width": 480,
     "height": 600,
-    "alt": "六月的照片，第 20 张",
+    "alt": "四月的照片，第 20 张",
     "atlas": [
-      0.37158203125,
-      0.54052734375,
-      0.49169921875,
-      0.69091796875
+      0.89892578125,
+      0.75244140625,
+      0.99560546875,
+      0.87353515625
     ]
   },
   {
     "id": "photo-21",
     "index": 21,
-    "month": "六月",
-    "monthOrder": 6,
-    "inMonth": 2,
-    "label": "六月 · 02",
-    "shortLabel": "六月",
+    "month": "五月",
+    "monthOrder": 5,
+    "inMonth": 1,
+    "label": "五月 · 01",
+    "shortLabel": "五月",
     "card": "assets/photos/cards/photo-21.jpg",
     "large": "assets/photos/large/photo-21.webp",
     "width": 480,
     "height": 600,
-    "alt": "六月的照片，第 21 张",
+    "alt": "五月的照片，第 21 张",
     "atlas": [
-      0.49462890625,
-      0.54052734375,
-      0.61474609375,
-      0.69091796875
+      0.00244140625,
+      0.62841796875,
+      0.09912109375,
+      0.74951171875
     ]
   },
   {
     "id": "photo-22",
     "index": 22,
-    "month": "六月",
-    "monthOrder": 6,
-    "inMonth": 3,
-    "label": "六月 · 03",
-    "shortLabel": "六月",
+    "month": "五月",
+    "monthOrder": 5,
+    "inMonth": 2,
+    "label": "五月 · 02",
+    "shortLabel": "五月",
     "card": "assets/photos/cards/photo-22.jpg",
     "large": "assets/photos/large/photo-22.webp",
     "width": 480,
     "height": 600,
-    "alt": "六月的照片，第 22 张",
+    "alt": "五月的照片，第 22 张",
     "atlas": [
-      0.61767578125,
-      0.54052734375,
-      0.73779296875,
-      0.69091796875
+      0.10205078125,
+      0.62841796875,
+      0.19873046875,
+      0.74951171875
     ]
   },
   {
     "id": "photo-23",
     "index": 23,
-    "month": "六月",
-    "monthOrder": 6,
-    "inMonth": 4,
-    "label": "六月 · 04",
-    "shortLabel": "六月",
+    "month": "五月",
+    "monthOrder": 5,
+    "inMonth": 3,
+    "label": "五月 · 03",
+    "shortLabel": "五月",
     "card": "assets/photos/cards/photo-23.jpg",
     "large": "assets/photos/large/photo-23.webp",
     "width": 480,
     "height": 600,
-    "alt": "六月的照片，第 23 张",
+    "alt": "五月的照片，第 23 张",
     "atlas": [
-      0.74072265625,
-      0.54052734375,
-      0.86083984375,
-      0.69091796875
+      0.20166015625,
+      0.62841796875,
+      0.29833984375,
+      0.74951171875
     ]
   },
   {
     "id": "photo-24",
     "index": 24,
-    "month": "六月",
-    "monthOrder": 6,
-    "inMonth": 5,
-    "label": "六月 · 05",
-    "shortLabel": "六月",
+    "month": "五月",
+    "monthOrder": 5,
+    "inMonth": 4,
+    "label": "五月 · 04",
+    "shortLabel": "五月",
     "card": "assets/photos/cards/photo-24.jpg",
     "large": "assets/photos/large/photo-24.webp",
     "width": 480,
     "height": 600,
-    "alt": "六月的照片，第 24 张",
+    "alt": "五月的照片，第 24 张",
     "atlas": [
-      0.86376953125,
-      0.54052734375,
-      0.98388671875,
-      0.69091796875
+      0.30126953125,
+      0.62841796875,
+      0.39794921875,
+      0.74951171875
     ]
   },
   {
     "id": "photo-25",
     "index": 25,
-    "month": "六月",
-    "monthOrder": 6,
-    "inMonth": 6,
-    "label": "六月 · 06",
-    "shortLabel": "六月",
+    "month": "五月",
+    "monthOrder": 5,
+    "inMonth": 5,
+    "label": "五月 · 05",
+    "shortLabel": "五月",
     "card": "assets/photos/cards/photo-25.jpg",
     "large": "assets/photos/large/photo-25.webp",
     "width": 480,
     "height": 600,
-    "alt": "六月的照片，第 25 张",
+    "alt": "五月的照片，第 25 张",
     "atlas": [
-      0.00244140625,
-      0.38720703125,
-      0.12255859375,
-      0.53759765625
+      0.40087890625,
+      0.62841796875,
+      0.49755859375,
+      0.74951171875
     ]
   },
   {
     "id": "photo-26",
     "index": 26,
-    "month": "六月",
-    "monthOrder": 6,
-    "inMonth": 7,
-    "label": "六月 · 07",
-    "shortLabel": "六月",
+    "month": "五月",
+    "monthOrder": 5,
+    "inMonth": 6,
+    "label": "五月 · 06",
+    "shortLabel": "五月",
     "card": "assets/photos/cards/photo-26.jpg",
     "large": "assets/photos/large/photo-26.webp",
     "width": 480,
     "height": 600,
-    "alt": "六月的照片，第 26 张",
+    "alt": "五月的照片，第 26 张",
     "atlas": [
-      0.12548828125,
-      0.38720703125,
-      0.24560546875,
-      0.53759765625
+      0.50048828125,
+      0.62841796875,
+      0.59716796875,
+      0.74951171875
     ]
   },
   {
     "id": "photo-27",
     "index": 27,
-    "month": "六月",
-    "monthOrder": 6,
-    "inMonth": 8,
-    "label": "六月 · 08",
-    "shortLabel": "六月",
+    "month": "五月",
+    "monthOrder": 5,
+    "inMonth": 7,
+    "label": "五月 · 07",
+    "shortLabel": "五月",
     "card": "assets/photos/cards/photo-27.jpg",
     "large": "assets/photos/large/photo-27.webp",
     "width": 480,
     "height": 600,
-    "alt": "六月的照片，第 27 张",
+    "alt": "五月的照片，第 27 张",
     "atlas": [
-      0.24853515625,
-      0.38720703125,
-      0.36865234375,
-      0.53759765625
+      0.60009765625,
+      0.62841796875,
+      0.69677734375,
+      0.74951171875
     ]
   },
   {
@@ -9953,8 +10467,8 @@ window.XINYI_PHOTOS = [
     "index": 28,
     "month": "六月",
     "monthOrder": 6,
-    "inMonth": 9,
-    "label": "六月 · 09",
+    "inMonth": 1,
+    "label": "六月 · 01",
     "shortLabel": "六月",
     "card": "assets/photos/cards/photo-28.jpg",
     "large": "assets/photos/large/photo-28.webp",
@@ -9962,10 +10476,10 @@ window.XINYI_PHOTOS = [
     "height": 600,
     "alt": "六月的照片，第 28 张",
     "atlas": [
-      0.37158203125,
-      0.38720703125,
-      0.49169921875,
-      0.53759765625
+      0.69970703125,
+      0.62841796875,
+      0.79638671875,
+      0.74951171875
     ]
   },
   {
@@ -9973,8 +10487,8 @@ window.XINYI_PHOTOS = [
     "index": 29,
     "month": "六月",
     "monthOrder": 6,
-    "inMonth": 10,
-    "label": "六月 · 10",
+    "inMonth": 2,
+    "label": "六月 · 02",
     "shortLabel": "六月",
     "card": "assets/photos/cards/photo-29.jpg",
     "large": "assets/photos/large/photo-29.webp",
@@ -9982,10 +10496,10 @@ window.XINYI_PHOTOS = [
     "height": 600,
     "alt": "六月的照片，第 29 张",
     "atlas": [
-      0.49462890625,
-      0.38720703125,
-      0.61474609375,
-      0.53759765625
+      0.79931640625,
+      0.62841796875,
+      0.89599609375,
+      0.74951171875
     ]
   },
   {
@@ -9993,8 +10507,8 @@ window.XINYI_PHOTOS = [
     "index": 30,
     "month": "六月",
     "monthOrder": 6,
-    "inMonth": 11,
-    "label": "六月 · 11",
+    "inMonth": 3,
+    "label": "六月 · 03",
     "shortLabel": "六月",
     "card": "assets/photos/cards/photo-30.jpg",
     "large": "assets/photos/large/photo-30.webp",
@@ -10002,10 +10516,10 @@ window.XINYI_PHOTOS = [
     "height": 600,
     "alt": "六月的照片，第 30 张",
     "atlas": [
-      0.61767578125,
-      0.38720703125,
-      0.73779296875,
-      0.53759765625
+      0.89892578125,
+      0.62841796875,
+      0.99560546875,
+      0.74951171875
     ]
   },
   {
@@ -10013,8 +10527,8 @@ window.XINYI_PHOTOS = [
     "index": 31,
     "month": "六月",
     "monthOrder": 6,
-    "inMonth": 12,
-    "label": "六月 · 12",
+    "inMonth": 4,
+    "label": "六月 · 04",
     "shortLabel": "六月",
     "card": "assets/photos/cards/photo-31.jpg",
     "large": "assets/photos/large/photo-31.webp",
@@ -10022,310 +10536,930 @@ window.XINYI_PHOTOS = [
     "height": 600,
     "alt": "六月的照片，第 31 张",
     "atlas": [
-      0.74072265625,
-      0.38720703125,
-      0.86083984375,
-      0.53759765625
+      0.00244140625,
+      0.50439453125,
+      0.09912109375,
+      0.62548828125
     ]
   },
   {
     "id": "photo-32",
     "index": 32,
-    "month": "九月",
-    "monthOrder": 9,
-    "inMonth": 1,
-    "label": "九月 · 01",
-    "shortLabel": "九月",
+    "month": "六月",
+    "monthOrder": 6,
+    "inMonth": 5,
+    "label": "六月 · 05",
+    "shortLabel": "六月",
     "card": "assets/photos/cards/photo-32.jpg",
     "large": "assets/photos/large/photo-32.webp",
     "width": 480,
     "height": 600,
-    "alt": "九月的照片，第 32 张",
+    "alt": "六月的照片，第 32 张",
     "atlas": [
-      0.86376953125,
-      0.38720703125,
-      0.98388671875,
-      0.53759765625
+      0.10205078125,
+      0.50439453125,
+      0.19873046875,
+      0.62548828125
     ]
   },
   {
     "id": "photo-33",
     "index": 33,
-    "month": "九月",
-    "monthOrder": 9,
-    "inMonth": 2,
-    "label": "九月 · 02",
-    "shortLabel": "九月",
+    "month": "六月",
+    "monthOrder": 6,
+    "inMonth": 6,
+    "label": "六月 · 06",
+    "shortLabel": "六月",
     "card": "assets/photos/cards/photo-33.jpg",
     "large": "assets/photos/large/photo-33.webp",
     "width": 480,
     "height": 600,
-    "alt": "九月的照片，第 33 张",
+    "alt": "六月的照片，第 33 张",
     "atlas": [
-      0.00244140625,
-      0.23388671875,
-      0.12255859375,
-      0.38427734375
+      0.20166015625,
+      0.50439453125,
+      0.29833984375,
+      0.62548828125
     ]
   },
   {
     "id": "photo-34",
     "index": 34,
-    "month": "九月",
-    "monthOrder": 9,
-    "inMonth": 3,
-    "label": "九月 · 03",
-    "shortLabel": "九月",
+    "month": "六月",
+    "monthOrder": 6,
+    "inMonth": 7,
+    "label": "六月 · 07",
+    "shortLabel": "六月",
     "card": "assets/photos/cards/photo-34.jpg",
     "large": "assets/photos/large/photo-34.webp",
     "width": 480,
     "height": 600,
-    "alt": "九月的照片，第 34 张",
+    "alt": "六月的照片，第 34 张",
     "atlas": [
-      0.12548828125,
-      0.23388671875,
-      0.24560546875,
-      0.38427734375
+      0.30126953125,
+      0.50439453125,
+      0.39794921875,
+      0.62548828125
     ]
   },
   {
     "id": "photo-35",
     "index": 35,
-    "month": "九月",
-    "monthOrder": 9,
-    "inMonth": 4,
-    "label": "九月 · 04",
-    "shortLabel": "九月",
+    "month": "六月",
+    "monthOrder": 6,
+    "inMonth": 8,
+    "label": "六月 · 08",
+    "shortLabel": "六月",
     "card": "assets/photos/cards/photo-35.jpg",
     "large": "assets/photos/large/photo-35.webp",
     "width": 480,
     "height": 600,
-    "alt": "九月的照片，第 35 张",
+    "alt": "六月的照片，第 35 张",
     "atlas": [
-      0.24853515625,
-      0.23388671875,
-      0.36865234375,
-      0.38427734375
+      0.40087890625,
+      0.50439453125,
+      0.49755859375,
+      0.62548828125
     ]
   },
   {
     "id": "photo-36",
     "index": 36,
-    "month": "九月",
-    "monthOrder": 9,
-    "inMonth": 5,
-    "label": "九月 · 05",
-    "shortLabel": "九月",
+    "month": "六月",
+    "monthOrder": 6,
+    "inMonth": 9,
+    "label": "六月 · 09",
+    "shortLabel": "六月",
     "card": "assets/photos/cards/photo-36.jpg",
     "large": "assets/photos/large/photo-36.webp",
     "width": 480,
     "height": 600,
-    "alt": "九月的照片，第 36 张",
+    "alt": "六月的照片，第 36 张",
     "atlas": [
-      0.37158203125,
-      0.23388671875,
-      0.49169921875,
-      0.38427734375
+      0.50048828125,
+      0.50439453125,
+      0.59716796875,
+      0.62548828125
     ]
   },
   {
     "id": "photo-37",
     "index": 37,
-    "month": "十月",
-    "monthOrder": 10,
-    "inMonth": 1,
-    "label": "十月 · 01",
-    "shortLabel": "十月",
+    "month": "六月",
+    "monthOrder": 6,
+    "inMonth": 10,
+    "label": "六月 · 10",
+    "shortLabel": "六月",
     "card": "assets/photos/cards/photo-37.jpg",
     "large": "assets/photos/large/photo-37.webp",
     "width": 480,
     "height": 600,
-    "alt": "十月的照片，第 37 张",
+    "alt": "六月的照片，第 37 张",
     "atlas": [
-      0.49462890625,
-      0.23388671875,
-      0.61474609375,
-      0.38427734375
+      0.60009765625,
+      0.50439453125,
+      0.69677734375,
+      0.62548828125
     ]
   },
   {
     "id": "photo-38",
     "index": 38,
-    "month": "十月",
-    "monthOrder": 10,
-    "inMonth": 2,
-    "label": "十月 · 02",
-    "shortLabel": "十月",
+    "month": "六月",
+    "monthOrder": 6,
+    "inMonth": 11,
+    "label": "六月 · 11",
+    "shortLabel": "六月",
     "card": "assets/photos/cards/photo-38.jpg",
     "large": "assets/photos/large/photo-38.webp",
     "width": 480,
     "height": 600,
-    "alt": "十月的照片，第 38 张",
+    "alt": "六月的照片，第 38 张",
     "atlas": [
-      0.61767578125,
-      0.23388671875,
-      0.73779296875,
-      0.38427734375
+      0.69970703125,
+      0.50439453125,
+      0.79638671875,
+      0.62548828125
     ]
   },
   {
     "id": "photo-39",
     "index": 39,
-    "month": "十月",
-    "monthOrder": 10,
-    "inMonth": 3,
-    "label": "十月 · 03",
-    "shortLabel": "十月",
+    "month": "六月",
+    "monthOrder": 6,
+    "inMonth": 12,
+    "label": "六月 · 12",
+    "shortLabel": "六月",
     "card": "assets/photos/cards/photo-39.jpg",
     "large": "assets/photos/large/photo-39.webp",
     "width": 480,
     "height": 600,
-    "alt": "十月的照片，第 39 张",
+    "alt": "六月的照片，第 39 张",
     "atlas": [
-      0.74072265625,
-      0.23388671875,
-      0.86083984375,
-      0.38427734375
+      0.79931640625,
+      0.50439453125,
+      0.89599609375,
+      0.62548828125
     ]
   },
   {
     "id": "photo-40",
     "index": 40,
-    "month": "十一月",
-    "monthOrder": 11,
+    "month": "七月",
+    "monthOrder": 7,
     "inMonth": 1,
-    "label": "十一月 · 01",
-    "shortLabel": "十一月",
+    "label": "七月 · 01",
+    "shortLabel": "七月",
     "card": "assets/photos/cards/photo-40.jpg",
     "large": "assets/photos/large/photo-40.webp",
     "width": 480,
     "height": 600,
-    "alt": "十一月的照片，第 40 张",
+    "alt": "七月的照片，第 40 张",
     "atlas": [
-      0.86376953125,
-      0.23388671875,
-      0.98388671875,
-      0.38427734375
+      0.89892578125,
+      0.50439453125,
+      0.99560546875,
+      0.62548828125
     ]
   },
   {
     "id": "photo-41",
     "index": 41,
-    "month": "十一月",
-    "monthOrder": 11,
+    "month": "七月",
+    "monthOrder": 7,
     "inMonth": 2,
-    "label": "十一月 · 02",
-    "shortLabel": "十一月",
+    "label": "七月 · 02",
+    "shortLabel": "七月",
     "card": "assets/photos/cards/photo-41.jpg",
     "large": "assets/photos/large/photo-41.webp",
     "width": 480,
     "height": 600,
-    "alt": "十一月的照片，第 41 张",
+    "alt": "七月的照片，第 41 张",
     "atlas": [
       0.00244140625,
-      0.08056640625,
-      0.12255859375,
-      0.23095703125
+      0.38037109375,
+      0.09912109375,
+      0.50146484375
     ]
   },
   {
     "id": "photo-42",
     "index": 42,
-    "month": "十一月",
-    "monthOrder": 11,
+    "month": "七月",
+    "monthOrder": 7,
     "inMonth": 3,
-    "label": "十一月 · 03",
-    "shortLabel": "十一月",
+    "label": "七月 · 03",
+    "shortLabel": "七月",
     "card": "assets/photos/cards/photo-42.jpg",
     "large": "assets/photos/large/photo-42.webp",
     "width": 480,
     "height": 600,
-    "alt": "十一月的照片，第 42 张",
+    "alt": "七月的照片，第 42 张",
     "atlas": [
-      0.12548828125,
-      0.08056640625,
-      0.24560546875,
-      0.23095703125
+      0.10205078125,
+      0.38037109375,
+      0.19873046875,
+      0.50146484375
     ]
   },
   {
     "id": "photo-43",
     "index": 43,
-    "month": "十一月",
-    "monthOrder": 11,
+    "month": "七月",
+    "monthOrder": 7,
     "inMonth": 4,
-    "label": "十一月 · 04",
-    "shortLabel": "十一月",
+    "label": "七月 · 04",
+    "shortLabel": "七月",
     "card": "assets/photos/cards/photo-43.jpg",
     "large": "assets/photos/large/photo-43.webp",
     "width": 480,
     "height": 600,
-    "alt": "十一月的照片，第 43 张",
+    "alt": "七月的照片，第 43 张",
     "atlas": [
-      0.24853515625,
-      0.08056640625,
-      0.36865234375,
-      0.23095703125
+      0.20166015625,
+      0.38037109375,
+      0.29833984375,
+      0.50146484375
     ]
   },
   {
     "id": "photo-44",
     "index": 44,
-    "month": "十一月",
-    "monthOrder": 11,
+    "month": "七月",
+    "monthOrder": 7,
     "inMonth": 5,
-    "label": "十一月 · 05",
-    "shortLabel": "十一月",
+    "label": "七月 · 05",
+    "shortLabel": "七月",
     "card": "assets/photos/cards/photo-44.jpg",
     "large": "assets/photos/large/photo-44.webp",
     "width": 480,
     "height": 600,
-    "alt": "十一月的照片，第 44 张",
+    "alt": "七月的照片，第 44 张",
     "atlas": [
-      0.37158203125,
-      0.08056640625,
-      0.49169921875,
-      0.23095703125
+      0.30126953125,
+      0.38037109375,
+      0.39794921875,
+      0.50146484375
     ]
   },
   {
     "id": "photo-45",
     "index": 45,
-    "month": "十一月",
-    "monthOrder": 11,
+    "month": "七月",
+    "monthOrder": 7,
     "inMonth": 6,
-    "label": "十一月 · 06",
-    "shortLabel": "十一月",
+    "label": "七月 · 06",
+    "shortLabel": "七月",
     "card": "assets/photos/cards/photo-45.jpg",
     "large": "assets/photos/large/photo-45.webp",
     "width": 480,
     "height": 600,
-    "alt": "十一月的照片，第 45 张",
+    "alt": "七月的照片，第 45 张",
     "atlas": [
-      0.49462890625,
-      0.08056640625,
-      0.61474609375,
-      0.23095703125
+      0.40087890625,
+      0.38037109375,
+      0.49755859375,
+      0.50146484375
     ]
   },
   {
     "id": "photo-46",
     "index": 46,
+    "month": "七月",
+    "monthOrder": 7,
+    "inMonth": 7,
+    "label": "七月 · 07",
+    "shortLabel": "七月",
+    "card": "assets/photos/cards/photo-46.jpg",
+    "large": "assets/photos/large/photo-46.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "七月的照片，第 46 张",
+    "atlas": [
+      0.50048828125,
+      0.38037109375,
+      0.59716796875,
+      0.50146484375
+    ]
+  },
+  {
+    "id": "photo-47",
+    "index": 47,
+    "month": "七月",
+    "monthOrder": 7,
+    "inMonth": 8,
+    "label": "七月 · 08",
+    "shortLabel": "七月",
+    "card": "assets/photos/cards/photo-47.jpg",
+    "large": "assets/photos/large/photo-47.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "七月的照片，第 47 张",
+    "atlas": [
+      0.60009765625,
+      0.38037109375,
+      0.69677734375,
+      0.50146484375
+    ]
+  },
+  {
+    "id": "photo-48",
+    "index": 48,
+    "month": "七月",
+    "monthOrder": 7,
+    "inMonth": 9,
+    "label": "七月 · 09",
+    "shortLabel": "七月",
+    "card": "assets/photos/cards/photo-48.jpg",
+    "large": "assets/photos/large/photo-48.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "七月的照片，第 48 张",
+    "atlas": [
+      0.69970703125,
+      0.38037109375,
+      0.79638671875,
+      0.50146484375
+    ]
+  },
+  {
+    "id": "photo-49",
+    "index": 49,
+    "month": "九月",
+    "monthOrder": 9,
+    "inMonth": 1,
+    "label": "九月 · 01",
+    "shortLabel": "九月",
+    "card": "assets/photos/cards/photo-49.jpg",
+    "large": "assets/photos/large/photo-49.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "九月的照片，第 49 张",
+    "atlas": [
+      0.79931640625,
+      0.38037109375,
+      0.89599609375,
+      0.50146484375
+    ]
+  },
+  {
+    "id": "photo-50",
+    "index": 50,
+    "month": "九月",
+    "monthOrder": 9,
+    "inMonth": 2,
+    "label": "九月 · 02",
+    "shortLabel": "九月",
+    "card": "assets/photos/cards/photo-50.jpg",
+    "large": "assets/photos/large/photo-50.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "九月的照片，第 50 张",
+    "atlas": [
+      0.89892578125,
+      0.38037109375,
+      0.99560546875,
+      0.50146484375
+    ]
+  },
+  {
+    "id": "photo-51",
+    "index": 51,
+    "month": "九月",
+    "monthOrder": 9,
+    "inMonth": 3,
+    "label": "九月 · 03",
+    "shortLabel": "九月",
+    "card": "assets/photos/cards/photo-51.jpg",
+    "large": "assets/photos/large/photo-51.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "九月的照片，第 51 张",
+    "atlas": [
+      0.00244140625,
+      0.25634765625,
+      0.09912109375,
+      0.37744140625
+    ]
+  },
+  {
+    "id": "photo-52",
+    "index": 52,
+    "month": "九月",
+    "monthOrder": 9,
+    "inMonth": 4,
+    "label": "九月 · 04",
+    "shortLabel": "九月",
+    "card": "assets/photos/cards/photo-52.jpg",
+    "large": "assets/photos/large/photo-52.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "九月的照片，第 52 张",
+    "atlas": [
+      0.10205078125,
+      0.25634765625,
+      0.19873046875,
+      0.37744140625
+    ]
+  },
+  {
+    "id": "photo-53",
+    "index": 53,
+    "month": "九月",
+    "monthOrder": 9,
+    "inMonth": 5,
+    "label": "九月 · 05",
+    "shortLabel": "九月",
+    "card": "assets/photos/cards/photo-53.jpg",
+    "large": "assets/photos/large/photo-53.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "九月的照片，第 53 张",
+    "atlas": [
+      0.20166015625,
+      0.25634765625,
+      0.29833984375,
+      0.37744140625
+    ]
+  },
+  {
+    "id": "photo-54",
+    "index": 54,
+    "month": "十月",
+    "monthOrder": 10,
+    "inMonth": 1,
+    "label": "十月 · 01",
+    "shortLabel": "十月",
+    "card": "assets/photos/cards/photo-54.jpg",
+    "large": "assets/photos/large/photo-54.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "十月的照片，第 54 张",
+    "atlas": [
+      0.30126953125,
+      0.25634765625,
+      0.39794921875,
+      0.37744140625
+    ]
+  },
+  {
+    "id": "photo-55",
+    "index": 55,
+    "month": "十月",
+    "monthOrder": 10,
+    "inMonth": 2,
+    "label": "十月 · 02",
+    "shortLabel": "十月",
+    "card": "assets/photos/cards/photo-55.jpg",
+    "large": "assets/photos/large/photo-55.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "十月的照片，第 55 张",
+    "atlas": [
+      0.40087890625,
+      0.25634765625,
+      0.49755859375,
+      0.37744140625
+    ]
+  },
+  {
+    "id": "photo-56",
+    "index": 56,
+    "month": "十月",
+    "monthOrder": 10,
+    "inMonth": 3,
+    "label": "十月 · 03",
+    "shortLabel": "十月",
+    "card": "assets/photos/cards/photo-56.jpg",
+    "large": "assets/photos/large/photo-56.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "十月的照片，第 56 张",
+    "atlas": [
+      0.50048828125,
+      0.25634765625,
+      0.59716796875,
+      0.37744140625
+    ]
+  },
+  {
+    "id": "photo-57",
+    "index": 57,
+    "month": "十月",
+    "monthOrder": 10,
+    "inMonth": 4,
+    "label": "十月 · 04",
+    "shortLabel": "十月",
+    "card": "assets/photos/cards/photo-57.jpg",
+    "large": "assets/photos/large/photo-57.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "十月的照片，第 57 张",
+    "atlas": [
+      0.60009765625,
+      0.25634765625,
+      0.69677734375,
+      0.37744140625
+    ]
+  },
+  {
+    "id": "photo-58",
+    "index": 58,
+    "month": "十月",
+    "monthOrder": 10,
+    "inMonth": 5,
+    "label": "十月 · 05",
+    "shortLabel": "十月",
+    "card": "assets/photos/cards/photo-58.jpg",
+    "large": "assets/photos/large/photo-58.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "十月的照片，第 58 张",
+    "atlas": [
+      0.69970703125,
+      0.25634765625,
+      0.79638671875,
+      0.37744140625
+    ]
+  },
+  {
+    "id": "photo-59",
+    "index": 59,
+    "month": "十月",
+    "monthOrder": 10,
+    "inMonth": 6,
+    "label": "十月 · 06",
+    "shortLabel": "十月",
+    "card": "assets/photos/cards/photo-59.jpg",
+    "large": "assets/photos/large/photo-59.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "十月的照片，第 59 张",
+    "atlas": [
+      0.79931640625,
+      0.25634765625,
+      0.89599609375,
+      0.37744140625
+    ]
+  },
+  {
+    "id": "photo-60",
+    "index": 60,
+    "month": "十月",
+    "monthOrder": 10,
+    "inMonth": 7,
+    "label": "十月 · 07",
+    "shortLabel": "十月",
+    "card": "assets/photos/cards/photo-60.jpg",
+    "large": "assets/photos/large/photo-60.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "十月的照片，第 60 张",
+    "atlas": [
+      0.89892578125,
+      0.25634765625,
+      0.99560546875,
+      0.37744140625
+    ]
+  },
+  {
+    "id": "photo-61",
+    "index": 61,
+    "month": "十月",
+    "monthOrder": 10,
+    "inMonth": 8,
+    "label": "十月 · 08",
+    "shortLabel": "十月",
+    "card": "assets/photos/cards/photo-61.jpg",
+    "large": "assets/photos/large/photo-61.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "十月的照片，第 61 张",
+    "atlas": [
+      0.00244140625,
+      0.13232421875,
+      0.09912109375,
+      0.25341796875
+    ]
+  },
+  {
+    "id": "photo-62",
+    "index": 62,
+    "month": "十一月",
+    "monthOrder": 11,
+    "inMonth": 1,
+    "label": "十一月 · 01",
+    "shortLabel": "十一月",
+    "card": "assets/photos/cards/photo-62.jpg",
+    "large": "assets/photos/large/photo-62.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "十一月的照片，第 62 张",
+    "atlas": [
+      0.10205078125,
+      0.13232421875,
+      0.19873046875,
+      0.25341796875
+    ]
+  },
+  {
+    "id": "photo-63",
+    "index": 63,
+    "month": "十一月",
+    "monthOrder": 11,
+    "inMonth": 2,
+    "label": "十一月 · 02",
+    "shortLabel": "十一月",
+    "card": "assets/photos/cards/photo-63.jpg",
+    "large": "assets/photos/large/photo-63.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "十一月的照片，第 63 张",
+    "atlas": [
+      0.20166015625,
+      0.13232421875,
+      0.29833984375,
+      0.25341796875
+    ]
+  },
+  {
+    "id": "photo-64",
+    "index": 64,
+    "month": "十一月",
+    "monthOrder": 11,
+    "inMonth": 3,
+    "label": "十一月 · 03",
+    "shortLabel": "十一月",
+    "card": "assets/photos/cards/photo-64.jpg",
+    "large": "assets/photos/large/photo-64.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "十一月的照片，第 64 张",
+    "atlas": [
+      0.30126953125,
+      0.13232421875,
+      0.39794921875,
+      0.25341796875
+    ]
+  },
+  {
+    "id": "photo-65",
+    "index": 65,
+    "month": "十一月",
+    "monthOrder": 11,
+    "inMonth": 4,
+    "label": "十一月 · 04",
+    "shortLabel": "十一月",
+    "card": "assets/photos/cards/photo-65.jpg",
+    "large": "assets/photos/large/photo-65.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "十一月的照片，第 65 张",
+    "atlas": [
+      0.40087890625,
+      0.13232421875,
+      0.49755859375,
+      0.25341796875
+    ]
+  },
+  {
+    "id": "photo-66",
+    "index": 66,
+    "month": "十一月",
+    "monthOrder": 11,
+    "inMonth": 5,
+    "label": "十一月 · 05",
+    "shortLabel": "十一月",
+    "card": "assets/photos/cards/photo-66.jpg",
+    "large": "assets/photos/large/photo-66.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "十一月的照片，第 66 张",
+    "atlas": [
+      0.50048828125,
+      0.13232421875,
+      0.59716796875,
+      0.25341796875
+    ]
+  },
+  {
+    "id": "photo-67",
+    "index": 67,
+    "month": "十一月",
+    "monthOrder": 11,
+    "inMonth": 6,
+    "label": "十一月 · 06",
+    "shortLabel": "十一月",
+    "card": "assets/photos/cards/photo-67.jpg",
+    "large": "assets/photos/large/photo-67.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "十一月的照片，第 67 张",
+    "atlas": [
+      0.60009765625,
+      0.13232421875,
+      0.69677734375,
+      0.25341796875
+    ]
+  },
+  {
+    "id": "photo-68",
+    "index": 68,
     "month": "十一月",
     "monthOrder": 11,
     "inMonth": 7,
     "label": "十一月 · 07",
     "shortLabel": "十一月",
-    "card": "assets/photos/cards/photo-46.jpg",
-    "large": "assets/photos/large/photo-46.webp",
+    "card": "assets/photos/cards/photo-68.jpg",
+    "large": "assets/photos/large/photo-68.webp",
     "width": 480,
     "height": 600,
-    "alt": "十一月的照片，第 46 张",
+    "alt": "十一月的照片，第 68 张",
     "atlas": [
-      0.61767578125,
-      0.08056640625,
-      0.73779296875,
-      0.23095703125
+      0.69970703125,
+      0.13232421875,
+      0.79638671875,
+      0.25341796875
+    ]
+  },
+  {
+    "id": "photo-69",
+    "index": 69,
+    "month": "十一月",
+    "monthOrder": 11,
+    "inMonth": 8,
+    "label": "十一月 · 08",
+    "shortLabel": "十一月",
+    "card": "assets/photos/cards/photo-69.jpg",
+    "large": "assets/photos/large/photo-69.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "十一月的照片，第 69 张",
+    "atlas": [
+      0.79931640625,
+      0.13232421875,
+      0.89599609375,
+      0.25341796875
+    ]
+  },
+  {
+    "id": "photo-70",
+    "index": 70,
+    "month": "十一月",
+    "monthOrder": 11,
+    "inMonth": 9,
+    "label": "十一月 · 09",
+    "shortLabel": "十一月",
+    "card": "assets/photos/cards/photo-70.jpg",
+    "large": "assets/photos/large/photo-70.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "十一月的照片，第 70 张",
+    "atlas": [
+      0.89892578125,
+      0.13232421875,
+      0.99560546875,
+      0.25341796875
+    ]
+  },
+  {
+    "id": "photo-71",
+    "index": 71,
+    "month": "十一月",
+    "monthOrder": 11,
+    "inMonth": 10,
+    "label": "十一月 · 10",
+    "shortLabel": "十一月",
+    "card": "assets/photos/cards/photo-71.jpg",
+    "large": "assets/photos/large/photo-71.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "十一月的照片，第 71 张",
+    "atlas": [
+      0.00244140625,
+      0.00830078125,
+      0.09912109375,
+      0.12939453125
+    ]
+  },
+  {
+    "id": "photo-72",
+    "index": 72,
+    "month": "十一月",
+    "monthOrder": 11,
+    "inMonth": 11,
+    "label": "十一月 · 11",
+    "shortLabel": "十一月",
+    "card": "assets/photos/cards/photo-72.jpg",
+    "large": "assets/photos/large/photo-72.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "十一月的照片，第 72 张",
+    "atlas": [
+      0.10205078125,
+      0.00830078125,
+      0.19873046875,
+      0.12939453125
+    ]
+  },
+  {
+    "id": "photo-73",
+    "index": 73,
+    "month": "十一月",
+    "monthOrder": 11,
+    "inMonth": 12,
+    "label": "十一月 · 12",
+    "shortLabel": "十一月",
+    "card": "assets/photos/cards/photo-73.jpg",
+    "large": "assets/photos/large/photo-73.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "十一月的照片，第 73 张",
+    "atlas": [
+      0.20166015625,
+      0.00830078125,
+      0.29833984375,
+      0.12939453125
+    ]
+  },
+  {
+    "id": "photo-74",
+    "index": 74,
+    "month": "十一月",
+    "monthOrder": 11,
+    "inMonth": 13,
+    "label": "十一月 · 13",
+    "shortLabel": "十一月",
+    "card": "assets/photos/cards/photo-74.jpg",
+    "large": "assets/photos/large/photo-74.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "十一月的照片，第 74 张",
+    "atlas": [
+      0.30126953125,
+      0.00830078125,
+      0.39794921875,
+      0.12939453125
+    ]
+  },
+  {
+    "id": "photo-75",
+    "index": 75,
+    "month": "十一月",
+    "monthOrder": 11,
+    "inMonth": 14,
+    "label": "十一月 · 14",
+    "shortLabel": "十一月",
+    "card": "assets/photos/cards/photo-75.jpg",
+    "large": "assets/photos/large/photo-75.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "十一月的照片，第 75 张",
+    "atlas": [
+      0.40087890625,
+      0.00830078125,
+      0.49755859375,
+      0.12939453125
+    ]
+  },
+  {
+    "id": "photo-76",
+    "index": 76,
+    "month": "十一月",
+    "monthOrder": 11,
+    "inMonth": 15,
+    "label": "十一月 · 15",
+    "shortLabel": "十一月",
+    "card": "assets/photos/cards/photo-76.jpg",
+    "large": "assets/photos/large/photo-76.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "十一月的照片，第 76 张",
+    "atlas": [
+      0.50048828125,
+      0.00830078125,
+      0.59716796875,
+      0.12939453125
+    ]
+  },
+  {
+    "id": "photo-77",
+    "index": 77,
+    "month": "十一月",
+    "monthOrder": 11,
+    "inMonth": 16,
+    "label": "十一月 · 16",
+    "shortLabel": "十一月",
+    "card": "assets/photos/cards/photo-77.jpg",
+    "large": "assets/photos/large/photo-77.webp",
+    "width": 480,
+    "height": 600,
+    "alt": "十一月的照片，第 77 张",
+    "atlas": [
+      0.60009765625,
+      0.00830078125,
+      0.69677734375,
+      0.12939453125
     ]
   }
 ];
@@ -11318,347 +12452,69 @@ window.XINYI_PHOTOS = [
   closeLetterButton?.addEventListener("click", closeLetterDialog);
 
   /* -------------------------------------------------------
+     A very small QQ easter egg
+     ------------------------------------------------------- */
+
+  const qqDialog = $("#qqLetterDialog");
+  const qqEggButton = $("#qqEgg");
+  const closeQqButton = $("#closeQqLetter");
+  let lastQqTrigger = null;
+
+  function openQqDialog(trigger) {
+    if (!qqDialog) return;
+    lastQqTrigger = trigger instanceof HTMLElement ? trigger : document.activeElement;
+
+    if (typeof qqDialog.showModal === "function" && !qqDialog.open) {
+      qqDialog.showModal();
+    } else if (!qqDialog.open) {
+      qqDialog.setAttribute("open", "");
+    }
+
+    document.body.classList.add("is-locked");
+
+    window.requestAnimationFrame(() => {
+      closeQqButton?.focus({ preventScroll: true });
+    });
+  }
+
+  function closeQqDialog() {
+    if (!qqDialog?.open) return;
+    if (typeof qqDialog.close === "function") qqDialog.close();
+    else qqDialog.removeAttribute("open");
+  }
+
+  if (qqDialog) {
+    qqDialog.addEventListener("close", () => {
+      document.body.classList.remove("is-locked");
+      if (lastQqTrigger && typeof lastQqTrigger.focus === "function") {
+        lastQqTrigger.focus({ preventScroll: true });
+      }
+    });
+
+    qqDialog.addEventListener("click", (event) => {
+      if (event.target === qqDialog) closeQqDialog();
+    });
+  }
+
+  qqEggButton?.addEventListener("click", () => openQqDialog(qqEggButton));
+  closeQqButton?.addEventListener("click", closeQqDialog);
+
+  /* -------------------------------------------------------
      Keyboard niceties
      ------------------------------------------------------- */
 
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Escape") return;
+    if (qqDialog?.open) {
+      event.preventDefault();
+      closeQqDialog();
+      return;
+    }
     if (letterDialog?.open) {
       event.preventDefault();
       closeLetterDialog();
     }
   });
-})();
-
-</script>
-  <script>
-(() => {
-  "use strict";
-
-  const canvas = document.getElementById("photoParticlesCanvas");
-  const photo = document.querySelector(".page-backdrop__photo");
-  const hero = document.querySelector(".hero");
-  if (!canvas || !photo) return;
-
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return;
-
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const mobileQuery = window.matchMedia("(max-width: 720px)");
-
-  const palette = [
-    { inner: "rgba(255, 243, 212, 0.95)", mid: "rgba(235, 191, 126, 0.36)", outer: "rgba(235, 191, 126, 0)" },
-    { inner: "rgba(255, 228, 234, 0.94)", mid: "rgba(229, 153, 176, 0.34)", outer: "rgba(229, 153, 176, 0)" },
-    { inner: "rgba(235, 226, 250, 0.9)", mid: "rgba(177, 154, 214, 0.32)", outer: "rgba(177, 154, 214, 0)" },
-    { inner: "rgba(255, 255, 246, 0.95)", mid: "rgba(255, 242, 213, 0.3)", outer: "rgba(255, 242, 213, 0)" },
-  ];
-
-  const sprites = palette.map((color) => {
-    const sprite = document.createElement("canvas");
-    sprite.width = 48;
-    sprite.height = 48;
-    const sctx = sprite.getContext("2d");
-    const gradient = sctx.createRadialGradient(24, 24, 0, 24, 24, 24);
-    gradient.addColorStop(0, color.inner);
-    gradient.addColorStop(0.27, color.mid);
-    gradient.addColorStop(1, color.outer);
-    sctx.fillStyle = gradient;
-    sctx.fillRect(0, 0, 48, 48);
-    return sprite;
-  });
-
-  let width = 1;
-  let height = 1;
-  let dpr = 1;
-  let particles = [];
-  let raf = 0;
-  let image = null;
-  let heroVisible = true;
-  let pointer = { x: -9999, y: -9999, power: 0 };
-  let pointerStopTimer = 0;
-  let resizeTimer = 0;
-  let particleCanvasOffsetX = 0;
-  let particleCanvasOffsetY = 0;
-
-  function sizeCanvas() {
-    const rect = canvas.getBoundingClientRect();
-    width = Math.max(1, rect.width);
-    height = Math.max(1, rect.height);
-    dpr = Math.min(window.devicePixelRatio || 1, 1.6);
-    canvas.width = Math.round(width * dpr);
-    canvas.height = Math.round(height * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
-
-  function choosePalette(r, g, b) {
-    if (r > 204 && g > 190 && b > 170) return 3;
-    if (r > b + 14 && r > g - 8) return 1;
-    if (b > r + 10 || (b > 150 && r > 120)) return 2;
-    return 0;
-  }
-
-  function buildParticles() {
-    if (!image) return;
-    sizeCanvas();
-
-    const sampleWidth = mobileQuery.matches ? 108 : 148;
-    const sampleHeight = Math.max(1, Math.round((sampleWidth * image.height) / image.width));
-    const sample = document.createElement("canvas");
-    sample.width = sampleWidth;
-    sample.height = sampleHeight;
-    const sctx = sample.getContext("2d", { willReadFrequently: true });
-    sctx.drawImage(image, 0, 0, sampleWidth, sampleHeight);
-
-    let data;
-    try {
-      data = sctx.getImageData(0, 0, sampleWidth, sampleHeight).data;
-    } catch (error) {
-      return;
-    }
-
-    // Match the background-size: cover crop used by the CSS photo layer.
-    const scale = Math.max(width / image.width, height / image.height);
-    const drawWidth = image.width * scale;
-    const drawHeight = image.height * scale;
-    const offsetX = (width - drawWidth) / 2;
-    const offsetY = mobileQuery.matches ? 0 : (height - drawHeight) * 0.31;
-    const step = mobileQuery.matches ? 2 : 2;
-    const maxParticles = mobileQuery.matches ? (reduceMotion ? 620 : 1350) : reduceMotion ? 900 : 2250;
-    const candidates = [];
-
-    for (let y = 0; y < sampleHeight; y += step) {
-      for (let x = 0; x < sampleWidth; x += step) {
-        const offset = (y * sampleWidth + x) * 4;
-        const r = data[offset];
-        const g = data[offset + 1];
-        const b = data[offset + 2];
-        const alpha = data[offset + 3];
-        const luma = r * 0.299 + g * 0.587 + b * 0.114;
-        if (alpha < 35 || luma < 23) continue;
-
-        const tx = offsetX + ((x + 0.5) / sampleWidth) * drawWidth;
-        const ty = offsetY + ((y + 0.5) / sampleHeight) * drawHeight;
-        if (tx < -30 || tx > width + 30 || ty < -30 || ty > height + 30) continue;
-
-        candidates.push({
-          tx: tx + (Math.random() - 0.5) * width * 0.018,
-          ty: ty + (Math.random() - 0.5) * height * 0.016,
-          luma,
-          color: choosePalette(r, g, b),
-        });
-      }
-    }
-
-    const stride = Math.max(1, Math.ceil(candidates.length / maxParticles));
-    particles = [];
-    for (let i = 0; i < candidates.length; i += stride) {
-      const item = candidates[i];
-      const bokeh = i % 13 === 0;
-      const size =
-        (3.2 + (item.luma / 255) * 6.8) *
-        (mobileQuery.matches ? 0.78 : 1) *
-        (bokeh ? 1.8 : 1);
-      particles.push({
-        tx: item.tx,
-        ty: item.ty,
-        x: item.tx + (Math.random() - 0.5) * width * 0.28,
-        y: item.ty + (Math.random() - 0.5) * height * 0.24,
-        vx: 0,
-        vy: 0,
-        size,
-        color: item.color,
-        alpha: (0.18 + (item.luma / 255) * 0.52) * (bokeh ? 0.76 : 1),
-        phase: Math.random() * Math.PI * 2,
-        sway: 1.6 + Math.random() * 3.4,
-        spring: 0.005 + Math.random() * 0.009,
-      });
-    }
-  }
-
-  function draw(now) {
-    if (document.hidden || !heroVisible) {
-      raf = window.requestAnimationFrame(draw);
-      return;
-    }
-
-    ctx.clearRect(0, 0, width, height);
-    ctx.globalCompositeOperation = "lighter";
-
-    pointer.power *= 0.958;
-    if (pointer.power < 0.01) pointer.power = 0;
-
-    for (const particle of particles) {
-      const targetX = particle.tx + Math.sin(now * 0.00045 + particle.phase) * particle.sway;
-      const targetY = particle.ty + Math.cos(now * 0.00058 + particle.phase * 1.37) * particle.sway * 0.7;
-
-      let ax = (targetX - particle.x) * particle.spring;
-      let ay = (targetY - particle.y) * particle.spring;
-
-      if (pointer.power > 0) {
-        const dx = particle.x - pointer.x;
-        const dy = particle.y - pointer.y;
-        const distance = Math.hypot(dx, dy);
-        if (distance < 245 && distance > 0.1) {
-          const falloff = 1 - distance / 245;
-          const force = falloff * falloff * pointer.power * 3.6;
-          ax += (dx / distance) * force;
-          ay += (dy / distance) * force + (-dx / distance) * force * 0.42;
-        }
-      }
-
-      particle.vx = (particle.vx + ax) * 0.91;
-      particle.vy = (particle.vy + ay) * 0.91;
-      particle.x += particle.vx;
-      particle.y += particle.vy;
-
-      const twinkle =
-        0.74 +
-        Math.sin(now * 0.0018 + particle.phase) * 0.18 +
-        Math.sin(now * 0.0042 + particle.phase * 2) * 0.06;
-      const size = particle.size * twinkle;
-      const sprite = sprites[particle.color] || sprites[0];
-      ctx.globalAlpha = Math.max(0, Math.min(0.95, particle.alpha * twinkle));
-      ctx.drawImage(sprite, particle.x - size * 2.6, particle.y - size * 2.6, size * 5.2, size * 5.2);
-    }
-
-    if (pointer.power > 0.02) {
-      const auraRadius = 150 + pointer.power * 45;
-      const aura = ctx.createRadialGradient(
-        pointer.x,
-        pointer.y,
-        0,
-        pointer.x,
-        pointer.y,
-        auraRadius
-      );
-      aura.addColorStop(0, `rgba(255, 237, 202, ${0.14 + pointer.power * 0.07})`);
-      aura.addColorStop(0.42, `rgba(236, 187, 190, ${0.07 + pointer.power * 0.035})`);
-      aura.addColorStop(1, "rgba(236, 187, 190, 0)");
-      ctx.globalAlpha = 1;
-      ctx.fillStyle = aura;
-      ctx.fillRect(pointer.x - auraRadius, pointer.y - auraRadius, auraRadius * 2, auraRadius * 2);
-
-      // A little constellation that circles the cursor, so the photo feels
-      // alive even before the user has moved far enough to disturb the field.
-      for (let i = 0; i < 7; i += 1) {
-        const angle = now * 0.0011 + (i / 7) * Math.PI * 2;
-        const radius = 28 + Math.sin(now * 0.0018 + i) * 7;
-        const x = pointer.x + Math.cos(angle) * radius;
-        const y = pointer.y + Math.sin(angle) * radius * 0.62;
-        const sprite = sprites[(i + Math.floor(now / 900)) % sprites.length];
-        ctx.globalAlpha = 0.36 + pointer.power * 0.08;
-        ctx.drawImage(sprite, x - 8, y - 8, 16, 16);
-      }
-    }
-
-    ctx.globalAlpha = 1;
-    ctx.globalCompositeOperation = "source-over";
-    raf = window.requestAnimationFrame(draw);
-  }
-
-  function start() {
-    if (raf) return;
-    raf = window.requestAnimationFrame(draw);
-  }
-
-  function loadImage() {
-    let source = "";
-    try {
-      const background = getComputedStyle(photo).backgroundImage;
-      const match = background.match(/url\((["']?)(.*?)\1\)/);
-      if (match) source = match[2];
-    } catch (error) {
-      source = "";
-    }
-    if (!source || source === "none") source = "assets/xinyi.jpg";
-
-    image = new Image();
-    image.decoding = "async";
-    image.onload = () => {
-      buildParticles();
-      start();
-    };
-    image.onerror = () => {
-      image = null;
-    };
-    image.src = source;
-  }
-
-  function handlePointerMove(event) {
-    const rect = canvas.getBoundingClientRect();
-    if (
-      event.clientX < rect.left ||
-      event.clientX > rect.right ||
-      event.clientY < rect.top ||
-      event.clientY > rect.bottom
-    ) {
-      pointer.power *= 0.86;
-      return;
-    }
-
-    pointer.x = event.clientX - rect.left;
-    pointer.y = event.clientY - rect.top;
-    pointer.power = 1;
-
-    window.clearTimeout(pointerStopTimer);
-    pointerStopTimer = window.setTimeout(() => {
-      pointer.power = 0;
-    }, 700);
-
-    // Keep the glowing layer aligned with the subtle parallax on the photo.
-    const nx = event.clientX / window.innerWidth - 0.5;
-    const ny = event.clientY / window.innerHeight - 0.5;
-    canvas.style.transform = `translate3d(${(-nx * 16).toFixed(2)}px, ${(-ny * 10).toFixed(2)}px, 0)`;
-  }
-
-  if ("IntersectionObserver" in window && hero) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        heroVisible = entries.some((entry) => entry.isIntersecting);
-      },
-      { rootMargin: "100px 0px 100px 0px", threshold: 0 }
-    );
-    observer.observe(hero);
-  }
-
-  window.addEventListener("pointermove", handlePointerMove, { passive: true });
-
-  window.addEventListener("pointerdown", (event) => {
-    if (event.target.closest?.("a, button, input, textarea, select, dialog")) return;
-    const rect = canvas.getBoundingClientRect();
-    if (
-      event.clientX < rect.left ||
-      event.clientX > rect.right ||
-      event.clientY < rect.top ||
-      event.clientY > rect.bottom
-    ) {
-      return;
-    }
-    pointer.x = event.clientX - rect.left;
-    pointer.y = event.clientY - rect.top;
-    pointer.power = 2.1;
-    window.clearTimeout(pointerStopTimer);
-    pointerStopTimer = window.setTimeout(() => {
-      pointer.power = 0;
-    }, 850);
-  }, { passive: true });
-
-  window.addEventListener(
-    "resize",
-    () => {
-      window.clearTimeout(resizeTimer);
-      resizeTimer = window.setTimeout(() => {
-        if (!image) return;
-        buildParticles();
-      }, 180);
-    },
-    { passive: true }
-  );
-  document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) start();
-  });
-
-  loadImage();
 })();
 
 </script>
@@ -13943,10 +14799,10 @@ window.XINYI_PHOTOS = [
     const mobile = width / height < 0.9;
 
     if (immersiveMode) {
-      camera.fov = mobile ? 34 : 31;
-      baseCameraZ = mobile ? 17.2 : 15.8;
-      baseCameraX = mobile ? 0.16 : 0.4;
-      baseCameraY = mobile ? 5.6 : 5.45;
+      camera.fov = mobile ? 36 : 31;
+      baseCameraZ = mobile ? 19.2 : 16.2;
+      baseCameraX = mobile ? 0.14 : 0.4;
+      baseCameraY = mobile ? 5.75 : 5.45;
       cameraLook.set(0, 3.9, 0);
     } else {
       camera.fov = mobile ? 33 : 31;
@@ -14234,24 +15090,29 @@ window.XINYI_PHOTOS = [
       toneMapped: false,
     });
 
-    const chapters = [
-      { maxMonth: 4, y: 2.34, radius: 1.52, start: -Math.PI / 2 + 0.34 },
-      { maxMonth: 7, y: 2.98, radius: 2.18, start: -Math.PI / 2 - 0.12 },
-      { maxMonth: 12, y: 4.42, radius: 1.78, start: -Math.PI / 2 + 0.62 },
+    // Three photo ribbons keep the cake readable even with a full year of
+    // memories. The cards are balanced across the ribbons; all of them remain
+    // individually clickable and the month list below still reaches every one.
+    const rings = [
+      { y: 2.12, radius: 2.5, start: -Math.PI / 2 + 0.3 },
+      { y: 2.86, radius: 2.7, start: -Math.PI / 2 - 0.1 },
+      { y: 4.25, radius: 2.5, start: -Math.PI / 2 + 0.48 },
     ];
-    let minMonth = -Infinity;
 
-    chapters.forEach((chapter) => {
-      const entries = album.photos.filter(
-        (photo) => photo.monthOrder > minMonth && photo.monthOrder <= chapter.maxMonth
-      );
-      minMonth = chapter.maxMonth;
+    const baseCount = Math.floor(album.photos.length / rings.length);
+    const extraCount = album.photos.length % rings.length;
+    let photoCursor = 0;
+
+    rings.forEach((ring, ringIndex) => {
+      const countForRing = baseCount + (ringIndex < extraCount ? 1 : 0);
+      const entries = album.photos.slice(photoCursor, photoCursor + countForRing);
+      photoCursor += countForRing;
       if (!entries.length) return;
 
       entries.forEach((photo, index) => {
         const count = entries.length;
-        const angle = chapter.start + (index / count) * TAU;
-        const geometry = new THREE.BoxGeometry(0.82, 1.025, 0.03);
+        const angle = ring.start + (index / count) * TAU;
+        const geometry = new THREE.BoxGeometry(0.76, 0.95, 0.03);
         album.applyAtlasUv(geometry, photo);
 
         const mesh = new THREE.Mesh(geometry, [
@@ -14263,14 +15124,14 @@ window.XINYI_PHOTOS = [
           backMaterial,
         ]);
         mesh.position.set(
-          Math.sin(angle) * chapter.radius,
-          chapter.y + Math.sin(index * 1.7) * 0.03,
-          Math.cos(angle) * chapter.radius
+          Math.sin(angle) * ring.radius,
+          ring.y + Math.sin(index * 1.7) * 0.026,
+          Math.cos(angle) * ring.radius
         );
         mesh.rotation.set(
-          Math.cos(index * 0.83) * 0.025,
+          Math.cos(index * 0.83) * 0.02,
           angle,
-          Math.sin(index * 1.17) * 0.025
+          Math.sin(index * 1.17) * 0.02
         );
         mesh.userData.photoIndex = photo.index - 1;
         photoMeshes.push(mesh);
@@ -14485,6 +15346,7 @@ window.XINYI_PHOTOS = [
         splitTarget,
         splitProgress,
         photosReady,
+        photoCardCount: photoMeshes.length,
         photoCardsVisible: Boolean(photoCardsGroup?.visible),
         photoCardsScale: photoCardsGroup?.scale.x || 0,
       };
