@@ -9895,19 +9895,6 @@ window.XINYI_PHOTO_ATLAS = "data:image/webp;base64,UklGRiZGBQBXRUJQVlA4IBpGBQCQG
 
     bindCanvasControls();
     resizeRenderer();
-
-    if (backTexture === null) {
-      loadTexture("assets/photos/card-back.jpg", 240, 300).then((texture) => {
-        backTexture = texture;
-        cardMeshes.forEach((mesh) => {
-          if (mesh.material && Array.isArray(mesh.material) && mesh.material[5]) {
-            mesh.material[5].map = backTexture;
-            mesh.material[5].needsUpdate = true;
-          }
-        });
-      });
-    }
-
     sceneStarted = true;
     lastFrame = performance.now();
     startRenderLoop();
@@ -9925,29 +9912,56 @@ window.XINYI_PHOTO_ATLAS = "data:image/webp;base64,UklGRiZGBQBXRUJQVlA4IBpGBQCQG
      Texture loading + card construction
      ------------------------------------------------------- */
 
-  function loadTexture(url, width, height) {
-    return new Promise((resolve) => {
-      const image = new Image();
-      image.decoding = "async";
-      image.onload = () => {
-        try {
-          const c = document.createElement("canvas");
-          c.width = width;
-          c.height = height;
-          const ctx = c.getContext("2d");
-          ctx.drawImage(image, 0, 0, width, height);
-          const texture = new THREE.CanvasTexture(c);
-          texture.encoding = THREE.sRGBEncoding;
-          texture.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
-          texture.needsUpdate = true;
-          resolve(texture);
-        } catch (error) {
-          resolve(null);
-        }
-      };
-      image.onerror = () => resolve(null);
-      image.src = url;
-    });
+  function makeBackTexture() {
+    const canvas = document.createElement("canvas");
+    canvas.width = 240;
+    canvas.height = 300;
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#291b28";
+    ctx.fillRect(0, 0, 240, 300);
+    ctx.strokeStyle = "#7e6257";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(11, 11, 218, 278);
+    ctx.strokeStyle = "#503b45";
+    ctx.strokeRect(16, 16, 208, 268);
+
+    ctx.save();
+    ctx.translate(120, 122);
+    ctx.beginPath();
+    for (let i = 0; i < 16; i += 1) {
+      const angle = (i / 16) * Math.PI * 2 - Math.PI / 2;
+      const radius = i % 2 === 0 ? 17 : 4;
+      const x = Math.cos(angle) * radius;
+      const y = Math.sin(angle) * radius;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.fillStyle = "#d8b47b";
+    ctx.fill();
+    ctx.restore();
+
+    ctx.strokeStyle = "#6f5156";
+    ctx.beginPath();
+    ctx.arc(120, 178, 31, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.fillStyle = "#d2a0a6";
+    ctx.font = '38px "Songti SC", "SimSun", serif';
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("欣", 120, 179);
+    ctx.fillStyle = "#a5877d";
+    ctx.font = '8px "Arial", sans-serif';
+    ctx.fillText("OUR LITTLE UNIVERSE", 120, 236);
+    ctx.fillStyle = "#725752";
+    ctx.font = '7px "Arial", sans-serif';
+    ctx.fillText("KEEP THIS ONE", 120, 251);
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.encoding = THREE.sRGBEncoding;
+    texture.anisotropy = atlasAnisotropy();
+    texture.needsUpdate = true;
+    return texture;
   }
 
   function loadAtlasTexture() {
@@ -10049,10 +10063,7 @@ window.XINYI_PHOTO_ATLAS = "data:image/webp;base64,UklGRiZGBQBXRUJQVlA4IBpGBQCQG
       return;
     }
     if (progressBar) progressBar.style.width = "82%";
-
-    if (backTexture === null) {
-      backTexture = await loadTexture("assets/photos/card-back.jpg", 240, 300);
-    }
+    if (backTexture === null) backTexture = makeBackTexture();
     if (progressBar) progressBar.style.width = "100%";
 
     const edgeMaterial = new THREE.MeshBasicMaterial({ color: 0xf2e2d2, toneMapped: false });
