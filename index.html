@@ -9334,10 +9334,12 @@ window.XINYI_PHOTO_ATLAS = "data:image/webp;base64,UklGRiZGBQBXRUJQVlA4IBpGBQCQG
     const preview = makePhotoPreview(photo);
     if (preview) {
       lightboxImage.src = preview;
+      lightboxImage.dataset.quality = "preview";
       lightboxImage.classList.add("is-loaded");
       lightboxLoader?.classList.remove("is-visible");
     } else {
       lightboxImage.removeAttribute("src");
+      lightboxImage.dataset.quality = "loading";
       lightboxLoader?.classList.add("is-visible");
     }
 
@@ -9347,13 +9349,17 @@ window.XINYI_PHOTO_ATLAS = "data:image/webp;base64,UklGRiZGBQBXRUJQVlA4IBpGBQCQG
     highRes.onload = () => {
       if (token !== lightboxLoadToken) return;
       lightboxImage.src = highRes.src;
+      lightboxImage.dataset.quality = "highres";
       lightboxImage.classList.add("is-loaded");
       lightboxLoader?.classList.remove("is-visible");
     };
     highRes.onerror = () => {
       if (token !== lightboxLoadToken) return;
       lightboxLoader?.classList.remove("is-visible");
-      if (!preview) lightboxImage.classList.add("is-loaded");
+      if (!preview) {
+        lightboxImage.dataset.quality = "error";
+        lightboxImage.classList.add("is-loaded");
+      }
     };
     highRes.src = photo.large || photo.card;
   }
@@ -10008,15 +10014,25 @@ window.XINYI_PHOTO_ATLAS = "data:image/webp;base64,UklGRiZGBQBXRUJQVlA4IBpGBQCQG
     const [u0, v0, u1, v1] = photo.atlas;
     const width = atlasImage.naturalWidth;
     const height = atlasImage.naturalHeight;
-    const sx = Math.max(0, Math.floor(u0 * width));
-    const sy = Math.max(0, Math.floor((1 - v1) * height));
-    const sw = Math.max(1, Math.floor((u1 - u0) * width));
-    const sh = Math.max(1, Math.floor((v1 - v0) * height));
+
+    // Crop the photo window out of the polaroid card. The cards are 480x600
+    // with the image at (26,28)-(454,480); using the full card as the modal
+    // placeholder would put a card inside a card frame.
+    const left = 26 / 480;
+    const right = 454 / 480;
+    const top = 28 / 600;
+    const bottom = 480 / 600;
+    const cellW = u1 - u0;
+    const cellH = v1 - v0;
+    const sx = Math.max(0, Math.floor((u0 + left * cellW) * width));
+    const sy = Math.max(0, Math.floor((1 - (v1 - top * cellH)) * height));
+    const sw = Math.max(1, Math.floor((right - left) * cellW * width));
+    const sh = Math.max(1, Math.floor((bottom - top) * cellH * height));
 
     try {
       const canvas = document.createElement("canvas");
       canvas.width = 480;
-      canvas.height = 600;
+      canvas.height = 507;
       const ctx = canvas.getContext("2d");
       ctx.drawImage(atlasImage, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
       const url = canvas.toDataURL("image/jpeg", 0.8);
