@@ -193,8 +193,23 @@ main > section[id] {
   will-change: transform;
 }
 
+.photo-particles {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.82;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  filter: blur(0.16px);
+  -webkit-mask-image: radial-gradient(ellipse at 71% 42%, rgba(0, 0, 0, 0.78) 0 22%, rgba(0, 0, 0, 0.9) 46%, transparent 82%);
+  mask-image: radial-gradient(ellipse at 71% 42%, rgba(0, 0, 0, 0.78) 0 22%, rgba(0, 0, 0, 0.9) 46%, transparent 82%);
+}
+
 .page-backdrop__vignette {
   position: absolute;
+  z-index: 2;
   inset: 0;
   background:
     linear-gradient(180deg, rgba(12, 9, 17, 0.2), transparent 30%, transparent 72%, rgba(12, 9, 17, 0.38)),
@@ -3803,6 +3818,21 @@ body[data-nav-theme="dark"] .nav-links a.is-active {
     mask-image: linear-gradient(180deg, #000 0%, #000 61%, rgba(0, 0, 0, 0.72) 80%, transparent 100%);
   }
 
+  .photo-particles {
+    inset: 0 0 auto;
+    width: 100%;
+    height: 88vw;
+    opacity: 0.72;
+    -webkit-mask-image:
+      linear-gradient(180deg, #000 0%, #000 58%, rgba(0, 0, 0, 0.45) 78%, transparent 100%),
+      radial-gradient(ellipse at 55% 36%, #000 0 30%, rgba(0, 0, 0, 0.7) 58%, transparent 92%);
+    mask-image:
+      linear-gradient(180deg, #000 0%, #000 58%, rgba(0, 0, 0, 0.45) 78%, transparent 100%),
+      radial-gradient(ellipse at 55% 36%, #000 0 30%, rgba(0, 0, 0, 0.7) 58%, transparent 92%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+
   .page-backdrop__vignette {
     background:
       linear-gradient(180deg, transparent 0 38%, rgba(251, 243, 235, 0.28) 58%, #fbf3eb 96%),
@@ -6126,6 +6156,681 @@ body.is-unlocked .hero__footer {
 }
 
 /* =========================================================
+   Gift overture
+   ========================================================= */
+
+.gift-gate {
+  position: absolute;
+  z-index: 24;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 24px;
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(70, 42, 67, 0.18), transparent 52%),
+    linear-gradient(180deg, rgba(9, 6, 13, 0.52), rgba(9, 6, 13, 0.8));
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.8s var(--ease-soft),
+    visibility 0.8s;
+}
+
+.gift-gate[hidden] {
+  display: none;
+}
+
+.gift-gate.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.gift-gate::before {
+  position: absolute;
+  z-index: 0;
+  inset: -20%;
+  background:
+    radial-gradient(ellipse at 28% 72%, rgba(196, 120, 132, 0.16), transparent 34%),
+    radial-gradient(ellipse at 72% 28%, rgba(136, 107, 166, 0.17), transparent 38%),
+    radial-gradient(ellipse at 50% 50%, rgba(232, 201, 158, 0.08), transparent 45%);
+  filter: blur(24px);
+  content: "";
+  animation: gift-aurora-drift 12s ease-in-out infinite alternate;
+}
+
+.gift-gate__veil {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 57%, transparent 0 20%, rgba(8, 6, 12, 0.26) 60%, rgba(8, 6, 12, 0.68) 100%);
+  pointer-events: none;
+}
+
+.gift-fx {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s var(--ease-soft);
+}
+
+.gift-gate.is-celebrating .gift-fx {
+  opacity: 1;
+}
+
+.gift-gate__content {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(800px, 100%);
+  color: var(--cream);
+  text-align: center;
+  transform: translateY(13px);
+  opacity: 0;
+  transition:
+    transform 0.9s var(--ease-out),
+    opacity 0.9s var(--ease-soft);
+}
+
+.gift-gate.is-visible .gift-gate__content {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.gift-gate__kicker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 20px;
+  color: rgba(242, 219, 200, 0.45);
+  font-size: 7px;
+  font-weight: 600;
+  letter-spacing: 0.23em;
+}
+
+.gift-gate__kicker span {
+  color: var(--gold-light);
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0;
+}
+
+.gift-box {
+  position: relative;
+  width: 178px;
+  height: 168px;
+  margin: 0 0 29px;
+  perspective: 500px;
+}
+
+.gift-box__glow {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  width: 220px;
+  height: 160px;
+  background: radial-gradient(ellipse, rgba(255, 205, 145, 0.35), transparent 70%);
+  opacity: 0.58;
+  filter: blur(8px);
+  transform: translateX(-50%);
+  animation: gift-glow-pulse 4.5s ease-in-out infinite;
+}
+
+.gift-box__shadow {
+  position: absolute;
+  right: 12%;
+  bottom: 3px;
+  left: 12%;
+  height: 17px;
+  border-radius: 50%;
+  background: rgba(4, 2, 7, 0.52);
+  filter: blur(9px);
+}
+
+.gift-box__body {
+  position: absolute;
+  right: 18px;
+  bottom: 13px;
+  left: 18px;
+  height: 108px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 241, 218, 0.35);
+  border-radius: 4px;
+  background:
+    linear-gradient(90deg, rgba(72, 38, 53, 0.2), transparent 20%, rgba(255, 255, 255, 0.13) 60%, rgba(72, 38, 53, 0.2)),
+    linear-gradient(135deg, rgba(255, 252, 239, 0.24), transparent 35%),
+    linear-gradient(115deg, #c58c99, #e7c4bd 52%, #b97f87);
+  box-shadow:
+    0 20px 42px rgba(4, 2, 7, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.gift-box__body::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 36%;
+  background: linear-gradient(180deg, rgba(255, 247, 227, 0.2), transparent);
+  content: "";
+}
+
+.gift-box__ribbon {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  left: 50%;
+  width: 25px;
+  background:
+    linear-gradient(90deg, rgba(147, 101, 48, 0.35), transparent 33%, rgba(255, 241, 194, 0.4) 52%, rgba(147, 101, 48, 0.35)),
+    linear-gradient(180deg, #d8b16c, #af8347 50%, #d6b373);
+  box-shadow: 0 0 15px rgba(255, 209, 137, 0.18);
+  transform: translateX(-50%);
+}
+
+.gift-box__ribbon::after {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f5dda0;
+  content: "";
+  transform: translateX(-50%);
+}
+
+.gift-box__body b {
+  position: absolute;
+  top: 38px;
+  left: 50%;
+  color: rgba(255, 246, 223, 0.9);
+  font-family: var(--font-display);
+  font-size: 42px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-shadow: 0 2px 14px rgba(92, 48, 61, 0.35);
+  transform: translateX(-50%);
+}
+
+.gift-box__body em {
+  position: absolute;
+  right: 0;
+  bottom: 15px;
+  left: 0;
+  color: rgba(255, 245, 224, 0.48);
+  font-family: var(--font-sans);
+  font-size: 6px;
+  font-style: normal;
+  letter-spacing: 0.19em;
+}
+
+.gift-box__lid {
+  position: absolute;
+  z-index: 2;
+  top: 34px;
+  left: 50%;
+  width: 154px;
+  height: 38px;
+  border: 1px solid rgba(255, 246, 224, 0.35);
+  border-radius: 4px 4px 2px 2px;
+  background:
+    linear-gradient(90deg, rgba(72, 38, 53, 0.14), transparent 25%, rgba(255, 255, 255, 0.14) 62%, rgba(72, 38, 53, 0.17)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.2), transparent 55%),
+    linear-gradient(100deg, #c78e9b, #edc9bf 54%, #bd848d);
+  box-shadow:
+    0 10px 22px rgba(4, 2, 7, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+  transform: translateX(-50%);
+  transition: transform 0.85s var(--ease-out);
+  transform-origin: 50% 100%;
+}
+
+.gift-box__lid i {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 48px;
+  height: 30px;
+  border: 1px solid #d8b16c;
+  border-radius: 50% 50% 15% 15%;
+  background: #cda15f;
+  transform: translateX(-50%) rotate(-4deg);
+  box-shadow: inset 0 2px 3px rgba(255, 235, 188, 0.35);
+}
+
+.gift-box__lid i::after {
+  position: absolute;
+  top: -21px;
+  right: -7px;
+  width: 43px;
+  height: 26px;
+  border: 1px solid #d8b16c;
+  border-radius: 50% 50% 12% 12%;
+  background: #cda15f;
+  content: "";
+  transform: rotate(42deg);
+}
+
+.gift-box__lid::after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 25px;
+  background: linear-gradient(90deg, rgba(147, 101, 48, 0.35), rgba(255, 239, 191, 0.5) 55%, rgba(147, 101, 48, 0.35));
+  content: "";
+  transform: translateX(-50%);
+}
+
+.gift-gate.is-counting .gift-box {
+  animation: gift-box-throb 1.35s ease-in-out infinite;
+}
+
+.gift-box.is-open .gift-box__lid {
+  transform: translate(-50%, -53px) rotate(-7deg);
+}
+
+.gift-box.is-open .gift-box__glow {
+  opacity: 1;
+  transform: translateX(-50%) scale(1.18);
+}
+
+#giftTitle {
+  margin: 0;
+  color: var(--cream);
+  font-family: var(--font-cn);
+  font-size: clamp(27px, 3.4vw, 43px);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  line-height: 1.4;
+  text-shadow: 0 8px 40px rgba(15, 9, 17, 0.4);
+}
+
+#giftTitle em {
+  color: var(--rose-bright);
+  font-style: normal;
+}
+
+.gift-gate__note {
+  margin: 14px 0 0;
+  color: rgba(249, 233, 219, 0.48);
+  font-family: var(--font-cn);
+  font-size: 10px;
+  letter-spacing: 0.055em;
+  line-height: 1.9;
+}
+
+.gift-open {
+  min-width: 218px;
+  margin-top: 25px;
+}
+
+.gift-countdown {
+  display: none;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 180px;
+  height: 180px;
+  margin-top: 4px;
+}
+
+.gift-countdown__ring {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(247, 224, 196, 0.16);
+  border-top-color: rgba(247, 217, 167, 0.88);
+  border-right-color: rgba(226, 169, 184, 0.5);
+  border-radius: 50%;
+  box-shadow:
+    0 0 35px rgba(240, 200, 138, 0.12),
+    inset 0 0 35px rgba(255, 220, 172, 0.04);
+  animation: gift-countdown-spin 2.6s linear infinite;
+}
+
+.gift-countdown__ring::before {
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(244, 215, 180, 0.08);
+  border-radius: 50%;
+  content: "";
+}
+
+.gift-countdown__ring::after {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ffe0a9;
+  box-shadow: 0 0 17px rgba(255, 215, 151, 0.9);
+  content: "";
+  transform: translateX(-50%);
+}
+
+.gift-countdown strong {
+  position: relative;
+  display: block;
+  color: var(--gold-light);
+  font-family: var(--font-display);
+  font-size: clamp(76px, 10vw, 108px);
+  font-weight: 300;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  text-shadow: 0 0 42px rgba(240, 197, 139, 0.26);
+}
+
+.gift-countdown strong.is-ticking {
+  animation: gift-number-tick 0.45s var(--ease-out);
+}
+
+.gift-countdown small {
+  position: absolute;
+  bottom: 24px;
+  color: rgba(248, 231, 217, 0.38);
+  font-size: 7px;
+  letter-spacing: 0.16em;
+}
+
+.gift-gate.is-counting .gift-gate__kicker,
+.gift-gate.is-counting #giftTitle,
+.gift-gate.is-counting .gift-gate__note,
+.gift-gate.is-counting .gift-open,
+.gift-gate.is-celebrating #giftTitle,
+.gift-gate.is-celebrating .gift-gate__note,
+.gift-gate.is-celebrating .gift-open {
+  display: none;
+}
+
+.gift-gate.is-counting .gift-countdown {
+  display: flex;
+}
+
+.gift-gate.is-celebrating .gift-box {
+  animation: none;
+}
+
+.gift-gate.is-celebrating .gift-countdown {
+  display: none;
+}
+
+.gift-cheer {
+  display: none;
+  margin: 0;
+  color: var(--cream);
+  font-family: var(--font-cn);
+  font-size: clamp(31px, 4.2vw, 54px);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  text-shadow:
+    0 0 34px rgba(255, 215, 166, 0.22),
+    0 10px 34px rgba(10, 6, 13, 0.5);
+}
+
+.gift-cheer.is-visible {
+  display: block;
+  animation: gift-cheer-in 0.9s var(--ease-out) both;
+}
+
+.gift-balloons {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s var(--ease-soft);
+}
+
+.gift-balloons.is-active {
+  opacity: 1;
+}
+
+.gift-balloon {
+  position: absolute;
+  bottom: -170px;
+  display: block;
+  width: 48px;
+  height: 61px;
+  border-radius: 50% 50% 47% 47%;
+  background:
+    radial-gradient(ellipse at 33% 24%, rgba(255, 250, 238, 0.8), transparent 18%),
+    radial-gradient(ellipse at 42% 34%, var(--balloon-light), var(--balloon-deep) 76%);
+  box-shadow:
+    inset -7px -9px 15px rgba(45, 24, 36, 0.17),
+    0 8px 20px rgba(4, 2, 8, 0.12);
+  opacity: 0;
+  animation: gift-balloon-rise var(--balloon-duration) cubic-bezier(0.2, 0.62, 0.4, 1) var(--balloon-delay) forwards;
+}
+
+.gift-balloon::before {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  width: 7px;
+  height: 8px;
+  border-radius: 1px 1px 5px 5px;
+  background: var(--balloon-deep);
+  content: "";
+  transform: translateX(-50%);
+}
+
+.gift-balloon::after {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 1px;
+  height: 87px;
+  background: linear-gradient(180deg, rgba(249, 229, 200, 0.55), rgba(249, 229, 200, 0));
+  content: "";
+  transform: translateX(-50%) rotate(var(--balloon-rotate, 0deg));
+  transform-origin: top center;
+}
+
+.login-gate.is-gift .login-layout,
+.login-gate.is-gift .login-gate__brand,
+.login-gate.is-gift .login-gate__foot,
+.login-gate.is-gift .login-gate__sparkles {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.55s var(--ease-soft),
+    visibility 0.55s;
+}
+
+.login-gate.is-gift .login-gate__photo {
+  filter: saturate(0.65) brightness(0.7) blur(1.4px);
+  transform: scale(1.02);
+}
+
+@keyframes gift-aurora-drift {
+  from {
+    transform: translate3d(-1.5%, 0, 0) rotate(-1deg);
+  }
+  to {
+    transform: translate3d(1.5%, -1.5%, 0) rotate(1.5deg);
+  }
+}
+
+@keyframes gift-glow-pulse {
+  0%,
+  100% {
+    opacity: 0.42;
+    transform: translateX(-50%) scale(0.94);
+  }
+  50% {
+    opacity: 0.72;
+    transform: translateX(-50%) scale(1.08);
+  }
+}
+
+@keyframes gift-box-throb {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes gift-countdown-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes gift-number-tick {
+  0% {
+    opacity: 0.42;
+    transform: scale(0.78);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes gift-balloon-rise {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 18vh, 0) scale(var(--balloon-scale)) rotate(-2deg);
+  }
+  9% {
+    opacity: 0.92;
+  }
+  80% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--balloon-drift), -124vh, 0) scale(var(--balloon-scale)) rotate(4deg);
+  }
+}
+
+@keyframes gift-cheer-in {
+  from {
+    opacity: 0;
+    transform: translateY(13px) scale(0.97);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@media (max-width: 720px) {
+  .gift-gate {
+    padding: 18px;
+  }
+
+  .gift-box {
+    width: 145px;
+    height: 140px;
+    margin-bottom: 24px;
+  }
+
+  .gift-box__body {
+    right: 15px;
+    bottom: 10px;
+    left: 15px;
+    height: 88px;
+  }
+
+  .gift-box__body b {
+    top: 29px;
+    font-size: 35px;
+  }
+
+  .gift-box__body em {
+    bottom: 11px;
+    font-size: 5px;
+  }
+
+  .gift-box__lid {
+    top: 29px;
+    width: 126px;
+    height: 32px;
+  }
+
+  .gift-box__lid i {
+    top: -8px;
+    width: 40px;
+    height: 25px;
+  }
+
+  .gift-box__lid i::after {
+    top: -17px;
+    width: 35px;
+    height: 21px;
+  }
+
+  .gift-box__glow {
+    width: 180px;
+    height: 130px;
+  }
+
+  .gift-gate__kicker {
+    margin-bottom: 16px;
+  }
+
+  .gift-gate__note {
+    font-size: 9px;
+  }
+
+  .gift-open {
+    min-width: 190px;
+    margin-top: 20px;
+  }
+
+  .gift-countdown {
+    width: 150px;
+    height: 150px;
+  }
+
+  .gift-countdown strong {
+    font-size: 76px;
+  }
+
+  .gift-countdown small {
+    bottom: 19px;
+    font-size: 6px;
+  }
+
+  .gift-cheer {
+    font-size: 30px;
+  }
+
+  .gift-balloon {
+    width: 38px;
+    height: 49px;
+  }
+
+  .gift-balloon::after {
+    height: 65px;
+  }
+}
+
+/* =========================================================
    The cake album — entry card
    ========================================================= */
 
@@ -6510,6 +7215,28 @@ body.photo-viewer-open {
   position: absolute;
   z-index: 2;
   inset: 0;
+  overflow: hidden;
+}
+
+.photo-world__stage > .cake-stage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+  aspect-ratio: auto;
+  touch-action: none;
+}
+
+.photo-world__stage > .cake-stage > #cakeCanvas {
+  touch-action: none;
+}
+
+.photo-world__stage > .cake-stage::after {
+  bottom: 1.5%;
+  width: 34%;
+  height: 4.5%;
 }
 
 #photoWorldCanvas {
@@ -6622,6 +7349,24 @@ body.photo-viewer-open {
   color: var(--gold-light);
 }
 
+.photo-world__photo-status {
+  position: absolute;
+  z-index: 4;
+  bottom: 143px;
+  left: 50%;
+  margin: 0;
+  padding: 7px 12px;
+  border: 1px solid rgba(247, 229, 214, 0.14);
+  border-radius: 999px;
+  background: rgba(16, 11, 19, 0.6);
+  color: rgba(247, 230, 218, 0.56);
+  font-size: 8px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  backdrop-filter: blur(10px);
+}
+
 .photo-world__footer {
   position: absolute;
   z-index: 5;
@@ -6704,7 +7449,44 @@ body.photo-viewer-open {
   display: flex;
   flex-shrink: 0;
   align-items: center;
-  gap: 13px;
+  gap: 8px;
+}
+
+.photo-world__split {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 33px;
+  padding: 0 11px;
+  border: 1px solid rgba(231, 198, 154, 0.28);
+  border-radius: 999px;
+  background: rgba(225, 177, 139, 0.07);
+  color: rgba(247, 230, 218, 0.78);
+  font-size: 8px;
+  letter-spacing: 0.04em;
+  transition:
+    color 0.25s var(--ease-soft),
+    background 0.25s var(--ease-soft),
+    border-color 0.25s var(--ease-soft);
+}
+
+.photo-world__split:hover {
+  border-color: rgba(247, 229, 214, 0.4);
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--cream);
+}
+
+.photo-world__split-icon {
+  display: inline-block;
+  color: var(--gold-light);
+  font-family: var(--font-display);
+  font-size: 16px;
+  line-height: 1;
+  transition: transform 0.4s var(--ease-out);
+}
+
+.photo-world__split.is-split .photo-world__split-icon {
+  transform: rotate(180deg);
 }
 
 .photo-world__spin {
@@ -7117,6 +7899,11 @@ body.photo-viewer-open {
     font-size: 7px;
   }
 
+  .photo-world__photo-status {
+    bottom: 143px;
+    font-size: 7px;
+  }
+
   .photo-world__footer {
     display: block;
     padding: 30px 15px max(13px, env(safe-area-inset-bottom));
@@ -7156,9 +7943,19 @@ body.photo-viewer-open {
     margin-top: 11px;
   }
 
+  .photo-world__split {
+    min-height: 30px;
+    padding-inline: 9px;
+    font-size: 7.5px;
+  }
+
   .photo-world__spin {
     min-height: 30px;
     font-size: 7.5px;
+  }
+
+  .photo-world__stage > .cake-stage::after {
+    display: none;
   }
 
   .photo-world__month-note {
@@ -7340,10 +8137,42 @@ body.photo-viewer-open {
       <span>XINYI'S 21ST</span>
     </div>
 
-    <div class="login-welcome" id="loginWelcome" role="status" aria-live="polite" aria-hidden="true">
-      <span>✦</span>
-      <p>门开了，欣仪。</p>
-    </div>
+    <section class="gift-gate" id="giftGate" aria-hidden="true" hidden aria-labelledby="giftTitle">
+      <div class="gift-gate__veil" aria-hidden="true"></div>
+      <canvas class="gift-fx" id="giftFxCanvas" aria-hidden="true"></canvas>
+      <div class="gift-balloons" id="giftBalloons" aria-hidden="true"></div>
+
+      <div class="gift-gate__content">
+        <p class="gift-gate__kicker"><span aria-hidden="true">✦</span> A PRESENT FOR XINYI <span aria-hidden="true">✦</span></p>
+
+        <div class="gift-box" id="giftBox" aria-hidden="true">
+          <span class="gift-box__glow"></span>
+          <span class="gift-box__shadow"></span>
+          <span class="gift-box__body">
+            <i class="gift-box__ribbon"></i>
+            <b>21</b>
+            <em>FOR XINYI</em>
+          </span>
+          <span class="gift-box__lid"><i></i></span>
+        </div>
+
+        <h2 id="giftTitle">还有一份礼物，<br /><em>等你亲手打开。</em></h2>
+        <p class="gift-gate__note">打开之后，倒数五秒。<br />烟花、气球和今晚的歌，会一起出现。</p>
+
+        <button class="button button--cream gift-open" id="giftOpen" type="button">
+          <span>开启礼物</span>
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5.5l4.5 4.5-4.5 4.5"/></svg>
+        </button>
+
+        <div class="gift-countdown" id="giftCountdown" aria-live="polite" aria-atomic="true">
+          <span class="gift-countdown__ring" aria-hidden="true"></span>
+          <strong id="giftNumber">5</strong>
+          <small>礼物正在倒数</small>
+        </div>
+
+        <p class="gift-cheer" id="giftCheer" aria-live="polite">欢迎来到，<br />你的二十一岁。</p>
+      </div>
+    </section>
   </div>
 
   <div class="page-backdrop" aria-hidden="true">
@@ -7371,6 +8200,7 @@ body.photo-viewer-open {
     <section class="hero" id="top" data-theme="light">
       <div class="hero__aurora hero__aurora--one" aria-hidden="true"></div>
       <div class="hero__aurora hero__aurora--two" aria-hidden="true"></div>
+      <canvas class="photo-particles" id="photoParticlesCanvas" aria-hidden="true"></canvas>
 
       <div class="hero__inner">
         <div class="hero__copy">
@@ -7711,9 +8541,9 @@ body.photo-viewer-open {
                 <i></i><i></i><i></i>
               </span>
               <span class="cake-album__copy">
-                <small>INSIDE THE CAKE</small>
+                <small>OPEN THE CAKE</small>
                 <strong>蛋糕里还藏着 <b id="albumPhotoCount">46</b> 张照片</strong>
-                <span>放大蛋糕，抽一张记忆卡</span>
+                <span>放大蛋糕，一层层拆开看</span>
               </span>
               <span class="cake-album__arrow" aria-hidden="true">↗</span>
             </button>
@@ -7806,8 +8636,8 @@ body.photo-viewer-open {
           <span>回到蛋糕</span>
         </button>
         <div class="photo-world__title">
-          <span>INSIDE THE CAKE · A LITTLE ARCHIVE</span>
-          <h2 id="photoWorldTitle"><span>蛋糕里，</span><span>藏着我们的<em>四十六页</em>。</span></h2>
+          <span>OPEN THE CAKE · A LITTLE ARCHIVE</span>
+          <h2 id="photoWorldTitle"><span>拆开蛋糕，</span><span>里面藏着我们的<em>四十六页</em>。</span></h2>
         </div>
         <div class="photo-world__count">
           <strong>46</strong>
@@ -7816,18 +8646,8 @@ body.photo-viewer-open {
       </header>
 
       <div class="photo-world__stage" id="photoWorldStage">
-        <canvas id="photoWorldCanvas" tabindex="0" aria-label="一棵由 46 张照片组成的 360 度记忆蛋糕。拖动旋转，点击照片查看大图。"></canvas>
-        <div class="photo-world__loading" id="photoWorldLoading">
-          <span class="photo-world__loading-star" aria-hidden="true">✦</span>
-          <p>正在把照片从蛋糕里抽出来…</p>
-          <div class="photo-world__progress"><span id="photoWorldProgress"></span></div>
-          <small>按月份排好，慢慢来</small>
-        </div>
-        <div class="photo-world__fallback" id="photoWorldFallback" hidden>
-          <p>这个浏览器暂时没有接住照片蛋糕，但照片都还在。</p>
-          <a href="assets/photos/cards/photo-01.jpg" target="_blank" rel="noopener">先看第一张</a>
-        </div>
-        <p class="photo-world__hint" id="photoWorldHint"><span aria-hidden="true">↔</span> 拖动旋转 · 点击照片放大</p>
+        <p class="photo-world__hint" id="photoWorldHint"><span aria-hidden="true">↔</span> 拖动旋转 · 点开照片 · 拆开或合上蛋糕</p>
+        <p class="photo-world__photo-status" id="photoWorldPhotoStatus" hidden>正在把照片铺进蛋糕…</p>
       </div>
 
       <footer class="photo-world__footer">
@@ -7836,6 +8656,10 @@ body.photo-viewer-open {
           <div class="photo-world__months" id="photoWorldMonths" aria-label="按月份浏览照片"></div>
         </div>
         <div class="photo-world__controls">
+          <button class="photo-world__split is-split" id="splitCakeButton" type="button" aria-pressed="true">
+            <span class="photo-world__split-icon" aria-hidden="true">⌄</span>
+            <span id="splitCakeLabel">把蛋糕合上</span>
+          </button>
           <button class="photo-world__spin is-on" id="photoWorldSpin" type="button" aria-pressed="true">
             <span class="photo-world__spin-icon" aria-hidden="true"><i></i></span>
             自动旋转
@@ -7845,6 +8669,7 @@ body.photo-viewer-open {
       </footer>
 
       <div class="sr-only" id="photoWorldList" aria-label="按日期浏览全部照片"></div>
+      <p class="sr-only" id="photoWorldStatus" role="status" aria-live="polite">正在打开蛋糕。</p>
     </div>
   </dialog>
 
@@ -7920,7 +8745,8 @@ body.photo-viewer-open {
   const passwordToggle = document.getElementById("togglePassword");
   const errorNode = document.getElementById("loginError");
   const submitButton = document.getElementById("loginSubmit");
-  const welcome = document.getElementById("loginWelcome");
+  const giftGate = document.getElementById("giftGate");
+  const giftOpen = document.getElementById("giftOpen");
 
   if (!gate || !form || !nameInput || !passwordInput) return;
 
@@ -7934,6 +8760,7 @@ body.photo-viewer-open {
   const main = document.querySelector("main");
   const skipLink = document.querySelector(".skip-link");
   let isOpening = false;
+  let introComplete = false;
 
   document.body.classList.add("is-auth-locked");
   siteNav?.setAttribute("inert", "");
@@ -7980,54 +8807,67 @@ body.photo-viewer-open {
     }
   }
 
-  function unlock() {
+  function beginGift() {
     if (isOpening) return;
     isOpening = true;
 
     if (submitButton) {
       submitButton.classList.add("is-loading");
       const label = submitButton.querySelector("span");
-      if (label) label.textContent = "正在点亮今晚…";
+      if (label) label.textContent = "礼物正在等你…";
     }
 
-    gate.classList.add("is-verified");
-    if (welcome) welcome.setAttribute("aria-hidden", "false");
-    document.body.classList.add("is-unlocked");
+    gate.classList.add("is-verified", "is-gift");
+    gate.querySelector(".login-layout")?.setAttribute("inert", "");
 
-    // Dispatch synchronously so the browser still associates this with the
-    // login click and can start the background music.
-    window.dispatchEvent(new CustomEvent("xinyi:unlocked", { detail: { username: expectedName } }));
-
-    const hold = reduceMotion ? 180 : 1050;
-    const fade = reduceMotion ? 80 : 900;
+    if (giftGate) {
+      giftGate.hidden = false;
+      giftGate.setAttribute("aria-hidden", "false");
+      window.requestAnimationFrame(() => giftGate.classList.add("is-visible"));
+    }
 
     window.setTimeout(() => {
-      gate.classList.add("is-leaving");
-      gate.setAttribute("inert", "");
+      giftOpen?.focus({ preventScroll: true });
+    }, 320);
 
-      document.body.classList.remove("is-auth-locked");
-      siteNav?.removeAttribute("inert");
-      main?.removeAttribute("inert");
-      skipLink?.removeAttribute("inert");
-      window.scrollTo(0, 0);
-
-      window.setTimeout(() => {
-        gate.hidden = true;
-        gate.setAttribute("aria-hidden", "true");
-        if (main) {
-          main.setAttribute("tabindex", "-1");
-          main.focus({ preventScroll: true });
-          main.addEventListener(
-            "blur",
-            () => {
-              main.removeAttribute("tabindex");
-            },
-            { once: true }
-          );
-        }
-      }, fade);
-    }, hold);
+    window.dispatchEvent(new CustomEvent("xinyi:login-success", { detail: { username: expectedName } }));
   }
+
+  function completeIntro() {
+    if (introComplete) return;
+    introComplete = true;
+
+    gate.classList.add("is-leaving");
+    gate.setAttribute("inert", "");
+
+    document.body.classList.remove("is-auth-locked", "is-gift-time");
+    document.body.classList.add("is-unlocked");
+    siteNav?.removeAttribute("inert");
+    main?.removeAttribute("inert");
+    skipLink?.removeAttribute("inert");
+    window.scrollTo(0, 0);
+
+    const fade = reduceMotion ? 120 : 900;
+
+    window.setTimeout(() => {
+      gate.hidden = true;
+      gate.setAttribute("aria-hidden", "true");
+      if (giftGate) giftGate.hidden = true;
+      if (main) {
+        main.setAttribute("tabindex", "-1");
+        main.focus({ preventScroll: true });
+        main.addEventListener(
+          "blur",
+          () => {
+            main.removeAttribute("tabindex");
+          },
+          { once: true }
+        );
+      }
+    }, fade);
+  }
+
+  window.addEventListener("xinyi:gift-opened", completeIntro, { once: true });
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -8061,7 +8901,7 @@ body.photo-viewer-open {
     nameInput.removeAttribute("aria-invalid");
     passwordInput.removeAttribute("aria-invalid");
     errorNode.textContent = "";
-    unlock();
+    beginGift();
   });
 
   [nameInput, passwordInput].forEach((input) => {
@@ -8162,11 +9002,13 @@ body.photo-viewer-open {
     }, 40);
   }
 
-  function playMusic() {
+  function playMusic({ silent = false, quiet = false } = {}) {
     if (unavailable) {
-      window.open(OFFICIAL_URL, "_blank", "noopener,noreferrer");
+      if (!quiet) window.open(OFFICIAL_URL, "_blank", "noopener,noreferrer");
       return;
     }
+
+    if (silent) audio.volume = 0;
 
     if (!audio.getAttribute("src")) {
       audio.src = MUSIC_SOURCE;
@@ -8184,10 +9026,14 @@ body.photo-viewer-open {
         player.classList.remove("is-missing");
         unavailable = false;
         setStatus("playing");
-        fadeTo(0.32, 1600);
+        fadeTo(silent ? 0 : 0.32, silent ? 0 : 1600);
       })
       .catch((error) => {
         sourceLoading = false;
+        if (quiet) {
+          setStatus("paused");
+          return;
+        }
         // Autoplay was blocked: the player remains available for one tap.
         if (error?.name === "NotAllowedError" || error?.name === "AbortError") {
           setStatus("paused");
@@ -8229,7 +9075,18 @@ body.photo-viewer-open {
     playMusic();
   });
 
+  // The gift button arms the audio inside the user gesture; the five-second
+  // countdown then ends with a fade-in instead of a blocked autoplay attempt.
+  window.addEventListener("xinyi:gift-armed", () => {
+    if (audio.paused) playMusic({ silent: true, quiet: true });
+  });
+
   window.addEventListener("xinyi:unlocked", () => {
+    if (!audio.paused) {
+      setStatus("playing");
+      fadeTo(0.32, 1700);
+      return;
+    }
     playMusic();
   });
 
@@ -8237,6 +9094,314 @@ body.photo-viewer-open {
   window.addEventListener("pageshow", () => {
     if (!audio.paused) setStatus("playing");
     else if (!unavailable) setStatus("paused");
+  });
+})();
+
+</script>
+  <script>
+(() => {
+  "use strict";
+
+  const giftGate = document.getElementById("giftGate");
+  const giftOpen = document.getElementById("giftOpen");
+  const giftNumber = document.getElementById("giftNumber");
+  const giftGateContent = giftGate?.querySelector(".gift-gate__content");
+  const giftBox = document.getElementById("giftBox");
+  const giftCheer = document.getElementById("giftCheer");
+  const fxCanvas = document.getElementById("giftFxCanvas");
+  const balloonLayer = document.getElementById("giftBalloons");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (!giftGate || !giftOpen || !giftNumber || !fxCanvas || !balloonLayer) return;
+
+  const COUNTDOWN_START = 5;
+  let started = false;
+  let celebrating = false;
+  let countdownTimer = 0;
+  let finishTimer = 0;
+  let fxRaf = 0;
+  let fxWidth = 0;
+  let fxHeight = 0;
+  let fxDpr = 1;
+  let lastFxTime = 0;
+  let fireworks = [];
+  let burstTimers = [];
+
+  const ctx = fxCanvas.getContext("2d");
+  const palette = ["#ffdfae", "#f4b5c7", "#c8b8e8", "#fff2dc", "#e6b66d", "#d8a1b3"];
+
+  window.addEventListener(
+    "xinyi:login-success",
+    () => {
+      giftGate.hidden = false;
+      giftGate.setAttribute("aria-hidden", "false");
+      window.requestAnimationFrame(() => giftGate.classList.add("is-visible"));
+      window.setTimeout(() => giftOpen.focus({ preventScroll: true }), 420);
+      window.setTimeout(() => {
+        if (document.activeElement !== giftOpen) giftOpen.focus({ preventScroll: true });
+      }, 760);
+      window.setTimeout(() => {
+        if (document.activeElement !== giftOpen) giftOpen.focus({ preventScroll: true });
+      }, 1120);
+    },
+    { once: true }
+  );
+
+  giftOpen.addEventListener("click", startCountdown);
+
+  function setCountdownNumber(value) {
+    giftNumber.textContent = String(value);
+    giftNumber.classList.remove("is-ticking");
+    // Force a fresh tick animation without restarting the whole countdown ring.
+    void giftNumber.offsetWidth;
+    giftNumber.classList.add("is-ticking");
+  }
+
+  function startCountdown() {
+    if (started) return;
+    started = true;
+    giftOpen.disabled = true;
+    giftOpen.setAttribute("aria-busy", "true");
+    giftGate.classList.add("is-counting");
+
+    // The gift click is the user gesture that lets us start audio. music.js
+    // arms it silently; the real fade-in happens when the countdown ends.
+    window.dispatchEvent(new CustomEvent("xinyi:gift-armed"));
+
+    let remaining = COUNTDOWN_START;
+    setCountdownNumber(remaining);
+
+    countdownTimer = window.setInterval(() => {
+      remaining -= 1;
+      if (remaining > 0) {
+        setCountdownNumber(remaining);
+        return;
+      }
+      window.clearInterval(countdownTimer);
+      countdownTimer = 0;
+      celebrate();
+    }, 1000);
+  }
+
+  function celebrate() {
+    if (celebrating) return;
+    celebrating = true;
+
+    giftGate.classList.add("is-celebrating");
+    giftBox?.classList.add("is-open");
+    giftNumber.textContent = "0";
+    giftCheer?.classList.add("is-visible");
+    sizeFxCanvas();
+    spawnBalloons();
+    startFireworks();
+
+    // Starts the music and lets the page's other components prepare while the
+    // fireworks are still on screen.
+    window.dispatchEvent(new CustomEvent("xinyi:unlocked"));
+
+    finishTimer = window.setTimeout(
+      () => {
+        window.dispatchEvent(new CustomEvent("xinyi:gift-opened"));
+        stopFireworks();
+      },
+      reduceMotion ? 1300 : 2800
+    );
+  }
+
+  /* -------------------------------------------------------
+     Fireworks
+     ------------------------------------------------------- */
+
+  function sizeFxCanvas() {
+    fxDpr = Math.min(window.devicePixelRatio || 1, 2);
+    fxWidth = window.innerWidth;
+    fxHeight = window.innerHeight;
+    fxCanvas.width = Math.round(fxWidth * fxDpr);
+    fxCanvas.height = Math.round(fxHeight * fxDpr);
+    fxCanvas.style.width = `${fxWidth}px`;
+    fxCanvas.style.height = `${fxHeight}px`;
+    ctx.setTransform(fxDpr, 0, 0, fxDpr, 0, 0);
+  }
+
+  function makeParticle(burstX, burstY, color, power) {
+    const mobile = window.innerWidth < 680;
+    const angle = Math.random() * Math.PI * 2;
+    const speed = (55 + Math.random() * 275) * power;
+    return {
+      x: burstX,
+      y: burstY,
+      prevX: burstX,
+      prevY: burstY,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed * 0.86,
+      gravity: 115 + Math.random() * 95,
+      drag: 0.982 + Math.random() * 0.012,
+      life: 0,
+      maxLife: 1.05 + Math.random() * 1.35,
+      width: (mobile ? 1.35 : 0.9) + Math.random() * (mobile ? 2.9 : 2.1),
+      color,
+      twinkle: Math.random() * Math.PI * 2,
+    };
+  }
+
+  function burst(x, y, color, count = 68, power = 1.05) {
+    for (let i = 0; i < count; i += 1) {
+      fireworks.push(makeParticle(x, y, Math.random() > 0.22 ? color : palette[i % palette.length], power));
+    }
+  }
+
+  function scheduleBurst(delay, x, y, color, count, power) {
+    const timer = window.setTimeout(() => {
+      if (!celebrating) return;
+      burst(x, y, color, count, power);
+      // A bright little flash at the burst center.
+      const flash = {
+        x,
+        y,
+        prevX: x,
+        prevY: y,
+        vx: 0,
+        vy: 0,
+        gravity: 0,
+        drag: 1,
+        life: 0,
+        maxLife: 0.22,
+        width: 4,
+        color: "#fff7df",
+        twinkle: 0,
+      };
+      fireworks.push(flash);
+    }, delay);
+    burstTimers.push(timer);
+  }
+
+  function startFireworks() {
+    stopFireworks();
+    sizeFxCanvas();
+    fireworks = [];
+    const mobile = window.innerWidth < 680;
+    const count = reduceMotion ? 26 : mobile ? 58 : 70;
+    const centerX = fxWidth * 0.5;
+    const centerY = fxHeight * (mobile ? 0.32 : 0.35);
+
+    scheduleBurst(0, centerX, centerY, "#ffd7a0", count, 1.16);
+    scheduleBurst(180, fxWidth * 0.24, fxHeight * 0.36, "#f1b3c6", count, 1);
+    scheduleBurst(360, fxWidth * 0.76, fxHeight * 0.28, "#d4c2ec", count, 0.95);
+    scheduleBurst(560, fxWidth * 0.72, fxHeight * 0.46, "#ffe7bb", count, 0.9);
+    scheduleBurst(760, fxWidth * 0.28, fxHeight * 0.25, "#f5c7d3", count, 0.86);
+    scheduleBurst(1020, fxWidth * 0.5, fxHeight * 0.18, "#f2d19b", count * 0.82, 0.8);
+    if (!reduceMotion && !mobile) {
+      scheduleBurst(1260, fxWidth * 0.18, fxHeight * 0.46, "#cbbbe6", count, 0.74);
+      scheduleBurst(1520, fxWidth * 0.83, fxHeight * 0.22, "#ffd9a4", count, 0.7);
+    }
+
+    lastFxTime = performance.now();
+    fxRaf = window.requestAnimationFrame(drawFireworks);
+  }
+
+  function drawFireworks(now) {
+    const dt = Math.min(0.042, (now - lastFxTime) / 1000);
+    lastFxTime = now;
+    ctx.clearRect(0, 0, fxWidth, fxHeight);
+    ctx.globalCompositeOperation = "lighter";
+    ctx.lineCap = "round";
+
+    for (const particle of fireworks) {
+      particle.life += dt;
+      particle.prevX = particle.x;
+      particle.prevY = particle.y;
+      particle.vx *= Math.pow(particle.drag, dt * 60);
+      particle.vy = particle.vy * Math.pow(particle.drag, dt * 60) + particle.gravity * dt;
+      particle.x += particle.vx * dt;
+      particle.y += particle.vy * dt;
+
+      const progress = particle.life / particle.maxLife;
+      if (progress >= 1) continue;
+
+      const alpha = (1 - progress) * (0.64 + Math.sin(now * 0.02 + particle.twinkle) * 0.2);
+      ctx.globalAlpha = Math.max(0, alpha);
+      ctx.strokeStyle = particle.color;
+      ctx.lineWidth = particle.width;
+      ctx.beginPath();
+      ctx.moveTo(particle.prevX, particle.prevY);
+      ctx.lineTo(particle.x, particle.y);
+      ctx.stroke();
+
+      ctx.globalAlpha = Math.max(0, alpha * 0.6);
+      ctx.fillStyle = particle.color;
+      ctx.beginPath();
+      ctx.arc(particle.x, particle.y, particle.width * 0.8, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = "source-over";
+    fireworks = fireworks.filter((particle) => particle.life < particle.maxLife);
+
+    if (celebrating || fireworks.length) {
+      fxRaf = window.requestAnimationFrame(drawFireworks);
+    } else {
+      fxRaf = 0;
+    }
+  }
+
+  function stopFireworks() {
+    if (fxRaf) {
+      window.cancelAnimationFrame(fxRaf);
+      fxRaf = 0;
+    }
+    burstTimers.forEach((timer) => window.clearTimeout(timer));
+    burstTimers = [];
+    fireworks = [];
+    ctx.clearRect(0, 0, fxWidth, fxHeight);
+  }
+
+  /* -------------------------------------------------------
+     Balloons
+     ------------------------------------------------------- */
+
+  function spawnBalloons() {
+    balloonLayer.replaceChildren();
+    const colors = [
+      ["#f3bfcb", "#d689a3"],
+      ["#f5d7ae", "#ce9d61"],
+      ["#d7c8ea", "#a58bc8"],
+      ["#f5e8d4", "#d6bc93"],
+      ["#eeb7aa", "#c77f74"],
+      ["#c9d9cf", "#91ac9e"],
+    ];
+    const count = reduceMotion ? 6 : window.innerWidth < 680 ? 10 : 16;
+
+    for (let i = 0; i < count; i += 1) {
+      const balloon = document.createElement("span");
+      const [light, deep] = colors[i % colors.length];
+      balloon.className = "gift-balloon";
+      balloon.style.left = `${5 + Math.random() * 90}%`;
+      balloon.style.setProperty("--balloon-light", light);
+      balloon.style.setProperty("--balloon-deep", deep);
+      balloon.style.setProperty("--balloon-delay", `${(Math.random() * 0.9).toFixed(2)}s`);
+      balloon.style.setProperty("--balloon-duration", `${(4.2 + Math.random() * 2.6).toFixed(2)}s`);
+      balloon.style.setProperty("--balloon-drift", `${Math.round((Math.random() - 0.5) * 120)}px`);
+      balloon.style.setProperty("--balloon-scale", `${(0.64 + Math.random() * 0.48).toFixed(2)}`);
+      balloon.style.setProperty("--balloon-rotate", `${Math.round((Math.random() - 0.5) * 16)}deg`);
+      balloonLayer.append(balloon);
+    }
+
+    balloonLayer.classList.add("is-active");
+  }
+
+  window.addEventListener(
+    "resize",
+    () => {
+      if (celebrating) sizeFxCanvas();
+    },
+    { passive: true }
+  );
+
+  window.addEventListener("pagehide", () => {
+    window.clearInterval(countdownTimer);
+    window.clearTimeout(finishTimer);
+    stopFireworks();
   });
 })();
 
@@ -9170,18 +10335,24 @@ window.XINYI_PHOTOS = [
 (() => {
   "use strict";
 
+  const photos = Array.isArray(window.XINYI_PHOTOS)
+    ? [...window.XINYI_PHOTOS].sort(
+        (a, b) => a.monthOrder - b.monthOrder || a.inMonth - b.inMonth
+      )
+    : [];
+
+  const albumButton = document.getElementById("openPhotoCake");
   const dialog = document.getElementById("photoWorld");
-  const openButton = document.getElementById("openPhotoCake");
+  const stageHost = document.getElementById("photoWorldStage");
   const closeButton = document.getElementById("closePhotoWorld");
-  const stage = document.getElementById("photoWorldStage");
-  const canvas = document.getElementById("photoWorldCanvas");
-  const loader = document.getElementById("photoWorldLoading");
-  const progressBar = document.getElementById("photoWorldProgress");
-  const fallback = document.getElementById("photoWorldFallback");
-  const hint = document.getElementById("photoWorldHint");
-  const monthsBar = document.getElementById("photoWorldMonths");
+  const splitButton = document.getElementById("splitCakeButton");
+  const splitLabel = document.getElementById("splitCakeLabel");
   const spinButton = document.getElementById("photoWorldSpin");
+  const monthsBar = document.getElementById("photoWorldMonths");
   const monthNote = document.querySelector(".photo-world__month-note");
+  const hint = document.getElementById("photoWorldHint");
+  const status = document.getElementById("photoWorldStatus");
+  const photoStatus = document.getElementById("photoWorldPhotoStatus");
   const countNodes = [
     document.getElementById("albumPhotoCount"),
     document.querySelector(".photo-world__count strong"),
@@ -9198,149 +10369,139 @@ window.XINYI_PHOTOS = [
   const nextButton = document.getElementById("nextPhoto");
   const srList = document.getElementById("photoWorldList");
 
-  if (!dialog || !openButton || !stage || !canvas) return;
+  if (!albumButton || !dialog || !stageHost) return;
 
-  const photos = Array.isArray(window.XINYI_PHOTOS)
-    ? [...window.XINYI_PHOTOS].sort(
-        (a, b) => a.monthOrder - b.monthOrder || a.inMonth - b.inMonth
-      )
-    : [];
-
-  if (!photos.length) {
-    openButton.hidden = true;
-    return;
-  }
-
+  const THREE = window.THREE;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const TAU = Math.PI * 2;
-  const cardWidth = 0.9;
-  const cardHeight = 1.125;
-  const cardDepth = 0.035;
-  const ringSettings = [
-    { key: "spring", radius: 2.18, y: -1.74, startAngle: -Math.PI / 2 + 0.02 },
-    { key: "summer", radius: 2.82, y: 0.04, startAngle: -Math.PI / 2 + 0.32 },
-    { key: "autumn", radius: 2.4, y: 1.82, startAngle: -Math.PI / 2 + 0.14 },
-  ];
+  const toast = document.getElementById("toast");
+
+  let atlasImage = null;
+  let atlasTexture = null;
+  let atlasPromise = null;
+  let atlasTriedJpg = false;
+  let currentPhotoIndex = 0;
+  let lightboxLoadToken = 0;
+  let lightboxOpen = false;
+  let lastLightboxTrigger = null;
+  let lastOverlayTrigger = null;
+  let stageOrigin = null;
+  let resumeSpinAfterLightbox = false;
+  let isOpen = false;
+  let toastTimer = 0;
+  const previewCache = new Map();
 
   countNodes.forEach((node) => {
     if (node) node.textContent = String(photos.length);
   });
+
   if (monthNote) {
-    const firstMonth = photos[0].month;
-    const lastMonth = photos[photos.length - 1].month;
+    const firstMonth = photos[0]?.month || "";
+    const lastMonth = photos[photos.length - 1]?.month || "";
     monthNote.textContent = `${firstMonth} — ${lastMonth} · ${photos.length} 张`;
   }
 
-  let scene = null;
-  let renderer = null;
-  let camera = null;
-  let world = null;
-  let cardsGroup = null;
-  let lidGroup = null;
-  let particlesGroup = null;
-  let starParticles = null;
-  let layout = null;
-  let isOpen = false;
-  let sceneStarted = false;
-  let assetsLoading = false;
-  let assetsLoaded = false;
-  let raf = 0;
-  let lastFrame = 0;
-  let isDragging = false;
-  let dragInfo = null;
-  let targetRotation = 0.36;
-  let currentRotation = 0.36;
-  let autoRotate = !reduceMotion;
-  let autoResumeAt = 0;
-  let introPlayed = false;
-  let introActive = false;
-  let introStartedAt = 0;
-  let baseCameraY = 2.05;
-  let lastLightboxTrigger = null;
-  let currentPhotoIndex = 0;
-  let lightboxLoadToken = 0;
-  let closeTimer = 0;
-  const cardMeshes = [];
-  const cardBasePositions = [];
-  const cardStartPositions = [];
-  let backTexture = null;
-  let atlasTexture = null;
-  let atlasPromise = null;
-  let atlasImage = null;
-  const previewCache = new Map();
-  const raycaster = new THREE.Raycaster();
-  const pointerNdc = new THREE.Vector2();
-  const tempVector = new THREE.Vector3();
-  const tempMatrix = new THREE.Matrix4();
-  const clock = new THREE.Clock();
-
-  function showToastMessage(message) {
-    const toast = document.getElementById("toast");
-    if (!toast) return;
-    toast.textContent = message;
-    toast.classList.add("is-visible");
-    window.clearTimeout(closeTimer);
-    closeTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 4500);
-  }
-
-  function setSpinState() {
-    if (!spinButton) return;
-    spinButton.classList.toggle("is-on", autoRotate);
-    spinButton.setAttribute("aria-pressed", String(autoRotate));
-  }
-
-  setSpinState();
-
   /* -------------------------------------------------------
-     Month navigation and accessible photo index
+     Atlas + photo-card helpers used by the main cake scene
      ------------------------------------------------------- */
 
-  const monthGroups = [];
-  for (const photo of photos) {
-    const last = monthGroups[monthGroups.length - 1];
-    if (last && last.month === photo.month) {
-      last.count += 1;
-      last.photos.push(photo);
-    } else {
-      monthGroups.push({ month: photo.month, count: 1, photos: [photo] });
+  function loadAtlasTexture() {
+    if (atlasTexture) return Promise.resolve(atlasTexture);
+    if (atlasPromise) return atlasPromise;
+    if (!THREE) return Promise.resolve(null);
+
+    atlasPromise = new Promise((resolve) => {
+      const image = new Image();
+      image.decoding = "async";
+
+      const settle = () => {
+        try {
+          atlasImage = image;
+          const texture = new THREE.Texture(image);
+          texture.encoding = THREE.sRGBEncoding;
+          texture.anisotropy = 4;
+          texture.minFilter = THREE.LinearMipmapLinearFilter;
+          texture.magFilter = THREE.LinearFilter;
+          texture.needsUpdate = true;
+          atlasTexture = texture;
+          resolve(texture);
+        } catch (error) {
+          resolve(null);
+        }
+      };
+
+      image.onload = settle;
+      image.onerror = () => {
+        if (!atlasTriedJpg) {
+          atlasTriedJpg = true;
+          image.src = "assets/photos/card-atlas.jpg";
+          return;
+        }
+        resolve(null);
+      };
+      image.src = "assets/photos/card-atlas.webp";
+    });
+    return atlasPromise;
+  }
+
+  function applyAtlasUv(geometry, photo) {
+    if (!geometry || !Array.isArray(photo?.atlas)) return;
+    const [u0, v0, u1, v1] = photo.atlas;
+    const uv = geometry.attributes.uv;
+    // BoxGeometry face order is +x,-x,+y,-y,+z,-z; the fifth face is the front.
+    for (let i = 16; i < 20; i += 1) {
+      const u = uv.getX(i);
+      const v = uv.getY(i);
+      uv.setXY(i, u0 + u * (u1 - u0), v0 + v * (v1 - v0));
+    }
+    uv.needsUpdate = true;
+  }
+
+  function makePhotoPreview(photo) {
+    if (!atlasImage || !Array.isArray(photo?.atlas)) return null;
+    if (previewCache.has(photo.id)) return previewCache.get(photo.id);
+
+    const [u0, v0, u1, v1] = photo.atlas;
+    const width = atlasImage.naturalWidth;
+    const height = atlasImage.naturalHeight;
+    const left = 26 / 480;
+    const right = 454 / 480;
+    const top = 28 / 600;
+    const bottom = 480 / 600;
+    const cellW = u1 - u0;
+    const cellH = v1 - v0;
+    const sx = Math.max(0, Math.floor((u0 + left * cellW) * width));
+    const sy = Math.max(0, Math.floor((1 - (v1 - top * cellH)) * height));
+    const sw = Math.max(1, Math.floor((right - left) * cellW * width));
+    const sh = Math.max(1, Math.floor((bottom - top) * cellH * height));
+
+    try {
+      const canvas = document.createElement("canvas");
+      canvas.width = 480;
+      canvas.height = 507;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(atlasImage, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
+      const url = canvas.toDataURL("image/jpeg", 0.8);
+      previewCache.set(photo.id, url);
+      return url;
+    } catch (error) {
+      return null;
     }
   }
 
-  monthGroups.forEach((group) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "photo-month";
-    button.innerHTML = `${group.month}<span>${String(group.count).padStart(2, "0")}</span>`;
-    button.setAttribute("aria-label", `按日期查看${group.month}的 ${group.count} 张照片`);
-    button.addEventListener("click", () => {
-      openLightbox(photos.indexOf(group.photos[0]), button);
-    });
-    monthsBar?.append(button);
-  });
-
-  if (srList) {
-    photos.forEach((photo, index) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.textContent = `第 ${index + 1} 张，${photo.month}，查看大图`;
-      button.addEventListener("click", () => openLightbox(index, button));
-      srList.append(button);
-    });
-  }
-
   /* -------------------------------------------------------
-     Photo viewer
+     Lightbox
      ------------------------------------------------------- */
 
   function updateLightbox(photo, index) {
-    if (!lightbox || !lightboxImage) return;
-
+    if (!lightbox || !photo) return;
     currentPhotoIndex = index;
     lightboxImage.classList.remove("is-loaded");
     lightboxImage.alt = photo.alt || `${photo.month}的照片`;
     if (lightboxDate) lightboxDate.textContent = photo.label;
     if (lightboxTitle) lightboxTitle.textContent = `第 ${String(index + 1).padStart(2, "0")} 张记忆`;
-    if (lightboxIndex) lightboxIndex.textContent = `${String(index + 1).padStart(2, "0")} / ${photos.length}`;
+    if (lightboxIndex) {
+      lightboxIndex.textContent = `${String(index + 1).padStart(2, "0")} / ${photos.length}`;
+    }
 
     const preview = makePhotoPreview(photo);
     if (preview) {
@@ -9376,25 +10537,22 @@ window.XINYI_PHOTOS = [
   }
 
   function openLightbox(index, trigger = null) {
-    if (!lightbox) return;
+    if (!lightbox || !photos[index]) return;
     lastLightboxTrigger = trigger || document.activeElement;
 
-    if (autoRotate) {
-      autoRotate = false;
-      autoResumeAt = performance.now() + 5000;
-      setSpinState();
+    const api = window.XINYI_CAKE_ZOOM;
+    if (api) {
+      resumeSpinAfterLightbox = api.getAutoRotate();
+      api.setAutoRotate(false);
+      syncSpinUi(false);
     }
 
     updateLightbox(photos[index], index);
-
     if (!lightbox.open) {
-      if (typeof lightbox.showModal === "function") {
-        lightbox.showModal();
-      } else {
-        lightbox.setAttribute("open", "");
-      }
+      if (typeof lightbox.showModal === "function") lightbox.showModal();
+      else lightbox.setAttribute("open", "");
     }
-    document.body.classList.add("photo-viewer-open");
+    lightboxOpen = true;
     window.requestAnimationFrame(() => closeLightboxButton?.focus({ preventScroll: true }));
   }
 
@@ -9405,26 +10563,23 @@ window.XINYI_PHOTOS = [
   }
 
   function stepLightbox(direction) {
-    const nextIndex = (currentPhotoIndex + direction + photos.length) % photos.length;
-    updateLightbox(photos[nextIndex], nextIndex);
+    if (!photos.length) return;
+    const next = (currentPhotoIndex + direction + photos.length) % photos.length;
+    updateLightbox(photos[next], next);
   }
 
   lightbox?.addEventListener("close", () => {
-    document.body.classList.remove("photo-viewer-open");
-    if (lastLightboxTrigger && typeof lastLightboxTrigger.focus === "function") {
-      lastLightboxTrigger.focus({ preventScroll: true });
-    } else {
-      canvas.focus({ preventScroll: true });
+    lightboxOpen = false;
+    const trigger = lastLightboxTrigger;
+    if (trigger && typeof trigger.focus === "function") trigger.focus({ preventScroll: true });
+    else stageHost.querySelector("canvas")?.focus({ preventScroll: true });
+
+    const api = window.XINYI_CAKE_ZOOM;
+    if (api && resumeSpinAfterLightbox) {
+      api.setAutoRotate(true);
+      syncSpinUi(true);
     }
-    if (!reduceMotion) {
-      window.setTimeout(() => {
-        if (!autoRotate && isOpen) {
-          autoRotate = true;
-          autoResumeAt = performance.now() + 1800;
-          setSpinState();
-        }
-      }, 1400);
-    }
+    resumeSpinAfterLightbox = false;
   });
 
   lightbox?.addEventListener("click", (event) => {
@@ -9446,1021 +10601,195 @@ window.XINYI_PHOTOS = [
   });
 
   /* -------------------------------------------------------
-     Open / close photo world
+     Month navigation / accessible index
      ------------------------------------------------------- */
 
-  let lastTrigger = null;
+  const monthGroups = [];
+  for (const photo of photos) {
+    const last = monthGroups[monthGroups.length - 1];
+    if (last && last.month === photo.month) {
+      last.count += 1;
+      last.photos.push(photo);
+    } else {
+      monthGroups.push({ month: photo.month, count: 1, photos: [photo] });
+    }
+  }
 
-  function openPhotoWorld() {
-    if (dialog.open) return;
-    lastTrigger = document.activeElement;
+  monthGroups.forEach((group) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "photo-month";
+    button.innerHTML = `${group.month}<span>${String(group.count).padStart(2, "0")}</span>`;
+    button.setAttribute("aria-label", `查看${group.month}的 ${group.count} 张照片`);
+    button.addEventListener("click", () => {
+      openLightbox(photos.indexOf(group.photos[0]), button);
+    });
+    monthsBar?.append(button);
+  });
+
+  if (srList) {
+    photos.forEach((photo, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = `第 ${index + 1} 张，${photo.month}，查看大图`;
+      button.addEventListener("click", () => openLightbox(index, button));
+      srList.append(button);
+    });
+  }
+
+  /* -------------------------------------------------------
+     Zoom overlay
+     ------------------------------------------------------- */
+
+  function syncSpinUi(on) {
+    if (!spinButton) return;
+    spinButton.classList.toggle("is-on", on);
+    spinButton.setAttribute("aria-pressed", String(on));
+  }
+
+  function syncSplitUi(split) {
+    if (!splitButton) return;
+    splitButton.classList.toggle("is-split", split);
+    splitButton.setAttribute("aria-pressed", String(split));
+    if (splitLabel) splitLabel.textContent = split ? "把蛋糕合上" : "拆开蛋糕";
+  }
+
+  function setStatus(message) {
+    if (status) status.textContent = message;
+  }
+
+  function showToast(message) {
+    if (!toast) return;
+    window.clearTimeout(toastTimer);
+    toast.textContent = message;
+    toast.classList.add("is-visible");
+    toastTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 4200);
+  }
+
+  function openOverlay() {
+    if (isOpen) return;
+    const api = window.XINYI_CAKE_ZOOM;
+    if (!api) {
+      showToast("3D 蛋糕还在准备中，稍等一下再打开。");
+      return;
+    }
+
+    lastOverlayTrigger = document.activeElement;
+    const stage = document.getElementById("cakeStage");
+    if (!stage) return;
+
+    stageOrigin = {
+      parent: stage.parentElement,
+      next: stage.nextElementSibling,
+    };
 
     if (typeof dialog.showModal === "function") dialog.showModal();
     else dialog.setAttribute("open", "");
 
     isOpen = true;
     document.body.classList.add("photo-world-open");
-    window.requestAnimationFrame(() => closeButton?.focus({ preventScroll: true }));
+    stageHost.append(stage);
+    stage.classList.add("is-immersive");
 
-    if (!sceneStarted) {
-      initScene();
-    }
-
-    resizeRenderer();
-    startRenderLoop();
-
-    if (!assetsLoaded && !assetsLoading) loadAssets();
+    requestAnimationFrame(() => {
+      api.open();
+      syncSplitUi(true);
+      syncSpinUi(api.getAutoRotate());
+      setStatus("蛋糕正在拆开，照片正在铺开。");
+      if (photoStatus) photoStatus.hidden = api.hasPhotos?.() !== false;
+      if (hint) hint.innerHTML = '<span aria-hidden="true">↔</span> 拖动旋转 · 点开照片 · 拆开或合上蛋糕';
+      closeButton?.focus({ preventScroll: true });
+      window.setTimeout(() => api.resize?.(), 60);
+    });
   }
 
-  function closePhotoWorld() {
-    if (lightbox?.open) closeLightbox();
+  function closeOverlay() {
     if (!dialog.open) return;
     if (typeof dialog.close === "function") dialog.close();
     else dialog.removeAttribute("open");
   }
 
-  openButton.addEventListener("click", openPhotoWorld);
-  closeButton?.addEventListener("click", closePhotoWorld);
+  function restoreStage() {
+    if (!stageOrigin) return;
+    const stage = document.getElementById("cakeStage");
+    if (!stage) return;
+    const { parent, next } = stageOrigin;
+    if (parent) {
+      if (next && next.parentElement === parent) parent.insertBefore(stage, next);
+      else parent.append(stage);
+    }
+    stage.classList.remove("is-immersive");
+    stageOrigin = null;
+  }
+
+  dialog.addEventListener("close", () => {
+    isOpen = false;
+    document.body.classList.remove("photo-world-open");
+    const api = window.XINYI_CAKE_ZOOM;
+    api?.close();
+    restoreStage();
+    syncSplitUi(false);
+    if (api) syncSpinUi(api.getAutoRotate());
+    setStatus("蛋糕已经合上，回到页面。");
+    if (lastOverlayTrigger && typeof lastOverlayTrigger.focus === "function") {
+      lastOverlayTrigger.focus({ preventScroll: true });
+    }
+    window.requestAnimationFrame(() => api?.resize?.());
+  });
 
   dialog.addEventListener("cancel", (event) => {
-    if (lightbox?.open) {
+    if (lightboxOpen) {
       event.preventDefault();
       closeLightbox();
     }
   });
 
-  dialog.addEventListener("close", () => {
-    isOpen = false;
-    document.body.classList.remove("photo-world-open");
-    stopRenderLoop();
-    if (lastTrigger && typeof lastTrigger.focus === "function") {
-      lastTrigger.focus({ preventScroll: true });
+  albumButton.addEventListener("click", openOverlay);
+  closeButton?.addEventListener("click", closeOverlay);
+
+  splitButton?.addEventListener("click", () => {
+    const api = window.XINYI_CAKE_ZOOM;
+    if (!api) return;
+    const split = api.toggleSplit();
+    syncSplitUi(split);
+    setStatus(split ? "蛋糕拆开了，照片都在里面。" : "蛋糕合上了。");
+    if (hint) {
+      hint.innerHTML = split
+        ? '<span aria-hidden="true">↔</span> 拖动旋转 · 点开照片 · 拆开或合上蛋糕'
+        : '<span aria-hidden="true">↔</span> 拖动旋转 · 点「拆开蛋糕」看照片';
     }
   });
 
   spinButton?.addEventListener("click", () => {
-    autoRotate = !autoRotate;
-    autoResumeAt = 0;
-    setSpinState();
+    const api = window.XINYI_CAKE_ZOOM;
+    if (!api) return;
+    api.setAutoRotate(!api.getAutoRotate());
+    syncSpinUi(api.getAutoRotate());
+  });
+
+  window.addEventListener("xinyi:photo-cards-ready", () => {
+    if (photoStatus) photoStatus.hidden = true;
+    setStatus("照片已经藏进蛋糕里，点一张看看。");
+    if (hint) hint.innerHTML = '<span aria-hidden="true">↔</span> 拖动旋转 · 点开照片 · 拆开或合上蛋糕';
+  });
+
+  window.addEventListener("xinyi:unlocked", () => {
+    window.setTimeout(loadAtlasTexture, 500);
   });
 
   /* -------------------------------------------------------
-     Three.js setup
+     Public API used by the main cake scene
      ------------------------------------------------------- */
 
-  function getThemePalette() {
-    const theme = window.XINYI_CAKE_THEME;
-    if (theme && Array.isArray(theme.tiers) && theme.tiers.length >= 3) {
-      return {
-        tiers: theme.tiers,
-        metal: theme.metal || "#d0a968",
-        pearl: theme.pearl || "#fff3e6",
-        sparkle: theme.sparkle || "#ffd8a0",
-      };
-    }
-    return {
-      tiers: [
-        { base: "#e8a2b3", frosting: "#fff4e4" },
-        { base: "#eacbb4", frosting: "#ffe5e7" },
-        { base: "#cdb2df", frosting: "#f6eaff" },
-      ],
-      metal: "#d0a968",
-      pearl: "#fff3e6",
-      sparkle: "#ffd8a0",
-    };
-  }
+  window.XINYI_ALBUM = {
+    photos,
+    loadAtlasTexture,
+    applyAtlasUv,
+    makePhotoPreview,
+    openLightbox,
+    preloadAtlas: loadAtlasTexture,
+  };
 
-  function makeGlowTexture(inner = "rgba(255,222,172,.95)", mid = "rgba(255,184,120,.26)") {
-    const c = document.createElement("canvas");
-    c.width = 128;
-    c.height = 128;
-    const ctx = c.getContext("2d");
-    const g = ctx.createRadialGradient(64, 64, 0, 64, 64, 63);
-    g.addColorStop(0, inner);
-    g.addColorStop(0.3, mid);
-    g.addColorStop(1, "rgba(255,170,100,0)");
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, 128, 128);
-    return new THREE.CanvasTexture(c);
-  }
-
-  function makeStarTexture() {
-    const c = document.createElement("canvas");
-    c.width = 64;
-    c.height = 64;
-    const ctx = c.getContext("2d");
-    ctx.translate(32, 32);
-    const g = ctx.createRadialGradient(0, 0, 0, 0, 0, 28);
-    g.addColorStop(0, "rgba(255,250,235,1)");
-    g.addColorStop(0.25, "rgba(255,224,178,.75)");
-    g.addColorStop(1, "rgba(255,212,160,0)");
-    ctx.fillStyle = g;
-    ctx.beginPath();
-    ctx.moveTo(0, -28);
-    ctx.quadraticCurveTo(3, -4, 28, 0);
-    ctx.quadraticCurveTo(3, 4, 0, 28);
-    ctx.quadraticCurveTo(-3, 4, -28, 0);
-    ctx.quadraticCurveTo(-3, -4, 0, -28);
-    ctx.fill();
-    const tex = new THREE.CanvasTexture(c);
-    tex.encoding = THREE.sRGBEncoding;
-    return tex;
-  }
-
-  const glowTexture = makeGlowTexture();
-  const starTexture = makeStarTexture();
-
-  function createCakeBase(palette) {
-    const group = new THREE.Group();
-
-    const plateMaterial = new THREE.MeshPhysicalMaterial({
-      color: palette.pearl,
-      roughness: 0.28,
-      metalness: 0.22,
-      clearcoat: 0.8,
-      clearcoatRoughness: 0.22,
-    });
-    const metalMaterial = new THREE.MeshStandardMaterial({
-      color: palette.metal,
-      roughness: 0.26,
-      metalness: 0.82,
-    });
-
-    const plate = new THREE.Mesh(new THREE.CylinderGeometry(2.32, 2.5, 0.11, 64), plateMaterial);
-    plate.position.y = -2.78;
-    group.add(plate);
-
-    const plateRim = new THREE.Mesh(new THREE.TorusGeometry(2.36, 0.022, 8, 64), metalMaterial);
-    plateRim.rotation.x = Math.PI / 2;
-    plateRim.position.y = -2.7;
-    group.add(plateRim);
-
-    const lowerBase = new THREE.Mesh(
-      new THREE.CylinderGeometry(1.97, 2.08, 0.42, 64),
-      new THREE.MeshStandardMaterial({
-        color: palette.tiers[0].base,
-        roughness: 0.54,
-        metalness: 0.02,
-      })
-    );
-    lowerBase.position.y = -2.42;
-    group.add(lowerBase);
-
-    const lowerFrosting = new THREE.Mesh(
-      new THREE.CylinderGeometry(2.06, 2.08, 0.08, 64),
-      new THREE.MeshPhysicalMaterial({
-        color: palette.tiers[0].frosting,
-        roughness: 0.3,
-        clearcoat: 0.4,
-      })
-    );
-    lowerFrosting.position.y = -2.18;
-    group.add(lowerFrosting);
-
-    const lowerRim = new THREE.Mesh(
-      new THREE.TorusGeometry(2.06, 0.045, 10, 64),
-      new THREE.MeshPhysicalMaterial({
-        color: palette.tiers[0].frosting,
-        roughness: 0.32,
-        clearcoat: 0.4,
-      })
-    );
-    lowerRim.rotation.x = Math.PI / 2;
-    lowerRim.position.y = -2.15;
-    group.add(lowerRim);
-
-    for (let i = 0; i < 12; i++) {
-      const a = (i / 12) * TAU;
-      const drip = new THREE.Mesh(
-        new THREE.CapsuleGeometry(0.04, 0.12 + (i % 3) * 0.06, 3, 6),
-        lowerRim.material
-      );
-      drip.position.set(Math.sin(a) * 2.04, -2.3, Math.cos(a) * 2.04);
-      group.add(drip);
-    }
-
-    const glow = new THREE.Sprite(
-      new THREE.SpriteMaterial({
-        map: glowTexture,
-        color: palette.sparkle,
-        transparent: true,
-        opacity: 0.21,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-      })
-    );
-    glow.scale.set(5, 3, 1);
-    glow.position.set(0, -2.4, -0.8);
-    group.add(glow);
-
-    return group;
-  }
-
-  function addTierPlate(radius, y, palette, tierIndex) {
-    const material = new THREE.MeshPhysicalMaterial({
-      color: palette.tiers[Math.min(tierIndex, palette.tiers.length - 1)].frosting,
-      roughness: 0.3,
-      clearcoat: 0.45,
-      clearcoatRoughness: 0.26,
-    });
-    const metal = new THREE.MeshStandardMaterial({
-      color: palette.metal,
-      roughness: 0.3,
-      metalness: 0.2,
-    });
-    const plate = new THREE.Mesh(new THREE.CylinderGeometry(radius + 0.08, radius + 0.12, 0.055, 72), material);
-    plate.position.y = y;
-    world.add(plate);
-
-    const rim = new THREE.Mesh(new THREE.TorusGeometry(radius + 0.1, 0.022, 8, 72), metal);
-    rim.rotation.x = Math.PI / 2;
-    rim.position.y = y + 0.035;
-    world.add(rim);
-
-    const body = new THREE.Mesh(
-      new THREE.CylinderGeometry(radius + 0.02, radius + 0.09, 0.24, 72),
-      new THREE.MeshStandardMaterial({
-        color: palette.tiers[Math.min(tierIndex, palette.tiers.length - 1)].base,
-        roughness: 0.55,
-        metalness: 0.015,
-      })
-    );
-    body.position.y = y - 0.14;
-    world.add(body);
-
-    for (let i = 0; i < 10; i++) {
-      const angle = (i / 10) * TAU;
-      const pearl = new THREE.Mesh(
-        new THREE.SphereGeometry(0.025, 7, 7),
-        new THREE.MeshBasicMaterial({ color: palette.pearl, toneMapped: false })
-      );
-      pearl.position.set(
-        Math.sin(angle) * (radius + 0.09),
-        y + 0.03,
-        Math.cos(angle) * (radius + 0.09)
-      );
-      world.add(pearl);
-    }
-  }
-
-  function createCakeLid(palette) {
-    const group = new THREE.Group();
-
-    const bodyMaterial = new THREE.MeshStandardMaterial({
-      color: palette.tiers[2].base,
-      roughness: 0.52,
-      metalness: 0.02,
-    });
-    const frostingMaterial = new THREE.MeshPhysicalMaterial({
-      color: palette.tiers[2].frosting,
-      roughness: 0.28,
-      clearcoat: 0.5,
-      clearcoatRoughness: 0.3,
-    });
-
-    const body = new THREE.Mesh(new THREE.CylinderGeometry(1.55, 1.63, 0.45, 64), bodyMaterial);
-    group.add(body);
-
-    const frosting = new THREE.Mesh(new THREE.CylinderGeometry(1.6, 1.62, 0.1, 64), frostingMaterial);
-    frosting.position.y = 0.26;
-    group.add(frosting);
-
-    const rim = new THREE.Mesh(new THREE.TorusGeometry(1.6, 0.04, 8, 64), frostingMaterial);
-    rim.rotation.x = Math.PI / 2;
-    rim.position.y = 0.29;
-    group.add(rim);
-
-    const candleMaterial = new THREE.MeshStandardMaterial({ color: "#f4d7d8", roughness: 0.55 });
-    const flameMaterial = new THREE.MeshBasicMaterial({
-      color: "#ffc278",
-      transparent: true,
-      opacity: 0.95,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
-    });
-    const candlePositions = [
-      [-0.42, 0.28],
-      [0.42, 0.28],
-      [0, 0.91],
-    ];
-    candlePositions.forEach(([x, z], index) => {
-      const candle = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.052, 0.28 + index * 0.08, 14), candleMaterial);
-      candle.position.set(x, 0.44 + (0.28 + index * 0.08) / 2, z);
-      group.add(candle);
-      const flame = new THREE.Mesh(new THREE.SphereGeometry(0.046, 10, 8), flameMaterial);
-      flame.scale.set(0.9, 1.9, 0.9);
-      flame.position.set(x, 0.61 + 0.28 + index * 0.08, z);
-      group.add(flame);
-    });
-
-    group.position.set(0, 4.85, 0);
-    group.userData.finalY = 4.85;
-    group.userData.startY = 2.1;
-    group.position.y = group.userData.startY;
-    return group;
-  }
-
-  function createParticles() {
-    const group = new THREE.Group();
-    const mobile = window.innerWidth < 700;
-    const count = mobile ? 190 : 420;
-    const positions = new Float32Array(count * 3);
-    const colors = new Float32Array(count * 3);
-    const colorChoices = [
-      new THREE.Color("#ffd9a0"),
-      new THREE.Color("#eeb6c9"),
-      new THREE.Color("#cfbae7"),
-      new THREE.Color("#fff5df"),
-    ];
-    const random = () => Math.random();
-
-    for (let i = 0; i < count; i++) {
-      const angle = random() * TAU;
-      const radius = 1.3 + random() * 4.6;
-      positions[i * 3] = Math.sin(angle) * radius;
-      positions[i * 3 + 1] = -2.1 + random() * 8.1;
-      positions[i * 3 + 2] = Math.cos(angle) * radius;
-      const color = colorChoices[Math.floor(random() * colorChoices.length)];
-      colors[i * 3] = color.r;
-      colors[i * 3 + 1] = color.g;
-      colors[i * 3 + 2] = color.b;
-    }
-
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-    const material = new THREE.PointsMaterial({
-      map: starTexture,
-      size: mobile ? 0.14 : 0.11,
-      transparent: true,
-      opacity: 0.82,
-      depthWrite: false,
-      vertexColors: true,
-      blending: THREE.AdditiveBlending,
-      sizeAttenuation: true,
-    });
-    starParticles = new THREE.Points(geometry, material);
-    group.add(starParticles);
-
-    const ringCount = mobile ? 36 : 72;
-    const ringPositions = new Float32Array(ringCount * 3);
-    for (let i = 0; i < ringCount; i++) {
-      const angle = (i / ringCount) * TAU;
-      ringPositions[i * 3] = Math.sin(angle) * 2.78;
-      ringPositions[i * 3 + 1] = -2.15 + (i % 4) * 0.06;
-      ringPositions[i * 3 + 2] = Math.cos(angle) * 2.78;
-    }
-    const ringGeometry = new THREE.BufferGeometry();
-    ringGeometry.setAttribute("position", new THREE.BufferAttribute(ringPositions, 3));
-    const ringMaterial = new THREE.PointsMaterial({
-      map: starTexture,
-      color: 0xffe5b8,
-      size: 0.17,
-      transparent: true,
-      opacity: 0.7,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending,
-      sizeAttenuation: true,
-    });
-    const ring = new THREE.Points(ringGeometry, ringMaterial);
-    group.add(ring);
-
-    const sparkleRing = new THREE.Group();
-    const sparkleCount = mobile ? 13 : 22;
-    for (let i = 0; i < sparkleCount; i++) {
-      const angle = (i / sparkleCount) * TAU + (i % 3) * 0.15;
-      const radius = 3.02 + (i % 4) * 0.12;
-      const sprite = new THREE.Sprite(
-        new THREE.SpriteMaterial({
-          map: starTexture,
-          color: i % 3 === 0 ? 0xffd3dd : i % 3 === 1 ? 0xffe1aa : 0xd9c8ef,
-          transparent: true,
-          opacity: 0.58 + (i % 3) * 0.1,
-          depthWrite: false,
-          blending: THREE.AdditiveBlending,
-        })
-      );
-      sprite.scale.setScalar(0.15 + (i % 4) * 0.055);
-      sprite.position.set(
-        Math.sin(angle) * radius,
-        -1.85 + (i / sparkleCount) * 4.8,
-        Math.cos(angle) * radius
-      );
-      sprite.userData.baseY = sprite.position.y;
-      sparkleRing.add(sprite);
-    }
-    group.add(sparkleRing);
-
-    particlesGroup = group;
-    group.userData.sparkleRing = sparkleRing;
-    return group;
-  }
-
-  function initScene() {
-    if (sceneStarted) return;
-    if (!window.THREE) {
-      showFallback("Three.js 没有加载");
-      return;
-    }
-
-    try {
-      renderer = new THREE.WebGLRenderer({
-        canvas,
-        alpha: true,
-        antialias: true,
-        powerPreference: "high-performance",
-      });
-    } catch (error) {
-      showFallback(error);
-      return;
-    }
-
-    renderer.setClearAlpha(0);
-    renderer.outputEncoding = THREE.sRGBEncoding;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 0.92;
-    renderer.shadowMap.enabled = false;
-
-    scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
-    world = new THREE.Group();
-    scene.add(world);
-
-    const hemisphere = new THREE.HemisphereLight(0xffe9ef, 0x2c1c2b, 0.9);
-    scene.add(hemisphere);
-
-    const key = new THREE.DirectionalLight(0xffefdb, 1.5);
-    key.position.set(4, 7, 6);
-    scene.add(key);
-
-    const rim = new THREE.DirectionalLight(0xffb3c7, 0.9);
-    rim.position.set(-5, 4, -4);
-    scene.add(rim);
-
-    const point = new THREE.PointLight(0xffcf9c, 0.6, 13);
-    point.position.set(0, 2.6, 4);
-    scene.add(point);
-
-    const palette = getThemePalette();
-    world.add(createCakeBase(palette));
-    world.add(createParticles());
-
-    cardsGroup = new THREE.Group();
-    cardsGroup.name = "photo-cards";
-    world.add(cardsGroup);
-    world.scale.setScalar(window.innerWidth < 700 ? 0.92 : 1);
-
-    bindCanvasControls();
-    resizeRenderer();
-    sceneStarted = true;
-    lastFrame = performance.now();
-    startRenderLoop();
-  }
-
-  function showFallback(error) {
-    console.warn("Photo world unavailable:", error);
-    if (loader) loader.classList.add("is-hidden");
-    if (fallback) fallback.hidden = false;
-    if (canvas) canvas.style.display = "none";
-    if (hint) hint.style.display = "none";
-  }
-
-  /* -------------------------------------------------------
-     Texture loading + card construction
-     ------------------------------------------------------- */
-
-  function makeBackTexture() {
-    const canvas = document.createElement("canvas");
-    canvas.width = 240;
-    canvas.height = 300;
-    const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "#291b28";
-    ctx.fillRect(0, 0, 240, 300);
-    ctx.strokeStyle = "#7e6257";
-    ctx.lineWidth = 1;
-    ctx.strokeRect(11, 11, 218, 278);
-    ctx.strokeStyle = "#503b45";
-    ctx.strokeRect(16, 16, 208, 268);
-
-    ctx.save();
-    ctx.translate(120, 122);
-    ctx.beginPath();
-    for (let i = 0; i < 16; i += 1) {
-      const angle = (i / 16) * Math.PI * 2 - Math.PI / 2;
-      const radius = i % 2 === 0 ? 17 : 4;
-      const x = Math.cos(angle) * radius;
-      const y = Math.sin(angle) * radius;
-      if (i === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    }
-    ctx.closePath();
-    ctx.fillStyle = "#d8b47b";
-    ctx.fill();
-    ctx.restore();
-
-    ctx.strokeStyle = "#6f5156";
-    ctx.beginPath();
-    ctx.arc(120, 178, 31, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.fillStyle = "#d2a0a6";
-    ctx.font = '38px "Songti SC", "SimSun", serif';
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText("欣", 120, 179);
-    ctx.fillStyle = "#a5877d";
-    ctx.font = '8px "Arial", sans-serif';
-    ctx.fillText("OUR LITTLE UNIVERSE", 120, 236);
-    ctx.fillStyle = "#725752";
-    ctx.font = '7px "Arial", sans-serif';
-    ctx.fillText("KEEP THIS ONE", 120, 251);
-
-    const texture = new THREE.CanvasTexture(canvas);
-    texture.encoding = THREE.sRGBEncoding;
-    texture.anisotropy = atlasAnisotropy();
-    texture.needsUpdate = true;
-    return texture;
-  }
-
-  function loadAtlasTexture() {
-    if (atlasTexture) return Promise.resolve(atlasTexture);
-    if (atlasPromise) return atlasPromise;
-    atlasPromise = new Promise((resolve) => {
-      const image = new Image();
-      image.decoding = "async";
-
-      const settle = () => {
-        try {
-          atlasImage = image;
-          const texture = new THREE.Texture(image);
-          texture.encoding = THREE.sRGBEncoding;
-          texture.anisotropy = atlasAnisotropy();
-          texture.minFilter = THREE.LinearMipmapLinearFilter;
-          texture.magFilter = THREE.LinearFilter;
-          texture.needsUpdate = true;
-          atlasTexture = texture;
-          resolve(texture);
-        } catch (error) {
-          resolve(null);
-        }
-      };
-
-      image.onload = settle;
-      image.onerror = () => {
-        if (image.dataset.fallback === "jpg") {
-          resolve(null);
-          return;
-        }
-        image.dataset.fallback = "jpg";
-        image.src = "assets/photos/card-atlas.jpg";
-      };
-      image.src = window.XINYI_PHOTO_ATLAS || "assets/photos/card-atlas.webp";
-    });
-    return atlasPromise;
-  }
-
-  function makePhotoPreview(photo) {
-    if (!atlasImage || !Array.isArray(photo.atlas)) return null;
-    if (previewCache.has(photo.id)) return previewCache.get(photo.id);
-
-    const [u0, v0, u1, v1] = photo.atlas;
-    const width = atlasImage.naturalWidth;
-    const height = atlasImage.naturalHeight;
-
-    // Crop the photo window out of the polaroid card. The cards are 480x600
-    // with the image at (26,28)-(454,480); using the full card as the modal
-    // placeholder would put a card inside a card frame.
-    const left = 26 / 480;
-    const right = 454 / 480;
-    const top = 28 / 600;
-    const bottom = 480 / 600;
-    const cellW = u1 - u0;
-    const cellH = v1 - v0;
-    const sx = Math.max(0, Math.floor((u0 + left * cellW) * width));
-    const sy = Math.max(0, Math.floor((1 - (v1 - top * cellH)) * height));
-    const sw = Math.max(1, Math.floor((right - left) * cellW * width));
-    const sh = Math.max(1, Math.floor((bottom - top) * cellH * height));
-
-    try {
-      const canvas = document.createElement("canvas");
-      canvas.width = 480;
-      canvas.height = 507;
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(atlasImage, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
-      const url = canvas.toDataURL("image/jpeg", 0.8);
-      previewCache.set(photo.id, url);
-      return url;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  function atlasAnisotropy() {
-    if (!renderer) return 4;
-    return Math.min(4, renderer.capabilities.getMaxAnisotropy());
-  }
-
-  function preloadAtlas() {
-    if (atlasTexture || atlasPromise) return;
-    loadAtlasTexture();
-  }
-
-  function applyAtlasUv(geometry, rect) {
-    if (!rect || rect.length !== 4) return;
-    const [u0, v0, u1, v1] = rect;
-    const uv = geometry.attributes.uv;
-    // BoxGeometry face order is +x,-x,+y,-y,+z,-z. The card's front is +z,
-    // which is the fifth set of four vertices.
-    for (let i = 16; i < 20; i += 1) {
-      const u = uv.getX(i);
-      const v = uv.getY(i);
-      uv.setXY(i, u0 + u * (u1 - u0), v0 + v * (v1 - v0));
-    }
-    uv.needsUpdate = true;
-  }
-
-  async function loadAssets() {
-    if (assetsLoading || assetsLoaded || !scene) return;
-    assetsLoading = true;
-    if (progressBar) progressBar.style.width = "8%";
-
-    const atlas = await loadAtlasTexture();
-    if (!atlas) {
-      assetsLoading = false;
-      showFallback("照片卡片加载失败");
-      return;
-    }
-    if (progressBar) progressBar.style.width = "82%";
-    if (backTexture === null) backTexture = makeBackTexture();
-    if (progressBar) progressBar.style.width = "100%";
-
-    const edgeMaterial = new THREE.MeshBasicMaterial({ color: 0xf2e2d2, toneMapped: false });
-    const frontMaterial = new THREE.MeshBasicMaterial({
-      map: atlas,
-      toneMapped: false,
-    });
-    const backMaterial = new THREE.MeshBasicMaterial({
-      map: backTexture || null,
-      color: backTexture ? 0xffffff : 0xe5cfbf,
-      toneMapped: false,
-    });
-
-    const chapters = ringSettings.map((ring, index) => {
-      return { ...ring, photos: [] };
-    });
-    chapters[0].minMonth = 0;
-    chapters[0].maxMonth = 4;
-    chapters[1].minMonth = 4.01;
-    chapters[1].maxMonth = 6.99;
-    chapters[2].minMonth = 6.99;
-    chapters[2].maxMonth = 99;
-    photos.forEach((photo, i) => {
-      const chapter = chapters.find(
-        (item) => photo.monthOrder >= item.minMonth && photo.monthOrder <= item.maxMonth
-      );
-      if (chapter) chapter.photos.push({ photo, i });
-    });
-
-    chapters.forEach((chapter, chapterIndex) => {
-      const count = chapter.photos.length;
-      const palette = getThemePalette();
-      addTierPlate(
-        chapter.radius + 0.04,
-        chapter.y - 0.61,
-        palette,
-        Math.min(chapterIndex, palette.tiers.length - 1)
-      );
-
-      chapter.photos.forEach(({ photo, i }, withinIndex) => {
-        const geometry = new THREE.BoxGeometry(cardWidth, cardHeight, cardDepth);
-        applyAtlasUv(geometry, photo.atlas);
-        const mesh = new THREE.Mesh(
-          geometry,
-          [edgeMaterial, edgeMaterial, edgeMaterial, edgeMaterial, frontMaterial, backMaterial]
-        );
-
-        const angle = chapter.startAngle + (withinIndex / Math.max(1, count)) * TAU;
-        const radius = chapter.radius;
-        const finalPosition = new THREE.Vector3(
-          Math.sin(angle) * radius,
-          chapter.y + Math.sin(withinIndex * 1.7) * 0.035,
-          Math.cos(angle) * radius
-        );
-        const startPosition = new THREE.Vector3(
-          0.28 * Math.sin(angle),
-          finalPosition.y - 0.08,
-          0.28 * Math.cos(angle)
-        );
-
-        mesh.position.copy(finalPosition);
-        mesh.rotation.set(
-          Math.cos(i * 0.83) * 0.028,
-          angle,
-          Math.sin(i * 1.17) * 0.03
-        );
-        mesh.scale.setScalar(1);
-        mesh.userData.photoIndex = i;
-        mesh.userData.finalPosition = finalPosition;
-        mesh.userData.startPosition = startPosition;
-        mesh.userData.introDelay = i * 7;
-
-        cardMeshes.push(mesh);
-        cardBasePositions.push(finalPosition.clone());
-        cardStartPositions.push(startPosition.clone());
-        cardsGroup.add(mesh);
-      });
-    });
-
-    if (!cardMeshes.length) {
-      assetsLoading = false;
-      showFallback("照片加载失败");
-      return;
-    }
-
-    assetsLoading = false;
-    assetsLoaded = true;
-
-    if (loader) {
-      window.setTimeout(() => loader.classList.add("is-hidden"), 300);
-    }
-
-    if (!reduceMotion && !introPlayed) {
-      introPlayed = true;
-      introActive = true;
-      introStartedAt = performance.now();
-      cardMeshes.forEach((mesh) => {
-        mesh.position.copy(mesh.userData.startPosition);
-        mesh.scale.setScalar(0.42);
-      });
-      if (lidGroup) lidGroup.position.y = lidGroup.userData.startY;
-      autoRotate = false;
-      setSpinState();
-    } else {
-      cardMeshes.forEach((mesh) => {
-        mesh.position.copy(mesh.userData.finalPosition);
-        mesh.scale.setScalar(1);
-      });
-      introActive = false;
-      autoRotate = !reduceMotion;
-      setSpinState();
-    }
-
-    if (hint) hint.classList.add("is-visible");
-    startRenderLoop();
-  }
-
-  function startIntroIfNeeded(now) {
-    if (!introActive) return;
-    const elapsed = now - introStartedAt;
-    const ease = (value) => 1 - Math.pow(1 - value, 3);
-    const progress = Math.min(1, elapsed / 1550);
-    const global = ease(progress);
-
-    cardMeshes.forEach((mesh, index) => {
-      const local = Math.min(1, Math.max(0, (elapsed - index * 7) / 1250));
-      const p = ease(local);
-      const start = mesh.userData.startPosition;
-      const end = mesh.userData.finalPosition;
-      mesh.position.set(
-        start.x + (end.x - start.x) * p,
-        start.y + (end.y - start.y) * p,
-        start.z + (end.z - start.z) * p
-      );
-      mesh.scale.setScalar(0.42 + p * 0.58);
-    });
-
-    if (progress >= 1) {
-      introActive = false;
-      autoRotate = !reduceMotion;
-      autoResumeAt = performance.now() + 600;
-      setSpinState();
-    }
-  }
-
-  /* -------------------------------------------------------
-     Interaction
-     ------------------------------------------------------- */
-
-  function bindCanvasControls() {
-    canvas.addEventListener("pointerdown", (event) => {
-      if (event.button !== undefined && event.button !== 0) return;
-      dragInfo = {
-        id: event.pointerId,
-        startX: event.clientX,
-        startY: event.clientY,
-        lastX: event.clientX,
-        moved: false,
-      };
-      isDragging = false;
-      autoRotate = false;
-      autoResumeAt = Infinity;
-      setSpinState();
-    });
-
-    canvas.addEventListener("pointermove", (event) => {
-      if (!dragInfo || event.pointerId !== dragInfo.id) return;
-      const dx = event.clientX - dragInfo.lastX;
-      const totalX = Math.abs(event.clientX - dragInfo.startX);
-      const totalY = Math.abs(event.clientY - dragInfo.startY);
-
-      if (!isDragging && (totalX > 4 || totalY > 4)) {
-        isDragging = true;
-        dragInfo.moved = true;
-        canvas.setPointerCapture?.(event.pointerId);
-        canvas.style.cursor = "grabbing";
-      }
-
-      if (isDragging) {
-        event.preventDefault();
-        targetRotation += dx * 0.006;
-        dragInfo.lastX = event.clientX;
-      }
-    });
-
-    function finishPointer(event) {
-      if (!dragInfo || (event && event.pointerId !== dragInfo.id)) return;
-      const wasDragging = isDragging;
-      const moved = dragInfo.moved;
-      const pointer = { x: event?.clientX, y: event?.clientY };
-
-      isDragging = false;
-      dragInfo = null;
-      canvas.style.cursor = "grab";
-      autoResumeAt = performance.now() + 3200;
-
-      if (!wasDragging && !moved && pointer.x !== undefined) {
-        handleCardClick(pointer.x, pointer.y);
-      }
-    }
-
-    canvas.addEventListener("pointerup", finishPointer);
-    canvas.addEventListener("pointercancel", finishPointer);
-
-    canvas.addEventListener("wheel", (event) => {
-      if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
-      event.preventDefault();
-      targetRotation += event.deltaX * 0.003;
-      autoResumeAt = performance.now() + 3200;
-    }, { passive: false });
-
-    canvas.addEventListener("keydown", (event) => {
-      if (event.key === "ArrowLeft") {
-        event.preventDefault();
-        targetRotation -= 0.24;
-        autoResumeAt = performance.now() + 3000;
-        autoRotate = false;
-        setSpinState();
-      } else if (event.key === "ArrowRight") {
-        event.preventDefault();
-        targetRotation += 0.24;
-        autoResumeAt = performance.now() + 3000;
-        autoRotate = false;
-        setSpinState();
-      }
-    });
-  }
-
-  function getCardAt(clientX, clientY) {
-    if (!camera || !cardMeshes.length) return null;
-    const rect = canvas.getBoundingClientRect();
-    pointerNdc.x = ((clientX - rect.left) / rect.width) * 2 - 1;
-    pointerNdc.y = -((clientY - rect.top) / rect.height) * 2 + 1;
-    raycaster.setFromCamera(pointerNdc, camera);
-    const intersections = raycaster.intersectObjects(cardMeshes, false);
-    if (!intersections.length) return null;
-    return intersections[0].object;
-  }
-
-  function handleCardClick(clientX, clientY) {
-    const card = getCardAt(clientX, clientY);
-    if (!card) return;
-    openLightbox(card.userData.photoIndex, canvas);
-  }
-
-  /* -------------------------------------------------------
-     Resize + render
-     ------------------------------------------------------- */
-
-  function resizeRenderer() {
-    if (!renderer || !camera) return;
-    const width = stage.clientWidth;
-    const height = stage.clientHeight;
-    if (!width || !height) return;
-
-    const mobile = width / height < 0.8;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.8));
-    renderer.setSize(width, height, false);
-
-    camera.aspect = width / height;
-    camera.fov = mobile ? 38 : 35;
-    baseCameraY = mobile ? 2.2 : 2.05;
-    camera.position.set(mobile ? 0.2 : 0.7, baseCameraY, mobile ? 15.5 : 14.2);
-    camera.lookAt(0, mobile ? 1.05 : 0.9, 0);
-    camera.updateProjectionMatrix();
-
-    if (world) {
-      world.scale.setScalar(mobile ? 0.9 : 1);
-    }
-  }
-
-  function startRenderLoop() {
-    if (!renderer || !scene) return;
-    if (!raf) {
-      lastFrame = performance.now();
-      raf = window.requestAnimationFrame(render);
-    }
-  }
-
-  function stopRenderLoop() {
-    if (raf) {
-      window.cancelAnimationFrame(raf);
-      raf = 0;
-    }
-  }
-
-  function render(now) {
-    if (!renderer || !scene) {
-      raf = 0;
-      return;
-    }
-
-    const dt = Math.min(0.04, (now - lastFrame) / 1000);
-    lastFrame = now;
-
-    if (!isOpen) {
-      raf = 0;
-      return;
-    }
-
-    if (isDragging) {
-      autoResumeAt = Infinity;
-    } else if (autoRotate && now > autoResumeAt) {
-      targetRotation += dt * 0.085;
-    }
-
-    if (introActive) {
-      startIntroIfNeeded(now);
-    }
-
-    currentRotation += (targetRotation - currentRotation) * Math.min(1, dt * 6.2);
-    if (cardsGroup) cardsGroup.rotation.y = currentRotation;
-    if (lidGroup) lidGroup.rotation.y = currentRotation * 0.45;
-
-    if (particlesGroup && starParticles) {
-      particlesGroup.rotation.y = now * 0.00006;
-      if (particlesGroup.userData.sparkleRing) {
-        particlesGroup.userData.sparkleRing.rotation.y = -now * 0.00014;
-        particlesGroup.userData.sparkleRing.children.forEach((sprite, index) => {
-          sprite.position.y = sprite.userData.baseY + Math.sin(now * 0.0009 + index) * 0.045;
-        });
-      }
-      starParticles.rotation.y = -now * 0.000022;
-      starParticles.material.opacity = 0.58 + Math.sin(now * 0.00045) * 0.11;
-    }
-
-    if (camera) camera.position.y = baseCameraY + Math.sin(now * 0.0007) * 0.035;
-
-    renderer.render(scene, camera);
-    raf = window.requestAnimationFrame(render);
-  }
-
-  window.addEventListener(
-    "xinyi:unlocked",
-    () => {
-      window.setTimeout(preloadAtlas, 900);
-    },
-    { once: true }
-  );
-
-  if (typeof IntersectionObserver !== "undefined") {
-    const prefetchObserver = new IntersectionObserver(
-      (entries) => {
-        if (!entries.some((entry) => entry.isIntersecting)) return;
-        preloadAtlas();
-        prefetchObserver.disconnect();
-      },
-      { rootMargin: "700px 0px" }
-    );
-    prefetchObserver.observe(openButton);
-  } else {
-    window.setTimeout(preloadAtlas, 6500);
-  }
-
-  window.addEventListener("resize", () => {
-    if (!isOpen) return;
-    resizeRenderer();
-  });
-
-  document.addEventListener("visibilitychange", () => {
-    if (!isOpen) return;
-    if (document.hidden) stopRenderLoop();
-    else startRenderLoop();
-  });
-
-  if (typeof ResizeObserver !== "undefined") {
-    new ResizeObserver(() => {
-      if (isOpen) resizeRenderer();
-    }).observe(stage);
-  }
 })();
 
 </script>
@@ -10999,6 +11328,337 @@ window.XINYI_PHOTOS = [
       closeLetterDialog();
     }
   });
+})();
+
+</script>
+  <script>
+(() => {
+  "use strict";
+
+  const canvas = document.getElementById("photoParticlesCanvas");
+  const photo = document.querySelector(".page-backdrop__photo");
+  const hero = document.querySelector(".hero");
+  if (!canvas || !photo) return;
+
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const mobileQuery = window.matchMedia("(max-width: 720px)");
+
+  const palette = [
+    { inner: "rgba(255, 243, 212, 0.95)", mid: "rgba(235, 191, 126, 0.36)", outer: "rgba(235, 191, 126, 0)" },
+    { inner: "rgba(255, 228, 234, 0.94)", mid: "rgba(229, 153, 176, 0.34)", outer: "rgba(229, 153, 176, 0)" },
+    { inner: "rgba(235, 226, 250, 0.9)", mid: "rgba(177, 154, 214, 0.32)", outer: "rgba(177, 154, 214, 0)" },
+    { inner: "rgba(255, 255, 246, 0.95)", mid: "rgba(255, 242, 213, 0.3)", outer: "rgba(255, 242, 213, 0)" },
+  ];
+
+  const sprites = palette.map((color) => {
+    const sprite = document.createElement("canvas");
+    sprite.width = 48;
+    sprite.height = 48;
+    const sctx = sprite.getContext("2d");
+    const gradient = sctx.createRadialGradient(24, 24, 0, 24, 24, 24);
+    gradient.addColorStop(0, color.inner);
+    gradient.addColorStop(0.27, color.mid);
+    gradient.addColorStop(1, color.outer);
+    sctx.fillStyle = gradient;
+    sctx.fillRect(0, 0, 48, 48);
+    return sprite;
+  });
+
+  let width = 1;
+  let height = 1;
+  let dpr = 1;
+  let particles = [];
+  let raf = 0;
+  let image = null;
+  let heroVisible = true;
+  let pointer = { x: -9999, y: -9999, power: 0 };
+  let pointerStopTimer = 0;
+  let resizeTimer = 0;
+  let particleCanvasOffsetX = 0;
+  let particleCanvasOffsetY = 0;
+
+  function sizeCanvas() {
+    const rect = canvas.getBoundingClientRect();
+    width = Math.max(1, rect.width);
+    height = Math.max(1, rect.height);
+    dpr = Math.min(window.devicePixelRatio || 1, 1.6);
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function choosePalette(r, g, b) {
+    if (r > 204 && g > 190 && b > 170) return 3;
+    if (r > b + 14 && r > g - 8) return 1;
+    if (b > r + 10 || (b > 150 && r > 120)) return 2;
+    return 0;
+  }
+
+  function buildParticles() {
+    if (!image) return;
+    sizeCanvas();
+
+    const sampleWidth = mobileQuery.matches ? 108 : 148;
+    const sampleHeight = Math.max(1, Math.round((sampleWidth * image.height) / image.width));
+    const sample = document.createElement("canvas");
+    sample.width = sampleWidth;
+    sample.height = sampleHeight;
+    const sctx = sample.getContext("2d", { willReadFrequently: true });
+    sctx.drawImage(image, 0, 0, sampleWidth, sampleHeight);
+
+    let data;
+    try {
+      data = sctx.getImageData(0, 0, sampleWidth, sampleHeight).data;
+    } catch (error) {
+      return;
+    }
+
+    // Match the background-size: cover crop used by the CSS photo layer.
+    const scale = Math.max(width / image.width, height / image.height);
+    const drawWidth = image.width * scale;
+    const drawHeight = image.height * scale;
+    const offsetX = (width - drawWidth) / 2;
+    const offsetY = mobileQuery.matches ? 0 : (height - drawHeight) * 0.31;
+    const step = mobileQuery.matches ? 2 : 2;
+    const maxParticles = mobileQuery.matches ? (reduceMotion ? 620 : 1350) : reduceMotion ? 900 : 2250;
+    const candidates = [];
+
+    for (let y = 0; y < sampleHeight; y += step) {
+      for (let x = 0; x < sampleWidth; x += step) {
+        const offset = (y * sampleWidth + x) * 4;
+        const r = data[offset];
+        const g = data[offset + 1];
+        const b = data[offset + 2];
+        const alpha = data[offset + 3];
+        const luma = r * 0.299 + g * 0.587 + b * 0.114;
+        if (alpha < 35 || luma < 23) continue;
+
+        const tx = offsetX + ((x + 0.5) / sampleWidth) * drawWidth;
+        const ty = offsetY + ((y + 0.5) / sampleHeight) * drawHeight;
+        if (tx < -30 || tx > width + 30 || ty < -30 || ty > height + 30) continue;
+
+        candidates.push({
+          tx: tx + (Math.random() - 0.5) * width * 0.018,
+          ty: ty + (Math.random() - 0.5) * height * 0.016,
+          luma,
+          color: choosePalette(r, g, b),
+        });
+      }
+    }
+
+    const stride = Math.max(1, Math.ceil(candidates.length / maxParticles));
+    particles = [];
+    for (let i = 0; i < candidates.length; i += stride) {
+      const item = candidates[i];
+      const bokeh = i % 13 === 0;
+      const size =
+        (3.2 + (item.luma / 255) * 6.8) *
+        (mobileQuery.matches ? 0.78 : 1) *
+        (bokeh ? 1.8 : 1);
+      particles.push({
+        tx: item.tx,
+        ty: item.ty,
+        x: item.tx + (Math.random() - 0.5) * width * 0.28,
+        y: item.ty + (Math.random() - 0.5) * height * 0.24,
+        vx: 0,
+        vy: 0,
+        size,
+        color: item.color,
+        alpha: (0.18 + (item.luma / 255) * 0.52) * (bokeh ? 0.76 : 1),
+        phase: Math.random() * Math.PI * 2,
+        sway: 1.6 + Math.random() * 3.4,
+        spring: 0.005 + Math.random() * 0.009,
+      });
+    }
+  }
+
+  function draw(now) {
+    if (document.hidden || !heroVisible) {
+      raf = window.requestAnimationFrame(draw);
+      return;
+    }
+
+    ctx.clearRect(0, 0, width, height);
+    ctx.globalCompositeOperation = "lighter";
+
+    pointer.power *= 0.958;
+    if (pointer.power < 0.01) pointer.power = 0;
+
+    for (const particle of particles) {
+      const targetX = particle.tx + Math.sin(now * 0.00045 + particle.phase) * particle.sway;
+      const targetY = particle.ty + Math.cos(now * 0.00058 + particle.phase * 1.37) * particle.sway * 0.7;
+
+      let ax = (targetX - particle.x) * particle.spring;
+      let ay = (targetY - particle.y) * particle.spring;
+
+      if (pointer.power > 0) {
+        const dx = particle.x - pointer.x;
+        const dy = particle.y - pointer.y;
+        const distance = Math.hypot(dx, dy);
+        if (distance < 245 && distance > 0.1) {
+          const falloff = 1 - distance / 245;
+          const force = falloff * falloff * pointer.power * 3.6;
+          ax += (dx / distance) * force;
+          ay += (dy / distance) * force + (-dx / distance) * force * 0.42;
+        }
+      }
+
+      particle.vx = (particle.vx + ax) * 0.91;
+      particle.vy = (particle.vy + ay) * 0.91;
+      particle.x += particle.vx;
+      particle.y += particle.vy;
+
+      const twinkle =
+        0.74 +
+        Math.sin(now * 0.0018 + particle.phase) * 0.18 +
+        Math.sin(now * 0.0042 + particle.phase * 2) * 0.06;
+      const size = particle.size * twinkle;
+      const sprite = sprites[particle.color] || sprites[0];
+      ctx.globalAlpha = Math.max(0, Math.min(0.95, particle.alpha * twinkle));
+      ctx.drawImage(sprite, particle.x - size * 2.6, particle.y - size * 2.6, size * 5.2, size * 5.2);
+    }
+
+    if (pointer.power > 0.02) {
+      const auraRadius = 150 + pointer.power * 45;
+      const aura = ctx.createRadialGradient(
+        pointer.x,
+        pointer.y,
+        0,
+        pointer.x,
+        pointer.y,
+        auraRadius
+      );
+      aura.addColorStop(0, `rgba(255, 237, 202, ${0.14 + pointer.power * 0.07})`);
+      aura.addColorStop(0.42, `rgba(236, 187, 190, ${0.07 + pointer.power * 0.035})`);
+      aura.addColorStop(1, "rgba(236, 187, 190, 0)");
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = aura;
+      ctx.fillRect(pointer.x - auraRadius, pointer.y - auraRadius, auraRadius * 2, auraRadius * 2);
+
+      // A little constellation that circles the cursor, so the photo feels
+      // alive even before the user has moved far enough to disturb the field.
+      for (let i = 0; i < 7; i += 1) {
+        const angle = now * 0.0011 + (i / 7) * Math.PI * 2;
+        const radius = 28 + Math.sin(now * 0.0018 + i) * 7;
+        const x = pointer.x + Math.cos(angle) * radius;
+        const y = pointer.y + Math.sin(angle) * radius * 0.62;
+        const sprite = sprites[(i + Math.floor(now / 900)) % sprites.length];
+        ctx.globalAlpha = 0.36 + pointer.power * 0.08;
+        ctx.drawImage(sprite, x - 8, y - 8, 16, 16);
+      }
+    }
+
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = "source-over";
+    raf = window.requestAnimationFrame(draw);
+  }
+
+  function start() {
+    if (raf) return;
+    raf = window.requestAnimationFrame(draw);
+  }
+
+  function loadImage() {
+    let source = "";
+    try {
+      const background = getComputedStyle(photo).backgroundImage;
+      const match = background.match(/url\((["']?)(.*?)\1\)/);
+      if (match) source = match[2];
+    } catch (error) {
+      source = "";
+    }
+    if (!source || source === "none") source = "assets/xinyi.jpg";
+
+    image = new Image();
+    image.decoding = "async";
+    image.onload = () => {
+      buildParticles();
+      start();
+    };
+    image.onerror = () => {
+      image = null;
+    };
+    image.src = source;
+  }
+
+  function handlePointerMove(event) {
+    const rect = canvas.getBoundingClientRect();
+    if (
+      event.clientX < rect.left ||
+      event.clientX > rect.right ||
+      event.clientY < rect.top ||
+      event.clientY > rect.bottom
+    ) {
+      pointer.power *= 0.86;
+      return;
+    }
+
+    pointer.x = event.clientX - rect.left;
+    pointer.y = event.clientY - rect.top;
+    pointer.power = 1;
+
+    window.clearTimeout(pointerStopTimer);
+    pointerStopTimer = window.setTimeout(() => {
+      pointer.power = 0;
+    }, 700);
+
+    // Keep the glowing layer aligned with the subtle parallax on the photo.
+    const nx = event.clientX / window.innerWidth - 0.5;
+    const ny = event.clientY / window.innerHeight - 0.5;
+    canvas.style.transform = `translate3d(${(-nx * 16).toFixed(2)}px, ${(-ny * 10).toFixed(2)}px, 0)`;
+  }
+
+  if ("IntersectionObserver" in window && hero) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        heroVisible = entries.some((entry) => entry.isIntersecting);
+      },
+      { rootMargin: "100px 0px 100px 0px", threshold: 0 }
+    );
+    observer.observe(hero);
+  }
+
+  window.addEventListener("pointermove", handlePointerMove, { passive: true });
+
+  window.addEventListener("pointerdown", (event) => {
+    if (event.target.closest?.("a, button, input, textarea, select, dialog")) return;
+    const rect = canvas.getBoundingClientRect();
+    if (
+      event.clientX < rect.left ||
+      event.clientX > rect.right ||
+      event.clientY < rect.top ||
+      event.clientY > rect.bottom
+    ) {
+      return;
+    }
+    pointer.x = event.clientX - rect.left;
+    pointer.y = event.clientY - rect.top;
+    pointer.power = 2.1;
+    window.clearTimeout(pointerStopTimer);
+    pointerStopTimer = window.setTimeout(() => {
+      pointer.power = 0;
+    }, 850);
+  }, { passive: true });
+
+  window.addEventListener(
+    "resize",
+    () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => {
+        if (!image) return;
+        buildParticles();
+      }, 180);
+    },
+    { passive: true }
+  );
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) start();
+  });
+
+  loadImage();
 })();
 
 </script>
@@ -12770,8 +13430,10 @@ window.XINYI_PHOTOS = [
   }
 
   // Sugar pearls and tiny stars on the exposed ledge of the middle tier.
-  addPearlRing(turntable, 1.39, 2.655, 16, 0.034, pearlMaterial, 0.1);
-  addPearlRing(turntable, 1.85, 1.915, 20, 0.03, goldSoftMaterial, 0.24);
+  const middleLedgePearls = addPearlRing(turntable, 1.39, 2.655, 16, 0.034, pearlMaterial, 0.1);
+  middleLedgePearls.userData.splitDecor = true;
+  const lowerLedgePearls = addPearlRing(turntable, 1.85, 1.915, 20, 0.03, goldSoftMaterial, 0.24);
+  lowerLedgePearls.userData.splitDecor = true;
 
   /* -------------------------------------------------------
      Candles
@@ -13266,11 +13928,11 @@ window.XINYI_PHOTOS = [
     setSpinButtonState();
   });
 
-  function resizeRenderer() {
+  function resizeRenderer(force = false) {
     const rect = stage.getBoundingClientRect();
     const width = Math.max(1, Math.round(rect.width));
     const height = Math.max(1, Math.round(rect.height));
-    if (width === canvasWidth && height === canvasHeight) return;
+    if (!force && width === canvasWidth && height === canvasHeight) return;
     canvasWidth = width;
     canvasHeight = height;
 
@@ -13279,10 +13941,21 @@ window.XINYI_PHOTOS = [
 
     camera.aspect = width / height;
     const mobile = width / height < 0.9;
-    camera.fov = mobile ? 33 : 31;
-    baseCameraZ = mobile ? 12.0 : 11.05;
-    baseCameraX = mobile ? 0.26 : 0.62;
-    baseCameraY = mobile ? 4.62 : 4.35;
+
+    if (immersiveMode) {
+      camera.fov = mobile ? 34 : 31;
+      baseCameraZ = mobile ? 17.2 : 15.8;
+      baseCameraX = mobile ? 0.16 : 0.4;
+      baseCameraY = mobile ? 5.6 : 5.45;
+      cameraLook.set(0, 3.9, 0);
+    } else {
+      camera.fov = mobile ? 33 : 31;
+      baseCameraZ = mobile ? 12.0 : 11.05;
+      baseCameraX = mobile ? 0.26 : 0.62;
+      baseCameraY = mobile ? 4.62 : 4.35;
+      cameraLook.set(0, 2.42, 0);
+    }
+
     camera.position.set(baseCameraX, baseCameraY, baseCameraZ);
     camera.lookAt(cameraLook);
     camera.updateProjectionMatrix();
@@ -13296,6 +13969,7 @@ window.XINYI_PHOTOS = [
       startX: event.clientX,
       startY: event.clientY,
       lastX: event.clientX,
+      moved: false,
     };
     isDragging = false;
   });
@@ -13305,6 +13979,8 @@ window.XINYI_PHOTOS = [
     const dx = event.clientX - pressInfo.lastX;
     const totalDx = event.clientX - pressInfo.startX;
     const totalDy = event.clientY - pressInfo.startY;
+
+    if (Math.hypot(totalDx, totalDy) > 6) pressInfo.moved = true;
 
     if (!isDragging) {
       if (Math.abs(totalDx) > 4 && Math.abs(totalDx) > Math.abs(totalDy)) {
@@ -13325,7 +14001,10 @@ window.XINYI_PHOTOS = [
 
   function endPointer(event) {
     if (!pressInfo || (event && event.pointerId !== pressInfo.id)) return;
-    if (isDragging) {
+    const wasDragging = isDragging;
+    const wasMoved = pressInfo.moved;
+
+    if (wasDragging) {
       autoResumeAt = performance.now() + 2800;
       canvas.style.cursor = "grab";
       try {
@@ -13334,8 +14013,13 @@ window.XINYI_PHOTOS = [
         /* noop */
       }
     }
+
     pressInfo = null;
     isDragging = false;
+
+    if (!wasDragging && !wasMoved) {
+      handlePhotoClick(event);
+    }
   }
 
   canvas.addEventListener("pointerup", endPointer);
@@ -13408,6 +14092,216 @@ window.XINYI_PHOTOS = [
   });
 
   updateBlowButton();
+
+  /* -------------------------------------------------------
+     Memories inside the cake
+     The photo cards live in the real cake scene. They are hidden
+     until the cake is taken apart in the zoomed-in view.
+     ------------------------------------------------------- */
+
+  let immersiveMode = false;
+  let splitTarget = 0;
+  let splitProgress = 0;
+  let splitStartAt = 0;
+  let splitFrom = 0;
+  let splitDuration = 1200;
+  let photosReady = false;
+  const photoMeshes = [];
+
+  const tierGroups = new Set(builtTiers.map((tier) => tier.group));
+  const topLiftGroup = new THREE.Group();
+  topLiftGroup.name = "cake-top-lift";
+  const decorRootGroup = new THREE.Group();
+  decorRootGroup.name = "cake-decor";
+  const photoCardsGroup = new THREE.Group();
+  photoCardsGroup.name = "cake-photo-cards";
+  photoCardsGroup.visible = false;
+  turntable.add(topLiftGroup, decorRootGroup, photoCardsGroup);
+
+  // Keep the stand and the very bottom of the cake stable; the rest of the
+  // embellishments hide while the cake is open so the photo layers are clear.
+  for (const child of [...turntable.children]) {
+    if (
+      child === topLiftGroup ||
+      child === decorRootGroup ||
+      child === photoCardsGroup ||
+      tierGroups.has(child)
+    ) {
+      continue;
+    }
+    if (child.userData.splitDecor) {
+      turntable.remove(child);
+      decorRootGroup.add(child);
+      continue;
+    }
+    if (!child.isGroup && child.position.y <= 1.1) continue;
+    if (child.position.y > 2.9) {
+      turntable.remove(child);
+      topLiftGroup.add(child);
+      continue;
+    }
+    turntable.remove(child);
+    decorRootGroup.add(child);
+  }
+
+  function applySplitProgress(value) {
+    const p = Math.max(0, Math.min(1, value));
+    const eased = p * p * (3 - 2 * p);
+
+    builtTiers[1].group.position.y = eased * 1.15;
+    builtTiers[2].group.position.y = eased * 2.6;
+    topLiftGroup.position.y = eased * 2.6;
+    decorRootGroup.visible = p < 0.04;
+
+    if (photoCardsGroup) {
+      const show = photosReady && p > 0.015;
+      photoCardsGroup.visible = show;
+      if (show) {
+        const bloom = Math.max(0, Math.min(1, (p - 0.08) / 0.92));
+        const bloomEased = bloom * bloom * (3 - 2 * bloom);
+        photoCardsGroup.scale.setScalar(0.22 + bloomEased * 0.78);
+      }
+    }
+  }
+
+  function setSplitTarget(target, duration = 1200) {
+    const next = target ? 1 : 0;
+    if (next === splitTarget) return;
+    splitFrom = splitProgress;
+    splitTarget = next;
+    splitStartAt = performance.now();
+    splitDuration = Math.max(1, duration);
+  }
+
+  function makePhotoCardBack() {
+    return makeCanvasTexture(260, 320, (ctx, width, height) => {
+      ctx.fillStyle = "#2b1c29";
+      ctx.fillRect(0, 0, width, height);
+      ctx.strokeStyle = "#896c5e";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(12, 12, width - 24, height - 24);
+      ctx.strokeStyle = "#543c47";
+      ctx.strokeRect(18, 18, width - 36, height - 36);
+
+      ctx.save();
+      ctx.translate(width / 2, height * 0.34);
+      ctx.beginPath();
+      for (let i = 0; i < 16; i++) {
+        const angle = (i / 16) * TAU - Math.PI / 2;
+        const radius = i % 2 === 0 ? 15 : 3.8;
+        const x = Math.cos(angle) * radius;
+        const y = Math.sin(angle) * radius;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.fillStyle = "#d8b47b";
+      ctx.fill();
+      ctx.restore();
+
+      ctx.strokeStyle = "#6e5055";
+      ctx.beginPath();
+      ctx.arc(width / 2, height * 0.52, 33, 0, TAU);
+      ctx.stroke();
+      ctx.fillStyle = "#d2a0a6";
+      ctx.font = '40px "Songti SC", "SimSun", serif';
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("欣", width / 2, height * 0.52);
+      ctx.fillStyle = "#a4877c";
+      ctx.font = "8px Arial, sans-serif";
+      ctx.fillText("OUR LITTLE UNIVERSE", width / 2, height * 0.76);
+    });
+  }
+
+  async function buildPhotoCards() {
+    const album = window.XINYI_ALBUM;
+    if (!album) return;
+    const atlas = await album.loadAtlasTexture();
+    if (!atlas || !album.photos?.length) return;
+
+    const backTexture = makePhotoCardBack();
+    const frontMaterial = new THREE.MeshBasicMaterial({
+      map: atlas,
+      toneMapped: false,
+    });
+    const backMaterial = new THREE.MeshBasicMaterial({
+      map: backTexture,
+      toneMapped: false,
+    });
+    const edgeMaterial = new THREE.MeshBasicMaterial({
+      color: 0xf1e0ce,
+      toneMapped: false,
+    });
+
+    const chapters = [
+      { maxMonth: 4, y: 2.34, radius: 1.52, start: -Math.PI / 2 + 0.34 },
+      { maxMonth: 7, y: 2.98, radius: 2.18, start: -Math.PI / 2 - 0.12 },
+      { maxMonth: 12, y: 4.42, radius: 1.78, start: -Math.PI / 2 + 0.62 },
+    ];
+    let minMonth = -Infinity;
+
+    chapters.forEach((chapter) => {
+      const entries = album.photos.filter(
+        (photo) => photo.monthOrder > minMonth && photo.monthOrder <= chapter.maxMonth
+      );
+      minMonth = chapter.maxMonth;
+      if (!entries.length) return;
+
+      entries.forEach((photo, index) => {
+        const count = entries.length;
+        const angle = chapter.start + (index / count) * TAU;
+        const geometry = new THREE.BoxGeometry(0.82, 1.025, 0.03);
+        album.applyAtlasUv(geometry, photo);
+
+        const mesh = new THREE.Mesh(geometry, [
+          edgeMaterial,
+          edgeMaterial,
+          edgeMaterial,
+          edgeMaterial,
+          frontMaterial,
+          backMaterial,
+        ]);
+        mesh.position.set(
+          Math.sin(angle) * chapter.radius,
+          chapter.y + Math.sin(index * 1.7) * 0.03,
+          Math.cos(angle) * chapter.radius
+        );
+        mesh.rotation.set(
+          Math.cos(index * 0.83) * 0.025,
+          angle,
+          Math.sin(index * 1.17) * 0.025
+        );
+        mesh.userData.photoIndex = photo.index - 1;
+        photoMeshes.push(mesh);
+        photoCardsGroup.add(mesh);
+      });
+    });
+
+    photosReady = true;
+    applySplitProgress(splitProgress);
+    window.dispatchEvent(new CustomEvent("xinyi:photo-cards-ready"));
+  }
+
+  buildPhotoCards();
+
+  const photoRaycaster = new THREE.Raycaster();
+  const photoPointer = new THREE.Vector2();
+
+  function handlePhotoClick(event) {
+    if (!immersiveMode || !photosReady || splitProgress < 0.32 || !event) return;
+    const rect = canvas.getBoundingClientRect();
+    photoPointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    photoPointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+    turntable.updateMatrixWorld(true);
+    photoRaycaster.setFromCamera(photoPointer, camera);
+    const hits = photoRaycaster.intersectObjects(photoMeshes, false);
+    if (!hits.length) return;
+    const index = hits[0].object.userData.photoIndex;
+    if (Number.isInteger(index) && window.XINYI_ALBUM) {
+      window.XINYI_ALBUM.openLightbox(index, canvas);
+    }
+  }
 
   /* -------------------------------------------------------
      Cake themes
@@ -13537,6 +14431,67 @@ window.XINYI_PHOTOS = [
   applyCakeTheme("berry", { announce: false });
 
   /* -------------------------------------------------------
+     Immersive cake API used by the album overlay
+     ------------------------------------------------------- */
+
+  window.XINYI_CAKE_ZOOM = {
+    open() {
+      immersiveMode = true;
+      stageVisible = true;
+      splitTarget = 0;
+      splitFrom = splitProgress;
+      setSplitTarget(1, 1200);
+      applySplitProgress(splitProgress);
+      resizeRenderer(true);
+    },
+    close() {
+      immersiveMode = false;
+      splitTarget = 0;
+      splitFrom = 0;
+      splitProgress = 0;
+      applySplitProgress(0);
+      if (photoCardsGroup) photoCardsGroup.visible = false;
+      if (decorRootGroup) decorRootGroup.visible = true;
+      resizeRenderer(true);
+    },
+    toggleSplit() {
+      if (!immersiveMode) return false;
+      setSplitTarget(splitTarget ? 0 : 1, 1000);
+      return Boolean(splitTarget);
+    },
+    setAutoRotate(value) {
+      autoRotate = Boolean(value);
+      autoResumeAt = 0;
+      setSpinButtonState();
+    },
+    getAutoRotate() {
+      return autoRotate;
+    },
+    isSplit() {
+      return Boolean(splitTarget);
+    },
+    resize() {
+      resizeRenderer(true);
+    },
+    isOpen() {
+      return immersiveMode;
+    },
+    hasPhotos() {
+      return photosReady;
+    },
+    getDebugState() {
+      return {
+        immersiveMode,
+        splitTarget,
+        splitProgress,
+        photosReady,
+        photoCardsVisible: Boolean(photoCardsGroup?.visible),
+        photoCardsScale: photoCardsGroup?.scale.x || 0,
+      };
+    },
+  };
+
+  /* -------------------------------------------------------
      Render loop
      ------------------------------------------------------- */
 
@@ -13571,6 +14526,15 @@ window.XINYI_PHOTOS = [
       if (autoRotate && !isDragging && now > autoResumeAt) {
         targetRotation += dt * 0.22;
       }
+
+      if (splitProgress !== splitTarget) {
+        const elapsed = now - splitStartAt;
+        const t = Math.min(1, Math.max(0, elapsed / splitDuration));
+        const eased = t * t * (3 - 2 * t);
+        splitProgress = splitFrom + (splitTarget - splitFrom) * eased;
+        if (t >= 1) splitProgress = splitTarget;
+      }
+      applySplitProgress(splitProgress);
 
       currentRotation += (targetRotation - currentRotation) * Math.min(1, dt * 7.5);
       turntable.rotation.y = currentRotation;
