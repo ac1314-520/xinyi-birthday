@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <!--
   胡欣仪 · 二十一岁生日快乐
-  单文件版：图片、字体、Three.js 都已内嵌，双击即可在浏览器打开。
+  页面版：主页面、字体、Three.js、照片清单与交互已内嵌；
+  照片卡片和《很高兴认识你》是外部资源，需要保留 assets 文件夹。
   生日：2005 年农历十一月初一（公历 2005.12.01）
   二十一岁生日：农历 2026 年十一月初一（公历 2026.12.09）
 -->
@@ -5466,6 +5467,45 @@ body.is-unlocked .hero__footer {
   background: linear-gradient(135deg, #f5e4c9 0 39%, #b9d2b2 40% 67%, #f0c9b2 68%);
 }
 
+.cake-swatch--cocoa {
+  background: linear-gradient(135deg, #f1d8b6 0 36%, #c88a62 37% 67%, #7a4a3d 68%);
+}
+
+.cake-swatch--mint {
+  background: linear-gradient(135deg, #fdfbf0 0 35%, #b7d3ae 36% 67%, #8fb99d 68%);
+}
+
+.cake-swatch--blueberry {
+  background: linear-gradient(135deg, #e8ecff 0 35%, #8e9bc5 36% 67%, #435277 68%);
+}
+
+.cake-theme-blueberry .cake-moon {
+  opacity: 0.76;
+  transform: translateY(0) scale(1);
+}
+
+.cake-section.cake-theme-blueberry {
+  background:
+    radial-gradient(ellipse at 73% 38%, rgba(74, 91, 145, 0.29), transparent 45%),
+    radial-gradient(ellipse at 9% 70%, rgba(86, 77, 127, 0.22), transparent 44%),
+    linear-gradient(180deg, #0c0b16 0%, #101424 48%, #0b0a12 100%);
+}
+
+.cake-theme-cocoa .cake-hint__icon,
+.cake-theme-cocoa .cake-option.is-active {
+  border-color: rgba(219, 181, 139, 0.34);
+}
+
+.cake-theme-mint .cake-hint__icon,
+.cake-theme-mint .cake-option.is-active {
+  border-color: rgba(198, 225, 193, 0.34);
+}
+
+.cake-theme-blueberry .cake-hint__icon,
+.cake-theme-blueberry .cake-option.is-active {
+  border-color: rgba(199, 207, 242, 0.34);
+}
+
 .cake-moon {
   position: absolute;
   z-index: 1;
@@ -6079,6 +6119,1119 @@ body.is-unlocked .hero__footer {
   }
 }
 
+/* =========================================================
+   The cake album — entry card
+   ========================================================= */
+
+.cake-album {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  width: min(100%, 430px);
+  margin: 18px auto 0;
+  padding: 12px 14px;
+  border: 1px solid rgba(247, 226, 214, 0.17);
+  border-radius: 13px;
+  background:
+    linear-gradient(115deg, rgba(232, 177, 190, 0.13), rgba(255, 255, 255, 0.045) 54%, rgba(203, 181, 222, 0.1));
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  color: var(--cream);
+  text-align: left;
+  overflow: hidden;
+  transition:
+    transform 0.35s var(--ease-out),
+    border-color 0.35s var(--ease-soft),
+    background 0.35s var(--ease-soft);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.cake-album::after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -60%;
+  width: 35%;
+  background: linear-gradient(90deg, transparent, rgba(255, 247, 236, 0.13), transparent);
+  content: "";
+  transform: skewX(-18deg);
+  transition: left 0.75s var(--ease-out);
+}
+
+.cake-album:hover {
+  border-color: rgba(247, 226, 214, 0.34);
+  background:
+    linear-gradient(115deg, rgba(232, 177, 190, 0.2), rgba(255, 255, 255, 0.07) 54%, rgba(203, 181, 222, 0.15));
+  transform: translateY(-2px);
+}
+
+.cake-album:hover::after {
+  left: 125%;
+}
+
+.cake-album__mark {
+  position: relative;
+  flex-shrink: 0;
+  width: 40px;
+  height: 42px;
+}
+
+.cake-album__mark i {
+  position: absolute;
+  top: 4px;
+  left: 6px;
+  display: block;
+  width: 28px;
+  height: 32px;
+  border: 1px solid rgba(255, 246, 234, 0.45);
+  border-radius: 2px;
+  background: #f9efe2;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.18);
+}
+
+.cake-album__mark i:nth-child(1) {
+  transform: rotate(-13deg);
+  opacity: 0.55;
+}
+
+.cake-album__mark i:nth-child(2) {
+  transform: rotate(6deg) translate(3px, 1px);
+  opacity: 0.78;
+}
+
+.cake-album__mark i:nth-child(3) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-1deg) translate(1px, 3px);
+  border-color: #e9cba4;
+  background:
+    radial-gradient(circle at 50% 42%, #b97f8d 0 2px, transparent 2.5px),
+    linear-gradient(155deg, #fbf3e8, #edd8c6);
+}
+
+.cake-album__mark i:nth-child(3)::before {
+  width: 14px;
+  height: 18px;
+  border: 1px solid rgba(134, 93, 77, 0.2);
+  box-shadow: inset 0 0 0 2px rgba(255, 252, 244, 0.45);
+  content: "";
+}
+
+.cake-album__copy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  gap: 3px;
+}
+
+.cake-album__copy small {
+  color: rgba(241, 216, 205, 0.35);
+  font-size: 6px;
+  font-weight: 600;
+  letter-spacing: 0.17em;
+}
+
+.cake-album__copy strong {
+  color: rgba(251, 241, 232, 0.88);
+  font-family: var(--font-cn);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.035em;
+}
+
+.cake-album__copy strong b {
+  color: var(--gold-light);
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.cake-album__copy > span {
+  color: rgba(244, 224, 213, 0.4);
+  font-size: 8px;
+  letter-spacing: 0.035em;
+}
+
+.cake-album__arrow {
+  color: var(--gold-light);
+  font-family: var(--font-display);
+  font-size: 17px;
+  opacity: 0.65;
+  transition: transform 0.35s var(--ease-out);
+}
+
+.cake-album:hover .cake-album__arrow {
+  transform: translate(2px, -3px);
+}
+
+/* =========================================================
+   Photo world
+   ========================================================= */
+
+body.photo-world-open,
+body.photo-viewer-open {
+  overflow: hidden;
+}
+
+.photo-world {
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--cream);
+  overflow: hidden;
+}
+
+.photo-world::backdrop {
+  background: #08060d;
+}
+
+.photo-world[open] {
+  animation: photo-world-in 0.7s var(--ease-out) both;
+}
+
+.photo-world__inner {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 48% 36%, rgba(91, 57, 82, 0.4), transparent 46%),
+    radial-gradient(ellipse at 83% 70%, rgba(104, 78, 111, 0.18), transparent 42%),
+    linear-gradient(180deg, #0c0912, #15101a 52%, #0a0710);
+}
+
+.photo-world__inner::after {
+  position: absolute;
+  z-index: 20;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
+  opacity: 0.065;
+  mix-blend-mode: soft-light;
+  content: "";
+  pointer-events: none;
+}
+
+.photo-world__atmosphere {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 105%, rgba(177, 119, 111, 0.2), transparent 42%),
+    radial-gradient(ellipse at 50% 46%, rgba(239, 192, 174, 0.055), transparent 33%);
+  pointer-events: none;
+}
+
+.photo-world__stars {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  color: rgba(255, 235, 207, 0.32);
+  pointer-events: none;
+}
+
+.photo-world__stars span {
+  position: absolute;
+  font-family: var(--font-display);
+  font-size: 8px;
+  animation: tiny-twinkle 5s ease-in-out infinite;
+}
+
+.photo-world__stars span:nth-child(1) {
+  top: 19%;
+  left: 9%;
+}
+
+.photo-world__stars span:nth-child(2) {
+  top: 36%;
+  left: 31%;
+  animation-delay: 1.2s;
+}
+
+.photo-world__stars span:nth-child(3) {
+  top: 17%;
+  right: 28%;
+  font-size: 12px;
+  animation-delay: 0.5s;
+}
+
+.photo-world__stars span:nth-child(4) {
+  right: 11%;
+  bottom: 34%;
+  animation-delay: 2.1s;
+}
+
+.photo-world__stars span:nth-child(5) {
+  bottom: 22%;
+  left: 18%;
+  font-size: 12px;
+  animation-delay: 3.2s;
+}
+
+.photo-world__stars span:nth-child(6) {
+  top: 52%;
+  right: 21%;
+  animation-delay: 1.7s;
+}
+
+.photo-world__header {
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: 155px minmax(0, 1fr) 115px;
+  align-items: start;
+  gap: 26px;
+  padding: 25px clamp(22px, 4vw, 62px) 50px;
+  background: linear-gradient(180deg, rgba(9, 6, 12, 0.78), transparent);
+  pointer-events: none;
+}
+
+.photo-world__header > * {
+  pointer-events: auto;
+}
+
+.photo-world__back {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  justify-content: flex-start;
+  gap: 8px;
+  width: max-content;
+  min-height: 34px;
+  padding: 0 4px;
+  color: rgba(248, 232, 219, 0.6);
+  font-family: var(--font-cn);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  transition:
+    color 0.25s var(--ease-soft),
+    transform 0.3s var(--ease-out);
+}
+
+.photo-world__back svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.photo-world__back:hover {
+  color: var(--cream);
+  transform: translateX(-3px);
+}
+
+.photo-world__back:focus-visible {
+  outline: 1px solid rgba(231, 199, 154, 0.52);
+  outline-offset: 5px;
+  border-radius: 999px;
+  color: var(--cream);
+}
+
+.photo-world__title {
+  justify-self: center;
+  text-align: center;
+}
+
+.photo-world__title > span {
+  color: rgba(239, 213, 195, 0.34);
+  font-size: 7px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+}
+
+.photo-world__title h2 {
+  margin: 10px 0 0;
+  color: var(--cream);
+  font-family: var(--font-cn);
+  font-size: clamp(23px, 2.5vw, 35px);
+  font-weight: 400;
+  letter-spacing: 0.045em;
+  line-height: 1.4;
+}
+
+.photo-world__title h2 span {
+  display: inline;
+}
+
+.photo-world__title h2 em {
+  color: var(--rose-bright);
+  font-style: normal;
+}
+
+.photo-world__count {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 9px;
+  padding-top: 2px;
+}
+
+.photo-world__count strong {
+  color: var(--gold-light);
+  font-family: var(--font-display);
+  font-size: 35px;
+  font-weight: 300;
+  letter-spacing: -0.04em;
+  line-height: 0.8;
+}
+
+.photo-world__count span {
+  color: rgba(242, 219, 204, 0.33);
+  font-size: 6px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+}
+
+.photo-world__stage {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+}
+
+#photoWorldCanvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: grab;
+  outline: none;
+}
+
+#photoWorldCanvas:active {
+  cursor: grabbing;
+}
+
+#photoWorldCanvas:focus-visible {
+  outline: 1px solid rgba(229, 198, 155, 0.55);
+  outline-offset: -5px;
+}
+
+.photo-world__loading {
+  position: absolute;
+  z-index: 9;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 11px;
+  width: min(360px, 78vw);
+  padding: 27px 28px;
+  border: 1px solid rgba(250, 233, 219, 0.12);
+  border-radius: 16px;
+  background: rgba(20, 14, 23, 0.66);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+  color: rgba(247, 230, 217, 0.6);
+  text-align: center;
+  transform: translate(-50%, -50%);
+  transition:
+    opacity 0.65s var(--ease-soft),
+    visibility 0.65s;
+  backdrop-filter: blur(16px);
+}
+
+.photo-world__loading.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.photo-world__loading-star {
+  color: var(--gold-light);
+  font-size: 21px;
+  animation: slow-spin 7s linear infinite;
+}
+
+.photo-world__loading p {
+  margin: 0;
+  font-family: var(--font-cn);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+.photo-world__loading small {
+  color: rgba(248, 231, 217, 0.3);
+  font-size: 7px;
+  letter-spacing: 0.1em;
+}
+
+.photo-world__progress {
+  width: 150px;
+  height: 1px;
+  overflow: hidden;
+  background: rgba(248, 231, 217, 0.12);
+}
+
+.photo-world__progress span {
+  display: block;
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--rose-bright));
+  transition: width 0.25s var(--ease-soft);
+}
+
+.photo-world__hint {
+  position: absolute;
+  z-index: 4;
+  bottom: 104px;
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 8px 12px;
+  border: 1px solid rgba(247, 229, 214, 0.12);
+  border-radius: 999px;
+  background: rgba(16, 11, 19, 0.38);
+  color: rgba(247, 230, 218, 0.45);
+  font-size: 8px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  backdrop-filter: blur(12px);
+  pointer-events: none;
+}
+
+.photo-world__hint span {
+  color: var(--gold-light);
+}
+
+.photo-world__footer {
+  position: absolute;
+  z-index: 5;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 48px clamp(22px, 4vw, 62px) 22px;
+  background:
+    linear-gradient(0deg, rgba(8, 6, 12, 0.92), rgba(8, 6, 12, 0.48) 56%, transparent);
+  pointer-events: none;
+}
+
+.photo-world__footer > * {
+  pointer-events: auto;
+}
+
+.photo-world__timeline {
+  min-width: 0;
+  max-width: 720px;
+}
+
+.photo-world__timeline-label {
+  display: block;
+  margin-bottom: 9px;
+  color: rgba(239, 213, 195, 0.28);
+  font-size: 6.5px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+}
+
+.photo-world__months {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.photo-month {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  min-height: 27px;
+  padding: 5px 8px;
+  border: 1px solid rgba(247, 229, 214, 0.15);
+  border-radius: 999px;
+  background: rgba(20, 13, 22, 0.44);
+  color: rgba(247, 230, 218, 0.66);
+  font-family: var(--font-cn);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  transition:
+    color 0.25s var(--ease-soft),
+    background 0.25s var(--ease-soft),
+    border-color 0.25s var(--ease-soft);
+  backdrop-filter: blur(10px);
+}
+
+.photo-month span {
+  color: rgba(247, 230, 218, 0.32);
+  font-family: var(--font-sans);
+  font-size: 6px;
+}
+
+.photo-month:hover {
+  border-color: rgba(247, 229, 214, 0.36);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--cream);
+}
+
+.photo-month:focus-visible {
+  outline: 1px solid rgba(234, 198, 150, 0.65);
+  outline-offset: 2px;
+  color: var(--cream);
+}
+
+.photo-world__controls {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 13px;
+}
+
+.photo-world__spin {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 33px;
+  padding: 0 11px;
+  border: 1px solid rgba(247, 229, 214, 0.13);
+  border-radius: 999px;
+  color: rgba(247, 230, 218, 0.45);
+  font-size: 8px;
+  letter-spacing: 0.04em;
+  transition:
+    color 0.25s var(--ease-soft),
+    border-color 0.25s var(--ease-soft);
+}
+
+.photo-world__spin:hover {
+  color: var(--cream);
+  border-color: rgba(247, 229, 214, 0.3);
+}
+
+.photo-world__spin-icon {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+}
+
+.photo-world__spin-icon::after {
+  position: absolute;
+  top: -2px;
+  left: 4px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: currentColor;
+  content: "";
+}
+
+.photo-world__spin.is-on {
+  color: rgba(247, 230, 218, 0.78);
+}
+
+.photo-world__spin.is-on .photo-world__spin-icon {
+  animation: disc-spin 4.5s linear infinite;
+}
+
+.photo-world__month-note {
+  color: rgba(247, 230, 218, 0.27);
+  font-size: 7px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.photo-world__fallback {
+  position: absolute;
+  z-index: 7;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  width: min(360px, 80vw);
+  padding: 30px;
+  border: 1px solid rgba(247, 229, 214, 0.15);
+  background: rgba(20, 14, 23, 0.72);
+  color: var(--cream);
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+.photo-world__fallback[hidden] {
+  display: none;
+}
+
+.photo-world__fallback p {
+  margin: 0;
+  font-family: var(--font-cn);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.photo-world__fallback a {
+  color: var(--gold-light);
+  font-size: 10px;
+  border-bottom: 1px solid currentColor;
+}
+
+.photo-world__sr-list a {
+  color: var(--cream);
+}
+
+.photo-lightbox {
+  width: min(1080px, 92vw);
+  max-width: none;
+  max-height: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  overflow: visible;
+}
+
+.photo-lightbox::backdrop {
+  background: rgba(7, 5, 10, 0.86);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.photo-lightbox[open] {
+  animation: photo-viewer-in 0.55s var(--ease-out) both;
+}
+
+.photo-lightbox__figure {
+  position: relative;
+  margin: 0;
+  padding: 18px 18px 0;
+  border: 1px solid rgba(255, 250, 243, 0.32);
+  border-radius: 3px;
+  background: #f8eee2;
+  box-shadow:
+    0 42px 100px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(117, 80, 67, 0.12);
+}
+
+.photo-lightbox__image {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  max-height: 67vh;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(226, 200, 177, 0.42), transparent 65%),
+    #e8d5c4;
+}
+
+.photo-lightbox__image img {
+  display: block;
+  max-width: 100%;
+  max-height: 67vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.35s var(--ease-soft);
+}
+
+.photo-lightbox__image img.is-loaded {
+  opacity: 1;
+}
+
+.photo-lightbox__loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 22px;
+  height: 22px;
+  border: 1px solid rgba(106, 72, 61, 0.18);
+  border-top-color: rgba(151, 95, 104, 0.75);
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.2s;
+}
+
+.photo-lightbox__loader.is-visible {
+  opacity: 1;
+  animation: disc-spin 1s linear infinite;
+}
+
+.photo-lightbox__caption {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 18px;
+  padding: 15px 9px 16px;
+}
+
+.photo-lightbox__caption > span {
+  color: var(--rose-deep);
+  font-family: var(--font-cn);
+  font-size: 16px;
+  letter-spacing: 0.08em;
+}
+
+.photo-lightbox__caption h3 {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-cn);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+}
+
+.photo-lightbox__caption p {
+  margin: 0;
+  color: rgba(76, 54, 53, 0.47);
+  font-family: var(--font-sans);
+  font-size: 8px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.photo-lightbox__close {
+  position: absolute;
+  z-index: 4;
+  top: -42px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(251, 236, 222, 0.25);
+  border-radius: 50%;
+  color: rgba(255, 245, 235, 0.75);
+  transition:
+    background 0.25s var(--ease-soft),
+    transform 0.25s var(--ease-out);
+}
+
+.photo-lightbox__close:hover {
+  background: rgba(255, 255, 255, 0.09);
+  transform: rotate(90deg);
+}
+
+.photo-lightbox__close:focus-visible,
+.photo-lightbox__nav:focus-visible {
+  outline: 1px solid rgba(239, 208, 164, 0.7);
+  outline-offset: 3px;
+}
+
+.photo-lightbox__close svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.2;
+  stroke-linecap: round;
+}
+
+.photo-lightbox__nav {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(251, 236, 222, 0.2);
+  border-radius: 50%;
+  background: rgba(20, 14, 21, 0.28);
+  color: rgba(255, 246, 236, 0.65);
+  transform: translateY(-50%);
+  transition:
+    background 0.25s var(--ease-soft),
+    color 0.25s var(--ease-soft),
+    border-color 0.25s var(--ease-soft);
+  backdrop-filter: blur(10px);
+}
+
+.photo-lightbox__nav:hover {
+  border-color: rgba(251, 236, 222, 0.45);
+  background: rgba(255, 255, 255, 0.11);
+  color: var(--cream);
+}
+
+.photo-lightbox__nav svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.photo-lightbox__nav--prev {
+  left: -64px;
+}
+
+.photo-lightbox__nav--next {
+  right: -64px;
+}
+
+@keyframes photo-world-in {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes photo-viewer-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 720px) {
+  .cake-picker__options {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 4px;
+    overflow: visible;
+  }
+
+  .cake-option {
+    flex: 1 1 calc(33.333% - 4px);
+    min-width: 0;
+  }
+
+  .cake-album {
+    width: 100%;
+    margin-top: 14px;
+    padding: 10px 11px;
+  }
+
+  .cake-album__copy strong {
+    font-size: 11px;
+  }
+
+  .cake-album__copy strong b {
+    font-size: 17px;
+  }
+
+  .cake-album__copy > span {
+    font-size: 7.5px;
+  }
+
+  .cake-album__arrow {
+    font-size: 15px;
+  }
+
+  .photo-world__header {
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    padding: 14px 16px 34px;
+  }
+
+  .photo-world__back {
+    font-size: 9px;
+  }
+
+  .photo-world__back svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .photo-world__title {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    text-align: left;
+    justify-self: stretch;
+    margin-top: 6px;
+  }
+
+  .photo-world__title > span {
+    font-size: 6px;
+    letter-spacing: 0.13em;
+  }
+
+  .photo-world__title h2 {
+    max-width: 100%;
+    margin-top: 7px;
+    font-size: 23px;
+    line-height: 1.42;
+  }
+
+  .photo-world__title h2 span {
+    display: block;
+  }
+
+  .photo-world__title h2 span + span {
+    margin-top: 1px;
+  }
+
+  .photo-world__count {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+  }
+
+  .photo-world__count strong {
+    font-size: 28px;
+  }
+
+  .photo-world__count span {
+    display: none;
+  }
+
+  .photo-world__hint {
+    bottom: 105px;
+    max-width: calc(100vw - 34px);
+    font-size: 7px;
+  }
+
+  .photo-world__footer {
+    display: block;
+    padding: 30px 15px max(13px, env(safe-area-inset-bottom));
+  }
+
+  .photo-world__timeline {
+    max-width: 100%;
+  }
+
+  .photo-world__timeline-label {
+    margin-bottom: 7px;
+    font-size: 5.5px;
+  }
+
+  .photo-world__months {
+    flex-wrap: nowrap;
+    max-width: 100%;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+
+  .photo-world__months::-webkit-scrollbar {
+    display: none;
+  }
+
+  .photo-month {
+    flex-shrink: 0;
+    min-height: 25px;
+    padding: 4px 7px;
+    font-size: 8px;
+  }
+
+  .photo-world__controls {
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 11px;
+  }
+
+  .photo-world__spin {
+    min-height: 30px;
+    font-size: 7.5px;
+  }
+
+  .photo-world__month-note {
+    font-size: 6px;
+  }
+
+  .photo-world__loading {
+    padding: 23px 19px;
+  }
+
+  .photo-lightbox {
+    width: calc(100vw - 28px);
+    max-height: 92dvh;
+  }
+
+  .photo-lightbox__figure {
+    padding: 10px 10px 0;
+    max-height: 92dvh;
+  }
+
+  .photo-lightbox__image {
+    max-height: 65dvh;
+  }
+
+  .photo-lightbox__image img {
+    max-height: 65dvh;
+  }
+
+  .photo-lightbox__caption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 12px;
+    padding: 11px 4px 13px;
+  }
+
+  .photo-lightbox__caption > span {
+    font-size: 14px;
+  }
+
+  .photo-lightbox__caption h3 {
+    font-size: 11px;
+  }
+
+  .photo-lightbox__caption p {
+    width: 100%;
+    font-size: 7px;
+  }
+
+  .photo-lightbox__close {
+    top: 12px;
+    right: 12px;
+    width: 30px;
+    height: 30px;
+    border-color: rgba(88, 59, 54, 0.2);
+    background: rgba(255, 250, 242, 0.5);
+    color: var(--ink-soft);
+  }
+
+  .photo-lightbox__nav {
+    top: 50%;
+    bottom: auto;
+    width: 35px;
+    height: 35px;
+    border-color: rgba(251, 236, 222, 0.22);
+    background: rgba(25, 17, 24, 0.62);
+    transform: translateY(-50%);
+    backdrop-filter: blur(8px);
+  }
+
+  .photo-lightbox__nav--prev {
+    left: 12px;
+  }
+
+  .photo-lightbox__nav--next {
+    right: 12px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -6481,6 +7634,18 @@ body.is-unlocked .hero__footer {
                   <i class="cake-swatch cake-swatch--garden" aria-hidden="true"></i>
                   <span>春日花园</span>
                 </button>
+                <button class="cake-option" type="button" data-cake-theme="cocoa" aria-pressed="false">
+                  <i class="cake-swatch cake-swatch--cocoa" aria-hidden="true"></i>
+                  <span>焦糖可可</span>
+                </button>
+                <button class="cake-option" type="button" data-cake-theme="mint" aria-pressed="false">
+                  <i class="cake-swatch cake-swatch--mint" aria-hidden="true"></i>
+                  <span>薄荷晨露</span>
+                </button>
+                <button class="cake-option" type="button" data-cake-theme="blueberry" aria-pressed="false">
+                  <i class="cake-swatch cake-swatch--blueberry" aria-hidden="true"></i>
+                  <span>蓝莓夜空</span>
+                </button>
               </div>
             </div>
 
@@ -6534,6 +7699,18 @@ body.is-unlocked .hero__footer {
                 <i aria-hidden="true"></i>
               </button>
             </div>
+
+            <button class="cake-album" id="openPhotoCake" type="button" aria-haspopup="dialog" aria-controls="photoWorld">
+              <span class="cake-album__mark" aria-hidden="true">
+                <i></i><i></i><i></i>
+              </span>
+              <span class="cake-album__copy">
+                <small>INSIDE THE CAKE</small>
+                <strong>蛋糕里还藏着 <b id="albumPhotoCount">46</b> 张照片</strong>
+                <span>放大蛋糕，抽一张记忆卡</span>
+              </span>
+              <span class="cake-album__arrow" aria-hidden="true">↗</span>
+            </button>
           </div>
         </div>
       </div>
@@ -6609,6 +7786,84 @@ body.is-unlocked .hero__footer {
   </div>
   <audio id="bgMusic" preload="none" loop></audio>
   <p class="toast" id="toast" role="status" aria-live="polite"></p>
+
+  <dialog class="photo-world" id="photoWorld" aria-labelledby="photoWorldTitle" aria-describedby="photoWorldHint">
+    <div class="photo-world__inner">
+      <div class="photo-world__atmosphere" aria-hidden="true"></div>
+      <div class="photo-world__stars" aria-hidden="true">
+        <span>✦</span><span>·</span><span>✧</span><span>·</span><span>✦</span><span>·</span>
+      </div>
+
+      <header class="photo-world__header">
+        <button class="photo-world__back" id="closePhotoWorld" type="button">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M15.5 10H4.5M9 5.5 4.5 10 9 14.5"/></svg>
+          <span>回到蛋糕</span>
+        </button>
+        <div class="photo-world__title">
+          <span>INSIDE THE CAKE · A LITTLE ARCHIVE</span>
+          <h2 id="photoWorldTitle"><span>蛋糕里，</span><span>藏着我们的<em>四十六页</em>。</span></h2>
+        </div>
+        <div class="photo-world__count">
+          <strong>46</strong>
+          <span>MEMORIES<br />BY MONTH</span>
+        </div>
+      </header>
+
+      <div class="photo-world__stage" id="photoWorldStage">
+        <canvas id="photoWorldCanvas" tabindex="0" aria-label="一棵由 46 张照片组成的 360 度记忆蛋糕。拖动旋转，点击照片查看大图。"></canvas>
+        <div class="photo-world__loading" id="photoWorldLoading">
+          <span class="photo-world__loading-star" aria-hidden="true">✦</span>
+          <p>正在把照片从蛋糕里抽出来…</p>
+          <div class="photo-world__progress"><span id="photoWorldProgress"></span></div>
+          <small>按月份排好，慢慢来</small>
+        </div>
+        <div class="photo-world__fallback" id="photoWorldFallback" hidden>
+          <p>这个浏览器暂时没有接住照片蛋糕，但照片都还在。</p>
+          <a href="assets/photos/cards/photo-01.jpg" target="_blank" rel="noopener">先看第一张</a>
+        </div>
+        <p class="photo-world__hint" id="photoWorldHint"><span aria-hidden="true">↔</span> 拖动旋转 · 点击照片放大</p>
+      </div>
+
+      <footer class="photo-world__footer">
+        <div class="photo-world__timeline">
+          <span class="photo-world__timeline-label">SORTED BY MONTH</span>
+          <div class="photo-world__months" id="photoWorldMonths" aria-label="按月份浏览照片"></div>
+        </div>
+        <div class="photo-world__controls">
+          <button class="photo-world__spin is-on" id="photoWorldSpin" type="button" aria-pressed="true">
+            <span class="photo-world__spin-icon" aria-hidden="true"><i></i></span>
+            自动旋转
+          </button>
+          <span class="photo-world__month-note">二月 — 十一月 · 46 张</span>
+        </div>
+      </footer>
+
+      <div class="sr-only" id="photoWorldList" aria-label="按日期浏览全部照片"></div>
+    </div>
+  </dialog>
+
+  <dialog class="photo-lightbox" id="photoLightbox" aria-labelledby="photoLightboxTitle">
+    <button class="photo-lightbox__close" id="closePhotoLightbox" type="button" aria-label="关闭大图">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15"/></svg>
+    </button>
+    <button class="photo-lightbox__nav photo-lightbox__nav--prev" id="prevPhoto" type="button" aria-label="上一张照片">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4.5 7 10l5.5 5.5"/></svg>
+    </button>
+    <figure class="photo-lightbox__figure">
+      <div class="photo-lightbox__image">
+        <img id="photoLightboxImage" alt="" />
+        <span class="photo-lightbox__loader" id="photoLightboxLoader" aria-hidden="true"></span>
+      </div>
+      <figcaption class="photo-lightbox__caption">
+        <span id="photoLightboxDate">二月 · 01</span>
+        <h3 id="photoLightboxTitle">第 1 张记忆</h3>
+        <p><span id="photoLightboxIndex">01 / 46</span> · 按月份整理</p>
+      </figcaption>
+    </figure>
+    <button class="photo-lightbox__nav photo-lightbox__nav--next" id="nextPhoto" type="button" aria-label="下一张照片">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 4.5 13 10l-5.5 5.5"/></svg>
+    </button>
+  </dialog>
 
   <dialog class="letter-dialog" id="letterDialog" aria-labelledby="letterDialogTitle">
     <div class="letter-paper">
@@ -6969,6 +8224,1815 @@ body.is-unlocked .hero__footer {
     if (!audio.paused) setStatus("playing");
     else if (!unavailable) setStatus("paused");
   });
+})();
+
+</script>
+  <script>
+window.XINYI_PHOTOS = [
+  {
+    "id": "photo-01",
+    "index": 1,
+    "month": "二月",
+    "monthOrder": 2,
+    "inMonth": 1,
+    "label": "二月 · 01",
+    "shortLabel": "二月",
+    "card": "assets/photos/cards/photo-01.jpg",
+    "large": "assets/photos/large/photo-01.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "二月的照片，第 1 张"
+  },
+  {
+    "id": "photo-02",
+    "index": 2,
+    "month": "二月",
+    "monthOrder": 2,
+    "inMonth": 2,
+    "label": "二月 · 02",
+    "shortLabel": "二月",
+    "card": "assets/photos/cards/photo-02.jpg",
+    "large": "assets/photos/large/photo-02.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "二月的照片，第 2 张"
+  },
+  {
+    "id": "photo-03",
+    "index": 3,
+    "month": "二月",
+    "monthOrder": 2,
+    "inMonth": 3,
+    "label": "二月 · 03",
+    "shortLabel": "二月",
+    "card": "assets/photos/cards/photo-03.jpg",
+    "large": "assets/photos/large/photo-03.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "二月的照片，第 3 张"
+  },
+  {
+    "id": "photo-04",
+    "index": 4,
+    "month": "二月",
+    "monthOrder": 2,
+    "inMonth": 4,
+    "label": "二月 · 04",
+    "shortLabel": "二月",
+    "card": "assets/photos/cards/photo-04.jpg",
+    "large": "assets/photos/large/photo-04.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "二月的照片，第 4 张"
+  },
+  {
+    "id": "photo-05",
+    "index": 5,
+    "month": "二月",
+    "monthOrder": 2,
+    "inMonth": 5,
+    "label": "二月 · 05",
+    "shortLabel": "二月",
+    "card": "assets/photos/cards/photo-05.jpg",
+    "large": "assets/photos/large/photo-05.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "二月的照片，第 5 张"
+  },
+  {
+    "id": "photo-06",
+    "index": 6,
+    "month": "三月",
+    "monthOrder": 3,
+    "inMonth": 1,
+    "label": "三月 · 01",
+    "shortLabel": "三月",
+    "card": "assets/photos/cards/photo-06.jpg",
+    "large": "assets/photos/large/photo-06.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "三月的照片，第 6 张"
+  },
+  {
+    "id": "photo-07",
+    "index": 7,
+    "month": "三月",
+    "monthOrder": 3,
+    "inMonth": 2,
+    "label": "三月 · 02",
+    "shortLabel": "三月",
+    "card": "assets/photos/cards/photo-07.jpg",
+    "large": "assets/photos/large/photo-07.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "三月的照片，第 7 张"
+  },
+  {
+    "id": "photo-08",
+    "index": 8,
+    "month": "三月",
+    "monthOrder": 3,
+    "inMonth": 3,
+    "label": "三月 · 03",
+    "shortLabel": "三月",
+    "card": "assets/photos/cards/photo-08.jpg",
+    "large": "assets/photos/large/photo-08.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "三月的照片，第 8 张"
+  },
+  {
+    "id": "photo-09",
+    "index": 9,
+    "month": "四月",
+    "monthOrder": 4,
+    "inMonth": 1,
+    "label": "四月 · 01",
+    "shortLabel": "四月",
+    "card": "assets/photos/cards/photo-09.jpg",
+    "large": "assets/photos/large/photo-09.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "四月的照片，第 9 张"
+  },
+  {
+    "id": "photo-10",
+    "index": 10,
+    "month": "四月",
+    "monthOrder": 4,
+    "inMonth": 2,
+    "label": "四月 · 02",
+    "shortLabel": "四月",
+    "card": "assets/photos/cards/photo-10.jpg",
+    "large": "assets/photos/large/photo-10.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "四月的照片，第 10 张"
+  },
+  {
+    "id": "photo-11",
+    "index": 11,
+    "month": "四月",
+    "monthOrder": 4,
+    "inMonth": 3,
+    "label": "四月 · 03",
+    "shortLabel": "四月",
+    "card": "assets/photos/cards/photo-11.jpg",
+    "large": "assets/photos/large/photo-11.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "四月的照片，第 11 张"
+  },
+  {
+    "id": "photo-12",
+    "index": 12,
+    "month": "四月",
+    "monthOrder": 4,
+    "inMonth": 4,
+    "label": "四月 · 04",
+    "shortLabel": "四月",
+    "card": "assets/photos/cards/photo-12.jpg",
+    "large": "assets/photos/large/photo-12.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "四月的照片，第 12 张"
+  },
+  {
+    "id": "photo-13",
+    "index": 13,
+    "month": "五月",
+    "monthOrder": 5,
+    "inMonth": 1,
+    "label": "五月 · 01",
+    "shortLabel": "五月",
+    "card": "assets/photos/cards/photo-13.jpg",
+    "large": "assets/photos/large/photo-13.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "五月的照片，第 13 张"
+  },
+  {
+    "id": "photo-14",
+    "index": 14,
+    "month": "五月",
+    "monthOrder": 5,
+    "inMonth": 2,
+    "label": "五月 · 02",
+    "shortLabel": "五月",
+    "card": "assets/photos/cards/photo-14.jpg",
+    "large": "assets/photos/large/photo-14.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "五月的照片，第 14 张"
+  },
+  {
+    "id": "photo-15",
+    "index": 15,
+    "month": "五月",
+    "monthOrder": 5,
+    "inMonth": 3,
+    "label": "五月 · 03",
+    "shortLabel": "五月",
+    "card": "assets/photos/cards/photo-15.jpg",
+    "large": "assets/photos/large/photo-15.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "五月的照片，第 15 张"
+  },
+  {
+    "id": "photo-16",
+    "index": 16,
+    "month": "五月",
+    "monthOrder": 5,
+    "inMonth": 4,
+    "label": "五月 · 04",
+    "shortLabel": "五月",
+    "card": "assets/photos/cards/photo-16.jpg",
+    "large": "assets/photos/large/photo-16.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "五月的照片，第 16 张"
+  },
+  {
+    "id": "photo-17",
+    "index": 17,
+    "month": "五月",
+    "monthOrder": 5,
+    "inMonth": 5,
+    "label": "五月 · 05",
+    "shortLabel": "五月",
+    "card": "assets/photos/cards/photo-17.jpg",
+    "large": "assets/photos/large/photo-17.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "五月的照片，第 17 张"
+  },
+  {
+    "id": "photo-18",
+    "index": 18,
+    "month": "五月",
+    "monthOrder": 5,
+    "inMonth": 6,
+    "label": "五月 · 06",
+    "shortLabel": "五月",
+    "card": "assets/photos/cards/photo-18.jpg",
+    "large": "assets/photos/large/photo-18.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "五月的照片，第 18 张"
+  },
+  {
+    "id": "photo-19",
+    "index": 19,
+    "month": "五月",
+    "monthOrder": 5,
+    "inMonth": 7,
+    "label": "五月 · 07",
+    "shortLabel": "五月",
+    "card": "assets/photos/cards/photo-19.jpg",
+    "large": "assets/photos/large/photo-19.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "五月的照片，第 19 张"
+  },
+  {
+    "id": "photo-20",
+    "index": 20,
+    "month": "六月",
+    "monthOrder": 6,
+    "inMonth": 1,
+    "label": "六月 · 01",
+    "shortLabel": "六月",
+    "card": "assets/photos/cards/photo-20.jpg",
+    "large": "assets/photos/large/photo-20.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "六月的照片，第 20 张"
+  },
+  {
+    "id": "photo-21",
+    "index": 21,
+    "month": "六月",
+    "monthOrder": 6,
+    "inMonth": 2,
+    "label": "六月 · 02",
+    "shortLabel": "六月",
+    "card": "assets/photos/cards/photo-21.jpg",
+    "large": "assets/photos/large/photo-21.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "六月的照片，第 21 张"
+  },
+  {
+    "id": "photo-22",
+    "index": 22,
+    "month": "六月",
+    "monthOrder": 6,
+    "inMonth": 3,
+    "label": "六月 · 03",
+    "shortLabel": "六月",
+    "card": "assets/photos/cards/photo-22.jpg",
+    "large": "assets/photos/large/photo-22.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "六月的照片，第 22 张"
+  },
+  {
+    "id": "photo-23",
+    "index": 23,
+    "month": "六月",
+    "monthOrder": 6,
+    "inMonth": 4,
+    "label": "六月 · 04",
+    "shortLabel": "六月",
+    "card": "assets/photos/cards/photo-23.jpg",
+    "large": "assets/photos/large/photo-23.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "六月的照片，第 23 张"
+  },
+  {
+    "id": "photo-24",
+    "index": 24,
+    "month": "六月",
+    "monthOrder": 6,
+    "inMonth": 5,
+    "label": "六月 · 05",
+    "shortLabel": "六月",
+    "card": "assets/photos/cards/photo-24.jpg",
+    "large": "assets/photos/large/photo-24.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "六月的照片，第 24 张"
+  },
+  {
+    "id": "photo-25",
+    "index": 25,
+    "month": "六月",
+    "monthOrder": 6,
+    "inMonth": 6,
+    "label": "六月 · 06",
+    "shortLabel": "六月",
+    "card": "assets/photos/cards/photo-25.jpg",
+    "large": "assets/photos/large/photo-25.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "六月的照片，第 25 张"
+  },
+  {
+    "id": "photo-26",
+    "index": 26,
+    "month": "六月",
+    "monthOrder": 6,
+    "inMonth": 7,
+    "label": "六月 · 07",
+    "shortLabel": "六月",
+    "card": "assets/photos/cards/photo-26.jpg",
+    "large": "assets/photos/large/photo-26.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "六月的照片，第 26 张"
+  },
+  {
+    "id": "photo-27",
+    "index": 27,
+    "month": "六月",
+    "monthOrder": 6,
+    "inMonth": 8,
+    "label": "六月 · 08",
+    "shortLabel": "六月",
+    "card": "assets/photos/cards/photo-27.jpg",
+    "large": "assets/photos/large/photo-27.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "六月的照片，第 27 张"
+  },
+  {
+    "id": "photo-28",
+    "index": 28,
+    "month": "六月",
+    "monthOrder": 6,
+    "inMonth": 9,
+    "label": "六月 · 09",
+    "shortLabel": "六月",
+    "card": "assets/photos/cards/photo-28.jpg",
+    "large": "assets/photos/large/photo-28.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "六月的照片，第 28 张"
+  },
+  {
+    "id": "photo-29",
+    "index": 29,
+    "month": "六月",
+    "monthOrder": 6,
+    "inMonth": 10,
+    "label": "六月 · 10",
+    "shortLabel": "六月",
+    "card": "assets/photos/cards/photo-29.jpg",
+    "large": "assets/photos/large/photo-29.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "六月的照片，第 29 张"
+  },
+  {
+    "id": "photo-30",
+    "index": 30,
+    "month": "六月",
+    "monthOrder": 6,
+    "inMonth": 11,
+    "label": "六月 · 11",
+    "shortLabel": "六月",
+    "card": "assets/photos/cards/photo-30.jpg",
+    "large": "assets/photos/large/photo-30.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "六月的照片，第 30 张"
+  },
+  {
+    "id": "photo-31",
+    "index": 31,
+    "month": "六月",
+    "monthOrder": 6,
+    "inMonth": 12,
+    "label": "六月 · 12",
+    "shortLabel": "六月",
+    "card": "assets/photos/cards/photo-31.jpg",
+    "large": "assets/photos/large/photo-31.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "六月的照片，第 31 张"
+  },
+  {
+    "id": "photo-32",
+    "index": 32,
+    "month": "九月",
+    "monthOrder": 9,
+    "inMonth": 1,
+    "label": "九月 · 01",
+    "shortLabel": "九月",
+    "card": "assets/photos/cards/photo-32.jpg",
+    "large": "assets/photos/large/photo-32.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "九月的照片，第 32 张"
+  },
+  {
+    "id": "photo-33",
+    "index": 33,
+    "month": "九月",
+    "monthOrder": 9,
+    "inMonth": 2,
+    "label": "九月 · 02",
+    "shortLabel": "九月",
+    "card": "assets/photos/cards/photo-33.jpg",
+    "large": "assets/photos/large/photo-33.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "九月的照片，第 33 张"
+  },
+  {
+    "id": "photo-34",
+    "index": 34,
+    "month": "九月",
+    "monthOrder": 9,
+    "inMonth": 3,
+    "label": "九月 · 03",
+    "shortLabel": "九月",
+    "card": "assets/photos/cards/photo-34.jpg",
+    "large": "assets/photos/large/photo-34.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "九月的照片，第 34 张"
+  },
+  {
+    "id": "photo-35",
+    "index": 35,
+    "month": "九月",
+    "monthOrder": 9,
+    "inMonth": 4,
+    "label": "九月 · 04",
+    "shortLabel": "九月",
+    "card": "assets/photos/cards/photo-35.jpg",
+    "large": "assets/photos/large/photo-35.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "九月的照片，第 35 张"
+  },
+  {
+    "id": "photo-36",
+    "index": 36,
+    "month": "九月",
+    "monthOrder": 9,
+    "inMonth": 5,
+    "label": "九月 · 05",
+    "shortLabel": "九月",
+    "card": "assets/photos/cards/photo-36.jpg",
+    "large": "assets/photos/large/photo-36.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "九月的照片，第 36 张"
+  },
+  {
+    "id": "photo-37",
+    "index": 37,
+    "month": "十月",
+    "monthOrder": 10,
+    "inMonth": 1,
+    "label": "十月 · 01",
+    "shortLabel": "十月",
+    "card": "assets/photos/cards/photo-37.jpg",
+    "large": "assets/photos/large/photo-37.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "十月的照片，第 37 张"
+  },
+  {
+    "id": "photo-38",
+    "index": 38,
+    "month": "十月",
+    "monthOrder": 10,
+    "inMonth": 2,
+    "label": "十月 · 02",
+    "shortLabel": "十月",
+    "card": "assets/photos/cards/photo-38.jpg",
+    "large": "assets/photos/large/photo-38.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "十月的照片，第 38 张"
+  },
+  {
+    "id": "photo-39",
+    "index": 39,
+    "month": "十月",
+    "monthOrder": 10,
+    "inMonth": 3,
+    "label": "十月 · 03",
+    "shortLabel": "十月",
+    "card": "assets/photos/cards/photo-39.jpg",
+    "large": "assets/photos/large/photo-39.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "十月的照片，第 39 张"
+  },
+  {
+    "id": "photo-40",
+    "index": 40,
+    "month": "十一月",
+    "monthOrder": 11,
+    "inMonth": 1,
+    "label": "十一月 · 01",
+    "shortLabel": "十一月",
+    "card": "assets/photos/cards/photo-40.jpg",
+    "large": "assets/photos/large/photo-40.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "十一月的照片，第 40 张"
+  },
+  {
+    "id": "photo-41",
+    "index": 41,
+    "month": "十一月",
+    "monthOrder": 11,
+    "inMonth": 2,
+    "label": "十一月 · 02",
+    "shortLabel": "十一月",
+    "card": "assets/photos/cards/photo-41.jpg",
+    "large": "assets/photos/large/photo-41.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "十一月的照片，第 41 张"
+  },
+  {
+    "id": "photo-42",
+    "index": 42,
+    "month": "十一月",
+    "monthOrder": 11,
+    "inMonth": 3,
+    "label": "十一月 · 03",
+    "shortLabel": "十一月",
+    "card": "assets/photos/cards/photo-42.jpg",
+    "large": "assets/photos/large/photo-42.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "十一月的照片，第 42 张"
+  },
+  {
+    "id": "photo-43",
+    "index": 43,
+    "month": "十一月",
+    "monthOrder": 11,
+    "inMonth": 4,
+    "label": "十一月 · 04",
+    "shortLabel": "十一月",
+    "card": "assets/photos/cards/photo-43.jpg",
+    "large": "assets/photos/large/photo-43.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "十一月的照片，第 43 张"
+  },
+  {
+    "id": "photo-44",
+    "index": 44,
+    "month": "十一月",
+    "monthOrder": 11,
+    "inMonth": 5,
+    "label": "十一月 · 05",
+    "shortLabel": "十一月",
+    "card": "assets/photos/cards/photo-44.jpg",
+    "large": "assets/photos/large/photo-44.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "十一月的照片，第 44 张"
+  },
+  {
+    "id": "photo-45",
+    "index": 45,
+    "month": "十一月",
+    "monthOrder": 11,
+    "inMonth": 6,
+    "label": "十一月 · 06",
+    "shortLabel": "十一月",
+    "card": "assets/photos/cards/photo-45.jpg",
+    "large": "assets/photos/large/photo-45.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "十一月的照片，第 45 张"
+  },
+  {
+    "id": "photo-46",
+    "index": 46,
+    "month": "十一月",
+    "monthOrder": 11,
+    "inMonth": 7,
+    "label": "十一月 · 07",
+    "shortLabel": "十一月",
+    "card": "assets/photos/cards/photo-46.jpg",
+    "large": "assets/photos/large/photo-46.jpg",
+    "width": 480,
+    "height": 600,
+    "alt": "十一月的照片，第 46 张"
+  }
+];
+
+</script>
+  <script>
+(() => {
+  "use strict";
+
+  const dialog = document.getElementById("photoWorld");
+  const openButton = document.getElementById("openPhotoCake");
+  const closeButton = document.getElementById("closePhotoWorld");
+  const stage = document.getElementById("photoWorldStage");
+  const canvas = document.getElementById("photoWorldCanvas");
+  const loader = document.getElementById("photoWorldLoading");
+  const progressBar = document.getElementById("photoWorldProgress");
+  const fallback = document.getElementById("photoWorldFallback");
+  const hint = document.getElementById("photoWorldHint");
+  const monthsBar = document.getElementById("photoWorldMonths");
+  const spinButton = document.getElementById("photoWorldSpin");
+  const monthNote = document.querySelector(".photo-world__month-note");
+  const countNodes = [
+    document.getElementById("albumPhotoCount"),
+    document.querySelector(".photo-world__count strong"),
+  ];
+
+  const lightbox = document.getElementById("photoLightbox");
+  const lightboxImage = document.getElementById("photoLightboxImage");
+  const lightboxLoader = document.getElementById("photoLightboxLoader");
+  const lightboxDate = document.getElementById("photoLightboxDate");
+  const lightboxTitle = document.getElementById("photoLightboxTitle");
+  const lightboxIndex = document.getElementById("photoLightboxIndex");
+  const closeLightboxButton = document.getElementById("closePhotoLightbox");
+  const prevButton = document.getElementById("prevPhoto");
+  const nextButton = document.getElementById("nextPhoto");
+  const srList = document.getElementById("photoWorldList");
+
+  if (!dialog || !openButton || !stage || !canvas) return;
+
+  const photos = Array.isArray(window.XINYI_PHOTOS)
+    ? [...window.XINYI_PHOTOS].sort(
+        (a, b) => a.monthOrder - b.monthOrder || a.inMonth - b.inMonth
+      )
+    : [];
+
+  if (!photos.length) {
+    openButton.hidden = true;
+    return;
+  }
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const TAU = Math.PI * 2;
+  const cardWidth = 0.9;
+  const cardHeight = 1.125;
+  const cardDepth = 0.035;
+  const ringSettings = [
+    { key: "spring", radius: 2.18, y: -1.74, startAngle: -Math.PI / 2 + 0.02 },
+    { key: "summer", radius: 2.82, y: 0.04, startAngle: -Math.PI / 2 + 0.32 },
+    { key: "autumn", radius: 2.4, y: 1.82, startAngle: -Math.PI / 2 + 0.14 },
+  ];
+
+  countNodes.forEach((node) => {
+    if (node) node.textContent = String(photos.length);
+  });
+  if (monthNote) {
+    const firstMonth = photos[0].month;
+    const lastMonth = photos[photos.length - 1].month;
+    monthNote.textContent = `${firstMonth} — ${lastMonth} · ${photos.length} 张`;
+  }
+
+  let scene = null;
+  let renderer = null;
+  let camera = null;
+  let world = null;
+  let cardsGroup = null;
+  let lidGroup = null;
+  let particlesGroup = null;
+  let starParticles = null;
+  let layout = null;
+  let isOpen = false;
+  let sceneStarted = false;
+  let assetsLoading = false;
+  let assetsLoaded = false;
+  let raf = 0;
+  let lastFrame = 0;
+  let isDragging = false;
+  let dragInfo = null;
+  let targetRotation = 0.36;
+  let currentRotation = 0.36;
+  let autoRotate = !reduceMotion;
+  let autoResumeAt = 0;
+  let introPlayed = false;
+  let introActive = false;
+  let introStartedAt = 0;
+  let baseCameraY = 2.05;
+  let lastLightboxTrigger = null;
+  let currentPhotoIndex = 0;
+  let lightboxLoadToken = 0;
+  let closeTimer = 0;
+  const cardMeshes = [];
+  const cardBasePositions = [];
+  const cardStartPositions = [];
+  const textures = [];
+  let backTexture = null;
+  const raycaster = new THREE.Raycaster();
+  const pointerNdc = new THREE.Vector2();
+  const tempVector = new THREE.Vector3();
+  const tempMatrix = new THREE.Matrix4();
+  const clock = new THREE.Clock();
+
+  function showToastMessage(message) {
+    const toast = document.getElementById("toast");
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add("is-visible");
+    window.clearTimeout(closeTimer);
+    closeTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 4500);
+  }
+
+  function setSpinState() {
+    if (!spinButton) return;
+    spinButton.classList.toggle("is-on", autoRotate);
+    spinButton.setAttribute("aria-pressed", String(autoRotate));
+  }
+
+  setSpinState();
+
+  /* -------------------------------------------------------
+     Month navigation and accessible photo index
+     ------------------------------------------------------- */
+
+  const monthGroups = [];
+  for (const photo of photos) {
+    const last = monthGroups[monthGroups.length - 1];
+    if (last && last.month === photo.month) {
+      last.count += 1;
+      last.photos.push(photo);
+    } else {
+      monthGroups.push({ month: photo.month, count: 1, photos: [photo] });
+    }
+  }
+
+  monthGroups.forEach((group) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "photo-month";
+    button.innerHTML = `${group.month}<span>${String(group.count).padStart(2, "0")}</span>`;
+    button.setAttribute("aria-label", `按日期查看${group.month}的 ${group.count} 张照片`);
+    button.addEventListener("click", () => {
+      openLightbox(photos.indexOf(group.photos[0]), button);
+    });
+    monthsBar?.append(button);
+  });
+
+  if (srList) {
+    photos.forEach((photo, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = `第 ${index + 1} 张，${photo.month}，查看大图`;
+      button.addEventListener("click", () => openLightbox(index, button));
+      srList.append(button);
+    });
+  }
+
+  /* -------------------------------------------------------
+     Photo viewer
+     ------------------------------------------------------- */
+
+  function updateLightbox(photo, index) {
+    if (!lightbox || !lightboxImage) return;
+
+    currentPhotoIndex = index;
+    lightboxImage.classList.remove("is-loaded");
+    lightboxLoader?.classList.add("is-visible");
+    lightboxImage.alt = photo.alt || `${photo.month}的照片`;
+    if (lightboxDate) lightboxDate.textContent = photo.label;
+    if (lightboxTitle) lightboxTitle.textContent = `第 ${String(index + 1).padStart(2, "0")} 张记忆`;
+    if (lightboxIndex) lightboxIndex.textContent = `${String(index + 1).padStart(2, "0")} / ${photos.length}`;
+
+    const token = ++lightboxLoadToken;
+    lightboxImage.onload = () => {
+      if (token !== lightboxLoadToken) return;
+      lightboxLoader?.classList.remove("is-visible");
+      lightboxImage.classList.add("is-loaded");
+    };
+    lightboxImage.onerror = () => {
+      if (token !== lightboxLoadToken) return;
+      lightboxLoader?.classList.remove("is-visible");
+      lightboxImage.classList.add("is-loaded");
+    };
+    lightboxImage.src = photo.large || photo.card;
+  }
+
+  function openLightbox(index, trigger = null) {
+    if (!lightbox) return;
+    lastLightboxTrigger = trigger || document.activeElement;
+
+    if (autoRotate) {
+      autoRotate = false;
+      autoResumeAt = performance.now() + 5000;
+      setSpinState();
+    }
+
+    updateLightbox(photos[index], index);
+
+    if (!lightbox.open) {
+      if (typeof lightbox.showModal === "function") {
+        lightbox.showModal();
+      } else {
+        lightbox.setAttribute("open", "");
+      }
+    }
+    document.body.classList.add("photo-viewer-open");
+    window.requestAnimationFrame(() => closeLightboxButton?.focus({ preventScroll: true }));
+  }
+
+  function closeLightbox() {
+    if (!lightbox?.open) return;
+    if (typeof lightbox.close === "function") lightbox.close();
+    else lightbox.removeAttribute("open");
+  }
+
+  function stepLightbox(direction) {
+    const nextIndex = (currentPhotoIndex + direction + photos.length) % photos.length;
+    updateLightbox(photos[nextIndex], nextIndex);
+  }
+
+  lightbox?.addEventListener("close", () => {
+    document.body.classList.remove("photo-viewer-open");
+    if (lastLightboxTrigger && typeof lastLightboxTrigger.focus === "function") {
+      lastLightboxTrigger.focus({ preventScroll: true });
+    } else {
+      canvas.focus({ preventScroll: true });
+    }
+    if (!reduceMotion) {
+      window.setTimeout(() => {
+        if (!autoRotate && isOpen) {
+          autoRotate = true;
+          autoResumeAt = performance.now() + 1800;
+          setSpinState();
+        }
+      }, 1400);
+    }
+  });
+
+  lightbox?.addEventListener("click", (event) => {
+    if (event.target === lightbox) closeLightbox();
+  });
+
+  closeLightboxButton?.addEventListener("click", closeLightbox);
+  prevButton?.addEventListener("click", () => stepLightbox(-1));
+  nextButton?.addEventListener("click", () => stepLightbox(1));
+
+  lightbox?.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      stepLightbox(-1);
+    } else if (event.key === "ArrowRight") {
+      event.preventDefault();
+      stepLightbox(1);
+    }
+  });
+
+  /* -------------------------------------------------------
+     Open / close photo world
+     ------------------------------------------------------- */
+
+  let lastTrigger = null;
+
+  function openPhotoWorld() {
+    if (dialog.open) return;
+    lastTrigger = document.activeElement;
+
+    if (typeof dialog.showModal === "function") dialog.showModal();
+    else dialog.setAttribute("open", "");
+
+    isOpen = true;
+    document.body.classList.add("photo-world-open");
+    window.requestAnimationFrame(() => closeButton?.focus({ preventScroll: true }));
+
+    if (!sceneStarted) {
+      initScene();
+    }
+
+    resizeRenderer();
+    startRenderLoop();
+
+    if (!assetsLoaded && !assetsLoading) loadAssets();
+  }
+
+  function closePhotoWorld() {
+    if (lightbox?.open) closeLightbox();
+    if (!dialog.open) return;
+    if (typeof dialog.close === "function") dialog.close();
+    else dialog.removeAttribute("open");
+  }
+
+  openButton.addEventListener("click", openPhotoWorld);
+  closeButton?.addEventListener("click", closePhotoWorld);
+
+  dialog.addEventListener("cancel", (event) => {
+    if (lightbox?.open) {
+      event.preventDefault();
+      closeLightbox();
+    }
+  });
+
+  dialog.addEventListener("close", () => {
+    isOpen = false;
+    document.body.classList.remove("photo-world-open");
+    stopRenderLoop();
+    if (lastTrigger && typeof lastTrigger.focus === "function") {
+      lastTrigger.focus({ preventScroll: true });
+    }
+  });
+
+  spinButton?.addEventListener("click", () => {
+    autoRotate = !autoRotate;
+    autoResumeAt = 0;
+    setSpinState();
+  });
+
+  /* -------------------------------------------------------
+     Three.js setup
+     ------------------------------------------------------- */
+
+  function getThemePalette() {
+    const theme = window.XINYI_CAKE_THEME;
+    if (theme && Array.isArray(theme.tiers) && theme.tiers.length >= 3) {
+      return {
+        tiers: theme.tiers,
+        metal: theme.metal || "#d0a968",
+        pearl: theme.pearl || "#fff3e6",
+        sparkle: theme.sparkle || "#ffd8a0",
+      };
+    }
+    return {
+      tiers: [
+        { base: "#e8a2b3", frosting: "#fff4e4" },
+        { base: "#eacbb4", frosting: "#ffe5e7" },
+        { base: "#cdb2df", frosting: "#f6eaff" },
+      ],
+      metal: "#d0a968",
+      pearl: "#fff3e6",
+      sparkle: "#ffd8a0",
+    };
+  }
+
+  function makeGlowTexture(inner = "rgba(255,222,172,.95)", mid = "rgba(255,184,120,.26)") {
+    const c = document.createElement("canvas");
+    c.width = 128;
+    c.height = 128;
+    const ctx = c.getContext("2d");
+    const g = ctx.createRadialGradient(64, 64, 0, 64, 64, 63);
+    g.addColorStop(0, inner);
+    g.addColorStop(0.3, mid);
+    g.addColorStop(1, "rgba(255,170,100,0)");
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, 128, 128);
+    return new THREE.CanvasTexture(c);
+  }
+
+  function makeStarTexture() {
+    const c = document.createElement("canvas");
+    c.width = 64;
+    c.height = 64;
+    const ctx = c.getContext("2d");
+    ctx.translate(32, 32);
+    const g = ctx.createRadialGradient(0, 0, 0, 0, 0, 28);
+    g.addColorStop(0, "rgba(255,250,235,1)");
+    g.addColorStop(0.25, "rgba(255,224,178,.75)");
+    g.addColorStop(1, "rgba(255,212,160,0)");
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.moveTo(0, -28);
+    ctx.quadraticCurveTo(3, -4, 28, 0);
+    ctx.quadraticCurveTo(3, 4, 0, 28);
+    ctx.quadraticCurveTo(-3, 4, -28, 0);
+    ctx.quadraticCurveTo(-3, -4, 0, -28);
+    ctx.fill();
+    const tex = new THREE.CanvasTexture(c);
+    tex.encoding = THREE.sRGBEncoding;
+    return tex;
+  }
+
+  const glowTexture = makeGlowTexture();
+  const starTexture = makeStarTexture();
+
+  function createCakeBase(palette) {
+    const group = new THREE.Group();
+
+    const plateMaterial = new THREE.MeshPhysicalMaterial({
+      color: palette.pearl,
+      roughness: 0.28,
+      metalness: 0.22,
+      clearcoat: 0.8,
+      clearcoatRoughness: 0.22,
+    });
+    const metalMaterial = new THREE.MeshStandardMaterial({
+      color: palette.metal,
+      roughness: 0.26,
+      metalness: 0.82,
+    });
+
+    const plate = new THREE.Mesh(new THREE.CylinderGeometry(2.32, 2.5, 0.11, 64), plateMaterial);
+    plate.position.y = -2.78;
+    group.add(plate);
+
+    const plateRim = new THREE.Mesh(new THREE.TorusGeometry(2.36, 0.022, 8, 64), metalMaterial);
+    plateRim.rotation.x = Math.PI / 2;
+    plateRim.position.y = -2.7;
+    group.add(plateRim);
+
+    const lowerBase = new THREE.Mesh(
+      new THREE.CylinderGeometry(1.97, 2.08, 0.42, 64),
+      new THREE.MeshStandardMaterial({
+        color: palette.tiers[0].base,
+        roughness: 0.54,
+        metalness: 0.02,
+      })
+    );
+    lowerBase.position.y = -2.42;
+    group.add(lowerBase);
+
+    const lowerFrosting = new THREE.Mesh(
+      new THREE.CylinderGeometry(2.06, 2.08, 0.08, 64),
+      new THREE.MeshPhysicalMaterial({
+        color: palette.tiers[0].frosting,
+        roughness: 0.3,
+        clearcoat: 0.4,
+      })
+    );
+    lowerFrosting.position.y = -2.18;
+    group.add(lowerFrosting);
+
+    const lowerRim = new THREE.Mesh(
+      new THREE.TorusGeometry(2.06, 0.045, 10, 64),
+      new THREE.MeshPhysicalMaterial({
+        color: palette.tiers[0].frosting,
+        roughness: 0.32,
+        clearcoat: 0.4,
+      })
+    );
+    lowerRim.rotation.x = Math.PI / 2;
+    lowerRim.position.y = -2.15;
+    group.add(lowerRim);
+
+    for (let i = 0; i < 12; i++) {
+      const a = (i / 12) * TAU;
+      const drip = new THREE.Mesh(
+        new THREE.CapsuleGeometry(0.04, 0.12 + (i % 3) * 0.06, 3, 6),
+        lowerRim.material
+      );
+      drip.position.set(Math.sin(a) * 2.04, -2.3, Math.cos(a) * 2.04);
+      group.add(drip);
+    }
+
+    const glow = new THREE.Sprite(
+      new THREE.SpriteMaterial({
+        map: glowTexture,
+        color: palette.sparkle,
+        transparent: true,
+        opacity: 0.21,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+      })
+    );
+    glow.scale.set(5, 3, 1);
+    glow.position.set(0, -2.4, -0.8);
+    group.add(glow);
+
+    return group;
+  }
+
+  function addTierPlate(radius, y, palette, tierIndex) {
+    const material = new THREE.MeshPhysicalMaterial({
+      color: palette.tiers[Math.min(tierIndex, palette.tiers.length - 1)].frosting,
+      roughness: 0.3,
+      clearcoat: 0.45,
+      clearcoatRoughness: 0.26,
+    });
+    const metal = new THREE.MeshStandardMaterial({
+      color: palette.metal,
+      roughness: 0.3,
+      metalness: 0.2,
+    });
+    const plate = new THREE.Mesh(new THREE.CylinderGeometry(radius + 0.08, radius + 0.12, 0.055, 72), material);
+    plate.position.y = y;
+    world.add(plate);
+
+    const rim = new THREE.Mesh(new THREE.TorusGeometry(radius + 0.1, 0.022, 8, 72), metal);
+    rim.rotation.x = Math.PI / 2;
+    rim.position.y = y + 0.035;
+    world.add(rim);
+
+    const body = new THREE.Mesh(
+      new THREE.CylinderGeometry(radius + 0.02, radius + 0.09, 0.24, 72),
+      new THREE.MeshStandardMaterial({
+        color: palette.tiers[Math.min(tierIndex, palette.tiers.length - 1)].base,
+        roughness: 0.55,
+        metalness: 0.015,
+      })
+    );
+    body.position.y = y - 0.14;
+    world.add(body);
+
+    for (let i = 0; i < 10; i++) {
+      const angle = (i / 10) * TAU;
+      const pearl = new THREE.Mesh(
+        new THREE.SphereGeometry(0.025, 7, 7),
+        new THREE.MeshBasicMaterial({ color: palette.pearl, toneMapped: false })
+      );
+      pearl.position.set(
+        Math.sin(angle) * (radius + 0.09),
+        y + 0.03,
+        Math.cos(angle) * (radius + 0.09)
+      );
+      world.add(pearl);
+    }
+  }
+
+  function createCakeLid(palette) {
+    const group = new THREE.Group();
+
+    const bodyMaterial = new THREE.MeshStandardMaterial({
+      color: palette.tiers[2].base,
+      roughness: 0.52,
+      metalness: 0.02,
+    });
+    const frostingMaterial = new THREE.MeshPhysicalMaterial({
+      color: palette.tiers[2].frosting,
+      roughness: 0.28,
+      clearcoat: 0.5,
+      clearcoatRoughness: 0.3,
+    });
+
+    const body = new THREE.Mesh(new THREE.CylinderGeometry(1.55, 1.63, 0.45, 64), bodyMaterial);
+    group.add(body);
+
+    const frosting = new THREE.Mesh(new THREE.CylinderGeometry(1.6, 1.62, 0.1, 64), frostingMaterial);
+    frosting.position.y = 0.26;
+    group.add(frosting);
+
+    const rim = new THREE.Mesh(new THREE.TorusGeometry(1.6, 0.04, 8, 64), frostingMaterial);
+    rim.rotation.x = Math.PI / 2;
+    rim.position.y = 0.29;
+    group.add(rim);
+
+    const candleMaterial = new THREE.MeshStandardMaterial({ color: "#f4d7d8", roughness: 0.55 });
+    const flameMaterial = new THREE.MeshBasicMaterial({
+      color: "#ffc278",
+      transparent: true,
+      opacity: 0.95,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    const candlePositions = [
+      [-0.42, 0.28],
+      [0.42, 0.28],
+      [0, 0.91],
+    ];
+    candlePositions.forEach(([x, z], index) => {
+      const candle = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.052, 0.28 + index * 0.08, 14), candleMaterial);
+      candle.position.set(x, 0.44 + (0.28 + index * 0.08) / 2, z);
+      group.add(candle);
+      const flame = new THREE.Mesh(new THREE.SphereGeometry(0.046, 10, 8), flameMaterial);
+      flame.scale.set(0.9, 1.9, 0.9);
+      flame.position.set(x, 0.61 + 0.28 + index * 0.08, z);
+      group.add(flame);
+    });
+
+    group.position.set(0, 4.85, 0);
+    group.userData.finalY = 4.85;
+    group.userData.startY = 2.1;
+    group.position.y = group.userData.startY;
+    return group;
+  }
+
+  function createParticles() {
+    const group = new THREE.Group();
+    const mobile = window.innerWidth < 700;
+    const count = mobile ? 190 : 420;
+    const positions = new Float32Array(count * 3);
+    const colors = new Float32Array(count * 3);
+    const colorChoices = [
+      new THREE.Color("#ffd9a0"),
+      new THREE.Color("#eeb6c9"),
+      new THREE.Color("#cfbae7"),
+      new THREE.Color("#fff5df"),
+    ];
+    const random = () => Math.random();
+
+    for (let i = 0; i < count; i++) {
+      const angle = random() * TAU;
+      const radius = 1.3 + random() * 4.6;
+      positions[i * 3] = Math.sin(angle) * radius;
+      positions[i * 3 + 1] = -2.1 + random() * 8.1;
+      positions[i * 3 + 2] = Math.cos(angle) * radius;
+      const color = colorChoices[Math.floor(random() * colorChoices.length)];
+      colors[i * 3] = color.r;
+      colors[i * 3 + 1] = color.g;
+      colors[i * 3 + 2] = color.b;
+    }
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+    const material = new THREE.PointsMaterial({
+      map: starTexture,
+      size: mobile ? 0.14 : 0.11,
+      transparent: true,
+      opacity: 0.82,
+      depthWrite: false,
+      vertexColors: true,
+      blending: THREE.AdditiveBlending,
+      sizeAttenuation: true,
+    });
+    starParticles = new THREE.Points(geometry, material);
+    group.add(starParticles);
+
+    const ringCount = mobile ? 36 : 72;
+    const ringPositions = new Float32Array(ringCount * 3);
+    for (let i = 0; i < ringCount; i++) {
+      const angle = (i / ringCount) * TAU;
+      ringPositions[i * 3] = Math.sin(angle) * 2.78;
+      ringPositions[i * 3 + 1] = -2.15 + (i % 4) * 0.06;
+      ringPositions[i * 3 + 2] = Math.cos(angle) * 2.78;
+    }
+    const ringGeometry = new THREE.BufferGeometry();
+    ringGeometry.setAttribute("position", new THREE.BufferAttribute(ringPositions, 3));
+    const ringMaterial = new THREE.PointsMaterial({
+      map: starTexture,
+      color: 0xffe5b8,
+      size: 0.17,
+      transparent: true,
+      opacity: 0.7,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      sizeAttenuation: true,
+    });
+    const ring = new THREE.Points(ringGeometry, ringMaterial);
+    group.add(ring);
+
+    const sparkleRing = new THREE.Group();
+    const sparkleCount = mobile ? 13 : 22;
+    for (let i = 0; i < sparkleCount; i++) {
+      const angle = (i / sparkleCount) * TAU + (i % 3) * 0.15;
+      const radius = 3.02 + (i % 4) * 0.12;
+      const sprite = new THREE.Sprite(
+        new THREE.SpriteMaterial({
+          map: starTexture,
+          color: i % 3 === 0 ? 0xffd3dd : i % 3 === 1 ? 0xffe1aa : 0xd9c8ef,
+          transparent: true,
+          opacity: 0.58 + (i % 3) * 0.1,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+        })
+      );
+      sprite.scale.setScalar(0.15 + (i % 4) * 0.055);
+      sprite.position.set(
+        Math.sin(angle) * radius,
+        -1.85 + (i / sparkleCount) * 4.8,
+        Math.cos(angle) * radius
+      );
+      sprite.userData.baseY = sprite.position.y;
+      sparkleRing.add(sprite);
+    }
+    group.add(sparkleRing);
+
+    particlesGroup = group;
+    group.userData.sparkleRing = sparkleRing;
+    return group;
+  }
+
+  function initScene() {
+    if (sceneStarted) return;
+    if (!window.THREE) {
+      showFallback("Three.js 没有加载");
+      return;
+    }
+
+    try {
+      renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: true,
+        powerPreference: "high-performance",
+      });
+    } catch (error) {
+      showFallback(error);
+      return;
+    }
+
+    renderer.setClearAlpha(0);
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 0.92;
+    renderer.shadowMap.enabled = false;
+
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
+    world = new THREE.Group();
+    scene.add(world);
+
+    const hemisphere = new THREE.HemisphereLight(0xffe9ef, 0x2c1c2b, 0.9);
+    scene.add(hemisphere);
+
+    const key = new THREE.DirectionalLight(0xffefdb, 1.5);
+    key.position.set(4, 7, 6);
+    scene.add(key);
+
+    const rim = new THREE.DirectionalLight(0xffb3c7, 0.9);
+    rim.position.set(-5, 4, -4);
+    scene.add(rim);
+
+    const point = new THREE.PointLight(0xffcf9c, 0.6, 13);
+    point.position.set(0, 2.6, 4);
+    scene.add(point);
+
+    const palette = getThemePalette();
+    world.add(createCakeBase(palette));
+    world.add(createParticles());
+
+    cardsGroup = new THREE.Group();
+    cardsGroup.name = "photo-cards";
+    world.add(cardsGroup);
+    world.scale.setScalar(window.innerWidth < 700 ? 0.92 : 1);
+
+    bindCanvasControls();
+    resizeRenderer();
+
+    if (backTexture === null) {
+      loadTexture("assets/photos/card-back.jpg", 240, 300).then((texture) => {
+        backTexture = texture;
+        cardMeshes.forEach((mesh) => {
+          if (mesh.material && Array.isArray(mesh.material) && mesh.material[5]) {
+            mesh.material[5].map = backTexture;
+            mesh.material[5].needsUpdate = true;
+          }
+        });
+      });
+    }
+
+    sceneStarted = true;
+    lastFrame = performance.now();
+    startRenderLoop();
+  }
+
+  function showFallback(error) {
+    console.warn("Photo world unavailable:", error);
+    if (loader) loader.classList.add("is-hidden");
+    if (fallback) fallback.hidden = false;
+    if (canvas) canvas.style.display = "none";
+    if (hint) hint.style.display = "none";
+  }
+
+  /* -------------------------------------------------------
+     Texture loading + card construction
+     ------------------------------------------------------- */
+
+  function loadTexture(url, width, height) {
+    return new Promise((resolve) => {
+      const image = new Image();
+      image.decoding = "async";
+      image.onload = () => {
+        try {
+          const c = document.createElement("canvas");
+          c.width = width;
+          c.height = height;
+          const ctx = c.getContext("2d");
+          ctx.drawImage(image, 0, 0, width, height);
+          const texture = new THREE.CanvasTexture(c);
+          texture.encoding = THREE.sRGBEncoding;
+          texture.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
+          texture.needsUpdate = true;
+          resolve(texture);
+        } catch (error) {
+          resolve(null);
+        }
+      };
+      image.onerror = () => resolve(null);
+      image.src = url;
+    });
+  }
+
+  async function loadAssets() {
+    if (assetsLoading || assetsLoaded || !scene) return;
+    assetsLoading = true;
+
+    const textureWidth = window.innerWidth < 700 ? 270 : 340;
+    const textureHeight = Math.round((textureWidth / 480) * 600);
+    const cardResults = new Array(photos.length).fill(null);
+    let index = 0;
+    let done = 0;
+
+    const workers = Array.from({ length: Math.min(6, photos.length) }, async () => {
+      while (index < photos.length) {
+        const position = index++;
+        const photo = photos[position];
+        cardResults[position] = await loadTexture(photo.card, textureWidth, textureHeight);
+        done += 1;
+        if (progressBar) {
+          progressBar.style.width = `${Math.round((done / photos.length) * 100)}%`;
+        }
+      }
+    });
+
+    await Promise.all(workers);
+
+    if (backTexture === null) {
+      backTexture = await loadTexture("assets/photos/card-back.jpg", 240, 300);
+    }
+
+    const edgeMaterial = new THREE.MeshBasicMaterial({ color: 0xf2e2d2, toneMapped: false });
+    const backMaterial = new THREE.MeshBasicMaterial({
+      map: backTexture || null,
+      color: backTexture ? 0xffffff : 0xe5cfbf,
+      toneMapped: false,
+    });
+
+    const chapters = ringSettings.map((ring, index) => {
+      const minMonth = index === 0 ? -1 : ringSettings[index - 1].maxMonth;
+      return { ...ring, minMonth, photos: [] };
+    });
+    chapters[0].minMonth = 0;
+    chapters[0].maxMonth = 4;
+    chapters[1].minMonth = 4.01;
+    chapters[1].maxMonth = 6.99;
+    chapters[2].minMonth = 6.99;
+    chapters[2].maxMonth = 99;
+    photos.forEach((photo, i) => {
+      const chapter = chapters.find(
+        (item) => photo.monthOrder >= item.minMonth && photo.monthOrder <= item.maxMonth
+      );
+      if (chapter) chapter.photos.push({ photo, i });
+    });
+
+    chapters.forEach((chapter, chapterIndex) => {
+      const count = chapter.photos.length;
+      const palette = getThemePalette();
+      addTierPlate(
+        chapter.radius + 0.04,
+        chapter.y - 0.61,
+        palette,
+        Math.min(chapterIndex, palette.tiers.length - 1)
+      );
+
+      chapter.photos.forEach(({ photo, i }, withinIndex) => {
+        const frontTexture = cardResults[i];
+        if (!frontTexture) return;
+
+        const frontMaterial = new THREE.MeshBasicMaterial({
+          map: frontTexture,
+          toneMapped: false,
+        });
+        const mesh = new THREE.Mesh(
+          new THREE.BoxGeometry(cardWidth, cardHeight, cardDepth),
+          [edgeMaterial, edgeMaterial, edgeMaterial, edgeMaterial, frontMaterial, backMaterial]
+        );
+
+        const angle = chapter.startAngle + (withinIndex / Math.max(1, count)) * TAU;
+        const radius = chapter.radius;
+        const finalPosition = new THREE.Vector3(
+          Math.sin(angle) * radius,
+          chapter.y + Math.sin(withinIndex * 1.7) * 0.035,
+          Math.cos(angle) * radius
+        );
+        const startPosition = new THREE.Vector3(
+          0.28 * Math.sin(angle),
+          finalPosition.y - 0.08,
+          0.28 * Math.cos(angle)
+        );
+
+        mesh.position.copy(finalPosition);
+        mesh.rotation.set(
+          Math.cos(i * 0.83) * 0.028,
+          angle,
+          Math.sin(i * 1.17) * 0.03
+        );
+        mesh.scale.setScalar(1);
+        mesh.userData.photoIndex = i;
+        mesh.userData.finalPosition = finalPosition;
+        mesh.userData.startPosition = startPosition;
+        mesh.userData.introDelay = i * 7;
+
+        cardMeshes.push(mesh);
+        cardBasePositions.push(finalPosition.clone());
+        cardStartPositions.push(startPosition.clone());
+        textures.push(frontTexture);
+        cardsGroup.add(mesh);
+      });
+    });
+
+    if (!cardMeshes.length) {
+      assetsLoading = false;
+      showFallback("照片加载失败");
+      return;
+    }
+
+    assetsLoading = false;
+    assetsLoaded = true;
+
+    if (loader) {
+      window.setTimeout(() => loader.classList.add("is-hidden"), 300);
+    }
+
+    if (!reduceMotion && !introPlayed) {
+      introPlayed = true;
+      introActive = true;
+      introStartedAt = performance.now();
+      cardMeshes.forEach((mesh) => {
+        mesh.position.copy(mesh.userData.startPosition);
+        mesh.scale.setScalar(0.42);
+      });
+      if (lidGroup) lidGroup.position.y = lidGroup.userData.startY;
+      autoRotate = false;
+      setSpinState();
+    } else {
+      cardMeshes.forEach((mesh) => {
+        mesh.position.copy(mesh.userData.finalPosition);
+        mesh.scale.setScalar(1);
+      });
+      introActive = false;
+      autoRotate = !reduceMotion;
+      setSpinState();
+    }
+
+    if (hint) hint.classList.add("is-visible");
+    startRenderLoop();
+  }
+
+  function startIntroIfNeeded(now) {
+    if (!introActive) return;
+    const elapsed = now - introStartedAt;
+    const ease = (value) => 1 - Math.pow(1 - value, 3);
+    const progress = Math.min(1, elapsed / 1550);
+    const global = ease(progress);
+
+    cardMeshes.forEach((mesh, index) => {
+      const local = Math.min(1, Math.max(0, (elapsed - index * 7) / 1250));
+      const p = ease(local);
+      const start = mesh.userData.startPosition;
+      const end = mesh.userData.finalPosition;
+      mesh.position.set(
+        start.x + (end.x - start.x) * p,
+        start.y + (end.y - start.y) * p,
+        start.z + (end.z - start.z) * p
+      );
+      mesh.scale.setScalar(0.42 + p * 0.58);
+    });
+
+    if (progress >= 1) {
+      introActive = false;
+      autoRotate = !reduceMotion;
+      autoResumeAt = performance.now() + 600;
+      setSpinState();
+    }
+  }
+
+  /* -------------------------------------------------------
+     Interaction
+     ------------------------------------------------------- */
+
+  function bindCanvasControls() {
+    canvas.addEventListener("pointerdown", (event) => {
+      if (event.button !== undefined && event.button !== 0) return;
+      dragInfo = {
+        id: event.pointerId,
+        startX: event.clientX,
+        startY: event.clientY,
+        lastX: event.clientX,
+        moved: false,
+      };
+      isDragging = false;
+      autoRotate = false;
+      autoResumeAt = Infinity;
+      setSpinState();
+    });
+
+    canvas.addEventListener("pointermove", (event) => {
+      if (!dragInfo || event.pointerId !== dragInfo.id) return;
+      const dx = event.clientX - dragInfo.lastX;
+      const totalX = Math.abs(event.clientX - dragInfo.startX);
+      const totalY = Math.abs(event.clientY - dragInfo.startY);
+
+      if (!isDragging && (totalX > 4 || totalY > 4)) {
+        isDragging = true;
+        dragInfo.moved = true;
+        canvas.setPointerCapture?.(event.pointerId);
+        canvas.style.cursor = "grabbing";
+      }
+
+      if (isDragging) {
+        event.preventDefault();
+        targetRotation += dx * 0.006;
+        dragInfo.lastX = event.clientX;
+      }
+    });
+
+    function finishPointer(event) {
+      if (!dragInfo || (event && event.pointerId !== dragInfo.id)) return;
+      const wasDragging = isDragging;
+      const moved = dragInfo.moved;
+      const pointer = { x: event?.clientX, y: event?.clientY };
+
+      isDragging = false;
+      dragInfo = null;
+      canvas.style.cursor = "grab";
+      autoResumeAt = performance.now() + 3200;
+
+      if (!wasDragging && !moved && pointer.x !== undefined) {
+        handleCardClick(pointer.x, pointer.y);
+      }
+    }
+
+    canvas.addEventListener("pointerup", finishPointer);
+    canvas.addEventListener("pointercancel", finishPointer);
+
+    canvas.addEventListener("wheel", (event) => {
+      if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
+      event.preventDefault();
+      targetRotation += event.deltaX * 0.003;
+      autoResumeAt = performance.now() + 3200;
+    }, { passive: false });
+
+    canvas.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        targetRotation -= 0.24;
+        autoResumeAt = performance.now() + 3000;
+        autoRotate = false;
+        setSpinState();
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        targetRotation += 0.24;
+        autoResumeAt = performance.now() + 3000;
+        autoRotate = false;
+        setSpinState();
+      }
+    });
+  }
+
+  function getCardAt(clientX, clientY) {
+    if (!camera || !cardMeshes.length) return null;
+    const rect = canvas.getBoundingClientRect();
+    pointerNdc.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+    pointerNdc.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+    raycaster.setFromCamera(pointerNdc, camera);
+    const intersections = raycaster.intersectObjects(cardMeshes, false);
+    if (!intersections.length) return null;
+    return intersections[0].object;
+  }
+
+  function handleCardClick(clientX, clientY) {
+    const card = getCardAt(clientX, clientY);
+    if (!card) return;
+    openLightbox(card.userData.photoIndex, canvas);
+  }
+
+  /* -------------------------------------------------------
+     Resize + render
+     ------------------------------------------------------- */
+
+  function resizeRenderer() {
+    if (!renderer || !camera) return;
+    const width = stage.clientWidth;
+    const height = stage.clientHeight;
+    if (!width || !height) return;
+
+    const mobile = width / height < 0.8;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.8));
+    renderer.setSize(width, height, false);
+
+    camera.aspect = width / height;
+    camera.fov = mobile ? 38 : 35;
+    baseCameraY = mobile ? 2.2 : 2.05;
+    camera.position.set(mobile ? 0.2 : 0.7, baseCameraY, mobile ? 15.5 : 14.2);
+    camera.lookAt(0, mobile ? 1.05 : 0.9, 0);
+    camera.updateProjectionMatrix();
+
+    if (world) {
+      world.scale.setScalar(mobile ? 0.9 : 1);
+    }
+  }
+
+  function startRenderLoop() {
+    if (!renderer || !scene) return;
+    if (!raf) {
+      lastFrame = performance.now();
+      raf = window.requestAnimationFrame(render);
+    }
+  }
+
+  function stopRenderLoop() {
+    if (raf) {
+      window.cancelAnimationFrame(raf);
+      raf = 0;
+    }
+  }
+
+  function render(now) {
+    if (!renderer || !scene) {
+      raf = 0;
+      return;
+    }
+
+    const dt = Math.min(0.04, (now - lastFrame) / 1000);
+    lastFrame = now;
+
+    if (!isOpen) {
+      raf = 0;
+      return;
+    }
+
+    if (isDragging) {
+      autoResumeAt = Infinity;
+    } else if (autoRotate && now > autoResumeAt) {
+      targetRotation += dt * 0.085;
+    }
+
+    if (introActive) {
+      startIntroIfNeeded(now);
+    }
+
+    currentRotation += (targetRotation - currentRotation) * Math.min(1, dt * 6.2);
+    if (cardsGroup) cardsGroup.rotation.y = currentRotation;
+    if (lidGroup) lidGroup.rotation.y = currentRotation * 0.45;
+
+    if (particlesGroup && starParticles) {
+      particlesGroup.rotation.y = now * 0.00006;
+      if (particlesGroup.userData.sparkleRing) {
+        particlesGroup.userData.sparkleRing.rotation.y = -now * 0.00014;
+        particlesGroup.userData.sparkleRing.children.forEach((sprite, index) => {
+          sprite.position.y = sprite.userData.baseY + Math.sin(now * 0.0009 + index) * 0.045;
+        });
+      }
+      starParticles.rotation.y = -now * 0.000022;
+      starParticles.material.opacity = 0.58 + Math.sin(now * 0.00045) * 0.11;
+    }
+
+    if (camera) camera.position.y = baseCameraY + Math.sin(now * 0.0007) * 0.035;
+
+    renderer.render(scene, camera);
+    raf = window.requestAnimationFrame(render);
+  }
+
+  window.addEventListener("resize", () => {
+    if (!isOpen) return;
+    resizeRenderer();
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (!isOpen) return;
+    if (document.hidden) stopRenderLoop();
+    else startRenderLoop();
+  });
+
+  if (typeof ResizeObserver !== "undefined") {
+    new ResizeObserver(() => {
+      if (isOpen) resizeRenderer();
+    }).observe(stage);
+  }
 })();
 
 </script>
@@ -8442,6 +11506,200 @@ body.is-unlocked .hero__footer {
     },
   ];
 
+  // More materials for the same cake: the new styles reuse the hand-built
+  // geometry, then swap in new flavours, trims and decoration sets.
+  const baseTheme = cakeThemes[0];
+  const cloneTheme = (overrides) => {
+    const theme = JSON.parse(JSON.stringify(baseTheme));
+    return Object.assign(theme, overrides);
+  };
+
+  cakeThemes.push(
+    cloneTheme({
+      id: "cocoa",
+      name: "焦糖可可",
+      style: "confetti",
+      copy: "可可、焦糖和一点海盐。把冬天最暖的那一口叠进蛋糕里，转一圈，像捧着一杯热可可。",
+      flavorHTML: "可可 <i>·</i> 焦糖 <i>·</i> 海盐碎",
+      tiers: [
+        {
+          base: "#8d5a49",
+          frosting: "#f7e5cf",
+          palette: ["#f9e9d4", "#e0b97f", "#d69c94", "#f3d6bb", "#b97e69"],
+        },
+        {
+          base: "#c88a62",
+          frosting: "#f9ddbd",
+          palette: ["#f8e6ce", "#d6a06c", "#eac9a2", "#a66455", "#f4d5b5"],
+        },
+        {
+          base: "#efd0b7",
+          frosting: "#fff3e2",
+          palette: ["#fff8ee", "#d8a98c", "#c5896d", "#ead0a7", "#f3ded0"],
+        },
+      ],
+      stand: "#d7b18d",
+      metal: "#c49a59",
+      metalSoft: "#dbbd80",
+      pearl: "#fff2df",
+      leaf: "#9b8a64",
+      candleLight: "#ffb66d",
+      fairyGlow: "#ffcf9c",
+      topperGlow: "#ffd299",
+      sparkle: "#ffd8a0",
+      rim: "#d8a98c",
+      fill: "#f0c5a1",
+      macarons: {
+        rose: "#c4847e",
+        lilac: "#b994a8",
+        cream: "#e7c796",
+        pistachio: "#b7c1a1",
+      },
+      sprinkles: ["#fff4e4", "#d7a177", "#b97e69", "#e9c9a4", "#8f5b4b"],
+      candles: [
+        { base: "#a97558", stripe: "#f9ede0" },
+        { base: "#e0b589", stripe: "#fff8ee" },
+        { base: "#c68e72", stripe: "#f7e7d6" },
+      ],
+      butterflies: [
+        { color: "#d9a18d", accent: "#b77c68" },
+        { color: "#e6c59f", accent: "#c49a59" },
+        { color: "#b98c84", accent: "#97665e" },
+      ],
+      topper: {
+        stops: ["#fff4d7", "#ddbb81", "#9b673b", "#c79958", "#f3ddb0"],
+        stroke: "rgba(70, 42, 24, 0.36)",
+        shadow: "rgba(255, 211, 158, 0.48)",
+        stars: "rgba(255, 239, 198, .82)",
+        line: "rgba(255, 230, 186, .52)",
+      },
+      moon: false,
+      garden: false,
+    }),
+    cloneTheme({
+      id: "mint",
+      name: "薄荷晨露",
+      style: "garden",
+      copy: "薄荷奶油、初春的叶子和一小颗青提。很轻，很亮，像你笑起来的时候。转一圈，春天就跟着转。",
+      flavorHTML: "薄荷 <i>·</i> 青提 <i>·</i> 初春的叶子",
+      tiers: [
+        {
+          base: "#8fb99d",
+          frosting: "#fbfff7",
+          palette: ["#fbfff5", "#cfe6c7", "#f1dce0", "#f4e3b8", "#a9c9ad"],
+        },
+        {
+          base: "#d6e2c5",
+          frosting: "#fdfff8",
+          palette: ["#fffffb", "#c5dfc1", "#f5d9df", "#ece1b4", "#9ebda4"],
+        },
+        {
+          base: "#f0d7dc",
+          frosting: "#fffafc",
+          palette: ["#fffdfa", "#d8e7cf", "#f0cbd4", "#f3e3bc", "#b7d2b8"],
+        },
+      ],
+      stand: "#dfe6d4",
+      metal: "#b6a46a",
+      metalSoft: "#cbbd8c",
+      pearl: "#fbfff4",
+      leaf: "#6f9b72",
+      candleLight: "#ffd09a",
+      fairyGlow: "#d8efc6",
+      topperGlow: "#e5f3cb",
+      sparkle: "#e7f6ce",
+      rim: "#cbe4bb",
+      fill: "#d8ecc7",
+      macarons: {
+        rose: "#e8b7c1",
+        lilac: "#c6c3dc",
+        cream: "#e7d4a8",
+        pistachio: "#a9c8a1",
+      },
+      sprinkles: ["#fbfff4", "#c6e0c4", "#f0cbd4", "#eadbb5", "#a5c6aa"],
+      candles: [
+        { base: "#b6d3b2", stripe: "#fbfff6" },
+        { base: "#e7c7ce", stripe: "#fffaf9" },
+        { base: "#e7d9ae", stripe: "#fffdf4" },
+      ],
+      butterflies: [
+        { color: "#b6d3ae", accent: "#83b083" },
+        { color: "#f0c7d0", accent: "#d99cab" },
+        { color: "#eadfae", accent: "#cbbd83" },
+      ],
+      topper: {
+        stops: ["#fbffdf", "#d9e5a9", "#93ad6f", "#c3cf8d", "#f2f7cf"],
+        stroke: "rgba(64, 77, 39, 0.32)",
+        shadow: "rgba(232, 247, 197, 0.52)",
+        stars: "rgba(247, 255, 219, .9)",
+        line: "rgba(235, 249, 208, .58)",
+      },
+      moon: false,
+      garden: true,
+    }),
+    cloneTheme({
+      id: "blueberry",
+      name: "蓝莓夜空",
+      style: "cosmos",
+      copy: "蓝莓、冷萃奶油和一小片夜空。把没说出口的愿望，放在最亮的那颗星旁边，转一圈就能看见。",
+      flavorHTML: "蓝莓 <i>·</i> 冷萃奶油 <i>·</i> 一小片夜空",
+      tiers: [
+        {
+          base: "#4b5d8a",
+          frosting: "#eef2ff",
+          palette: ["#f3f6ff", "#c4d0eb", "#9ea9d4", "#e1d4c2", "#7f91c2"],
+        },
+        {
+          base: "#7e88b4",
+          frosting: "#f6f4ff",
+          palette: ["#fbfbff", "#bfc9e8", "#d2c2e6", "#e7d5ba", "#8fa2d0"],
+        },
+        {
+          base: "#bcc7e0",
+          frosting: "#fcfbff",
+          palette: ["#fffef9", "#cbd7f0", "#a8b9df", "#eadfc9", "#e0d9f0"],
+        },
+      ],
+      stand: "#d4d0d8",
+      metal: "#b9b5ca",
+      metalSoft: "#d0cddd",
+      pearl: "#faf9ff",
+      leaf: "#8e9bb0",
+      candleLight: "#d4ddff",
+      fairyGlow: "#cbd8ff",
+      topperGlow: "#e0e4ff",
+      sparkle: "#dee7ff",
+      rim: "#c4d1ff",
+      fill: "#dce3ff",
+      macarons: {
+        rose: "#c9a6c9",
+        lilac: "#aab6dc",
+        cream: "#e4d5bb",
+        pistachio: "#b2c4c4",
+      },
+      sprinkles: ["#faf9ff", "#cbd6f0", "#aab5d4", "#e7d8bd", "#8c9ac6"],
+      candles: [
+        { base: "#aebce0", stripe: "#f7f6ff" },
+        { base: "#c0afd8", stripe: "#fffbff" },
+        { base: "#ded8eb", stripe: "#ffffff" },
+      ],
+      butterflies: [
+        { color: "#c3d2f2", accent: "#91aae5" },
+        { color: "#d3c1e5", accent: "#b598d1" },
+        { color: "#f1e1c1", accent: "#cfbd96" },
+      ],
+      topper: {
+        stops: ["#fffef3", "#eef0ff", "#a5a9d0", "#8d92b8", "#f5f3e0"],
+        stroke: "rgba(35, 38, 60, 0.35)",
+        shadow: "rgba(219, 224, 255, 0.5)",
+        stars: "rgba(248,244,255,.9)",
+        line: "rgba(238, 238, 255, .55)",
+      },
+      moon: true,
+      garden: false,
+    })
+  );
+
   /* -------------------------------------------------------
      Geometry helpers
      ------------------------------------------------------- */
@@ -9810,6 +13068,18 @@ body.is-unlocked .hero__footer {
       button.classList.toggle("is-active", active);
       button.setAttribute("aria-pressed", String(active));
     });
+
+    window.XINYI_CAKE_THEME = {
+      id: theme.id,
+      name: theme.name,
+      tiers: theme.tiers.map((tier) => ({
+        base: tier.base,
+        frosting: tier.frosting,
+      })),
+      metal: theme.metal,
+      pearl: theme.pearl,
+      sparkle: theme.sparkle,
+    };
 
     if (cakeThemeCopy) cakeThemeCopy.textContent = theme.copy;
     if (cakeFlavorText) cakeFlavorText.innerHTML = theme.flavorHTML;
