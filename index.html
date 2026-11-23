@@ -8490,6 +8490,201 @@ body.photo-viewer-open {
   }
 }
 
+/* ------------------------------------------------------------------
+   Mobile pass: readable hints, balanced photo title, 44px touch zones
+   ------------------------------------------------------------------ */
+
+.cake-hint {
+  color: rgba(242, 222, 211, 0.68);
+  font-size: 10px;
+}
+
+.cake-hint__icon {
+  color: rgba(242, 222, 211, 0.9);
+  border-color: rgba(242, 222, 211, 0.3);
+}
+
+.letter-copy__hint {
+  color: var(--ink-soft);
+  font-size: 11.5px;
+  opacity: 0.94;
+}
+
+.qq-egg__copy {
+  color: var(--ink-soft);
+  font-size: 8.5px;
+  opacity: 0.9;
+}
+
+.qq-egg__copy small {
+  font-size: 9.5px;
+  opacity: 1;
+}
+
+.cake-option {
+  color: rgba(246, 232, 222, 0.64);
+  font-size: 9.5px;
+}
+
+.cake-album__copy > span {
+  color: rgba(244, 224, 213, 0.68);
+  font-size: 9px;
+}
+
+.photo-world__hint {
+  color: rgba(247, 230, 218, 0.72);
+  font-size: 9px;
+}
+
+.photo-world__photo-status {
+  color: rgba(247, 230, 218, 0.75);
+  font-size: 9px;
+}
+
+.photo-world__month-note {
+  color: rgba(247, 230, 218, 0.52);
+  font-size: 8px;
+}
+
+.photo-month span {
+  color: rgba(247, 230, 218, 0.52);
+}
+
+.music-player__copy > span {
+  color: rgba(246, 230, 218, 0.62);
+  font-size: 6px;
+}
+
+.music-player__copy small {
+  color: rgba(246, 230, 218, 0.58);
+  font-size: 6.5px;
+}
+
+.music-player__external {
+  color: rgba(246, 230, 218, 0.55);
+  font-size: 7px;
+}
+
+.gift-gate__note {
+  color: rgba(249, 233, 219, 0.68);
+  font-size: 11px;
+}
+
+.gift-countdown small {
+  color: rgba(248, 231, 217, 0.62);
+  font-size: 8px;
+}
+
+@media (max-width: 720px) {
+  .photo-world__title h2 {
+    font-size: clamp(19px, 6.2vw, 23px);
+    letter-spacing: 0.035em;
+    text-wrap: balance;
+  }
+
+  .letter-copy__hint {
+    font-size: 10.5px;
+  }
+
+  .qq-egg__copy {
+    font-size: 8px;
+  }
+
+  .qq-egg__copy small {
+    font-size: 9px;
+  }
+
+  .text-link,
+  .replay-button,
+  .memory-next,
+  .cake-option,
+  .spin-button,
+  .photo-month,
+  .photo-world__split,
+  .photo-world__spin,
+  .photo-world__back,
+  .photo-lightbox__nav {
+    min-height: 44px;
+  }
+
+  .cake-option {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .photo-month {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .photo-world__split,
+  .photo-world__spin {
+    padding-top: 7px;
+    padding-bottom: 7px;
+  }
+
+  .qq-egg {
+    width: 44px;
+    height: 44px;
+  }
+
+  .qq-egg svg {
+    width: 32px;
+    height: 36px;
+  }
+
+  .letter-dialog__close,
+  .photo-lightbox__close,
+  .photo-lightbox__nav,
+  .qq-window__close,
+  .music-player__toggle {
+    width: 44px;
+    height: 44px;
+  }
+
+  .photo-lightbox__close {
+    top: -48px;
+  }
+
+  .photo-lightbox__nav--prev {
+    left: -52px;
+  }
+
+  .photo-lightbox__nav--next {
+    right: -52px;
+  }
+
+  /* Keep the slim navigation and player chrome, but enlarge the real hit area. */
+  .brand,
+  .site-nav__links a,
+  .music-player__external {
+    position: relative;
+  }
+
+  .brand::after,
+  .nav-links a::after,
+  .music-player__external::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100%, 44px);
+    height: 44px;
+    content: "";
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* Follow-up: navigation is better enlarged for real, not only via a hit halo. */
+@media (max-width: 720px) {
+  .skip-link {
+    min-height: 44px;
+  }
+
+  .photo-world__hint {
+    bottom: 170px;
+  }
+}
+
 </style>
 </head>
 <body class="is-auth-locked">
