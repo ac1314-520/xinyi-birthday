@@ -8686,6 +8686,112 @@ body.photo-viewer-open {
   }
 }
 
+/* Final polish: month rail affordance, quieter overlay, centered letter finale */
+.photo-world__timeline {
+  position: relative;
+}
+
+.photo-world__timeline-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 9px;
+}
+
+.photo-world__timeline-head .photo-world__timeline-label {
+  margin-bottom: 0;
+}
+
+.photo-world__swipe-hint {
+  display: none;
+  flex-shrink: 0;
+  color: rgba(247, 230, 218, 0.62);
+  font-size: 8px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.photo-world__stage .cake-orbit {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.qq-window__heart {
+  display: block;
+  margin-top: 2px;
+}
+
+@media (max-width: 720px) {
+  .photo-world__timeline-head {
+    margin-bottom: 7px;
+  }
+
+  .photo-world__swipe-hint {
+    display: inline;
+    font-size: 8px;
+  }
+
+  .photo-world__timeline::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 38px;
+    height: 46px;
+    content: "";
+    background: linear-gradient(90deg, transparent, rgba(8, 6, 12, 0.94));
+    pointer-events: none;
+  }
+}
+
+@media (min-width: 721px) {
+  .letter-grid {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    align-items: center;
+    gap: clamp(30px, 4vw, 48px);
+    min-height: 0;
+  }
+
+  .letter-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 780px;
+    text-align: center;
+  }
+
+  .letter-copy .display-title {
+    max-width: 760px;
+  }
+
+  .letter-copy__body {
+    max-width: 480px;
+  }
+
+  .letter-copy .button {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .letter-copy__hint {
+    text-align: center;
+  }
+
+  .qq-egg-wrap {
+    justify-content: center;
+  }
+
+  .envelope-scene {
+    width: min(780px, 100%);
+    padding-top: 8px;
+  }
+
+  .envelope {
+    width: min(520px, 58vw);
+  }
+}
+
 </style>
 </head>
 <body class="is-auth-locked">
@@ -9188,7 +9294,6 @@ body.photo-viewer-open {
       <div class="container">
         <div class="letter-grid">
           <div class="letter-copy">
-            <p class="section-label"><span>03</span> A LETTER FOR YOU</p>
             <h2 class="display-title">有些话，<br />想<span class="text-rose">慢慢</span>说给你听。</h2>
             <p class="letter-copy__body">聊天框装不下的那些话，就折进了这封信里。找一个安静的时刻，拆开它吧。</p>
             <button class="button button--dark letter-open" id="openLetter" type="button">
@@ -9301,7 +9406,10 @@ body.photo-viewer-open {
 
       <footer class="photo-world__footer">
         <div class="photo-world__timeline">
-          <span class="photo-world__timeline-label">SORTED BY MONTH</span>
+          <div class="photo-world__timeline-head">
+            <span class="photo-world__timeline-label">SORTED BY MONTH</span>
+            <span class="photo-world__swipe-hint">左右滑动，查看全部</span>
+          </div>
           <div class="photo-world__months" id="photoWorldMonths" aria-label="按月份浏览照片"></div>
         </div>
         <div class="photo-world__controls">
